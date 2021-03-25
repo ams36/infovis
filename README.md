@@ -1,2 +1,2 @@
 # Information Visualisation Project
-*by Mao and Mika
+*by Mao and Mika*
