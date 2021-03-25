@@ -1,0 +1,4 @@
+# can just add anything else we need to this one
+
+# tells it to not use idea files since mika is using webstorm
+.idea/
