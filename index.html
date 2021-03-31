@@ -9,8 +9,20 @@
     <link href="index.css" rel="stylesheet"/>
 </head>
 <body>
-<div id="my_dataviz"></div>
-
+<div id="page1" class = "page">
+    <div id="filterSpacer_1" class = "filter"></div>
+    <div id="vennDiagram" class = "vennDiagram"></div>
+    <div id="movieList" class = "movieList"></div>
+</div>
+<div id="page2" class = "page">
+    <div id="filterSpacer_2" class = "filter"></div>
+    <div id="quickComparison" class = "quickComparison">
+        <div id = "netflixQuickstats" class ="quickStats"></div>
+        <div id = "huluQuickstats" class="quickStats"></div>
+        <div id = "disneyQuickstats" class="quickStats"></div>
+        <div id = "primeQuickstats" class="quickStats"></div>
+    </div>
+</div>
 <!-- Import index javascript file (Needs to be at the end so the entire document is parsed before it gets here)-->
 <script src="index.js"></script>
 
