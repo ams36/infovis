@@ -28,15 +28,15 @@ Any Netflix, Spotify, Nintendo, Personal Data Sets
 ---
 
 ## More information on Top Data Sets (Netflix Choices): 
-- <ins>Netflix Rating System </ins> (https://www.kaggle.com/netflix-inc/netflix-prize-data?select=movie_titles.csv)
+- [<ins>Netflix Rating System</ins>](https://www.kaggle.com/netflix-inc/netflix-prize-data?select=movie_titles.csv)
     - cool but the file is too big (2GB) and the data only goes up till 2005
 
 
-- <ins>Statistica Netflix Data Sets</ins> (https://www.statista.com/topics/842/netflix/)
+- [<ins>Statistica Netflix Data Sets</ins>](https://www.statista.com/topics/842/netflix/)
     - costs money for good ones and its difficult to tell how big the data sets are without having the paid feature 
 
 
-- <ins>Netflix Shows: Kaggle</ins> (https://www.kaggle.com/shivamb/netflix-shows)
+- [<ins>Netflix Shows: Kaggle</ins>](https://www.kaggle.com/shivamb/netflix-shows)
     - Notes: 7787 shows, description says as of 2019 but there are some up to Jan 2021 and 2020 is also included, 3MB size
     - *Attributes*:
         - Show ID (unique identifier )
@@ -53,7 +53,7 @@ Any Netflix, Spotify, Nintendo, Personal Data Sets
         - Description 
 
 
-- <ins>Popular Movies and TV Shows on Amazon and Netflix</ins> (https://www.kaggle.com/jyotmakadiya/popular-movies-and-tv-shows-amazon-prime-netflix)
+- [<ins>Popular Movies and TV Shows on Amazon and Netflix</ins>](https://www.kaggle.com/jyotmakadiya/popular-movies-and-tv-shows-amazon-prime-netflix)
     - Notes: 1MB size, 14858 sets (includes 16 entries for 2021)
     - *Atributes:*
         - Title
@@ -66,7 +66,7 @@ Any Netflix, Spotify, Nintendo, Personal Data Sets
         - Amazon Prime (1 if on amazon prime, 0 if not)
 
 
-- <ins>Movies on Netflix, Prime, Hulu, and Disney+</ins> (https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
+- [<ins>Movies on Netflix, Prime, Hulu, and Disney+</ins>](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
     - Notes: 2MB, 16744 sets, does not include 2021 but some 2020
     - *Attributes:*
         - Title
@@ -84,3 +84,5 @@ Any Netflix, Spotify, Nintendo, Personal Data Sets
         - Country
         - Language
         - Run Time ()
+    
+## Final Chosen: [Movies on Netflix, Prime, Hulu, and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
