@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title> Info-Vis Project </title>
-    <!-- Import D3 -->
-    <script src="https://cdn.jsdelivr.net/npm/d3-bundle@1.0.0/build/d3.js"></script>
-    <!-- Import index javascript file -->
-    <script src="index.js"></script>
+    <!-- Import D3 (Used this instead of the one from d3 so it will give better type hinting)-->
+    <script src="https://d3js.org/d3.v6.js"></script>
     <!-- Import style sheet -->
     <link href="index.css" rel="stylesheet"/>
 </head>
 <body>
-<p>
-    Hello World!
-</p>
+<div id="my_dataviz"></div>
+
+<!-- Import index javascript file (Needs to be at the end so the entire document is parsed before it gets here)-->
+<script src="index.js"></script>
+
 </body>
+
 </html>
