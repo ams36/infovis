@@ -47,6 +47,7 @@
 | Area for the venn diagram view                               | vennDiagram       | vennDiagram | div  |
 | a list of all movies for the results with check boxes to indicate which platforms its avialable on | movieList         | movieList   | div  |
 | **Second "Page" View**                                       | page2             | page        | div  |
+| Page 2 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_2    | filter      | div  |
 | A quick view of statistics for Netflix                       | netflixQuickstats | quickStats  | div  |
 | A quick view of statistics for Hulu                          | huluQuickstats    | quickStats  | div  |
 | A quick view of statistics for Disney+                       | disneyQuickstats  | quickStats  | div  |
