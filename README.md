@@ -9,7 +9,7 @@
 ---
 # Glossary 
 
-#### Javascript File
+####Javascript File
 | Variable  | Type                                                | Description                                                  |
 | --------- | --------------------------------------------------- | ------------------------------------------------------------ |
 | mediaData | Array of Objects (The Rows) with a Column Attribute | holds the results from the csv file (without the first column) |
