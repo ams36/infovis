@@ -11,23 +11,23 @@
 
 #### mediaData (Javascript Object holding Data from the CSV)
 
-| Tag            | Type     | Description                                                  |
-| -------------- | -------- | ------------------------------------------------------------ |
-| uid            | int      | Unique ID for that Movie Entry                               |
-| title          | String   | Title of the Movie                                           |
-| year           | int      | Year the movie was released                                  |
-| age            | String*  | Currently stored as a string but will eventually be a map to a ordinal scale |
-| imdb           | float    | 1-10 rating (with decimals) for IMDb Movie Rating            |
-| rottenTomatoes | int      | Percent (0-100) rating for the movie from Rotten Tomatoes (not including % sign) |
-| netflix        | boolean  | True if the movie is on Netflix, False if it is not on Netflix |
-| hulu           | boolean  | True if the movie is on Hulu, False if it is not on Hulu     |
-| prime          | boolean  | True if the movie is on Prime Video, False if it is not on Prime Video |
-| disney         | boolean  | True if the movie is on Disney+, False if it is not on Disney+ |
-| directors      | Array    | an array of strings for all directors for the movie          |
-| genres         | String[] | an array of strings for all genres attached to the movie     |
-| country        | String[] | an array of countries where the movie was produced in        |
-| language       | String[] | an array of languages the movie is available in              |
-| runtime        | int      | length of the movie in minutes                               |
+| Tag       | Type     | Description                                                  |
+| --------- | -------- | ------------------------------------------------------------ |
+| uid       | int      | Unique ID for that Movie Entry                               |
+| title     | String   | Title of the Movie                                           |
+| year      | int      | Year the movie was released                                  |
+| age       | String*  | Currently stored as a string but will eventually be a map to a ordinal scale |
+| imdb      | float    | 1-10 rating (with decimals) for IMDb Movie Rating            |
+| rotten    | int      | Percent (0-100) rating for the movie from Rotten Tomatoes (not including % sign) |
+| netflix   | boolean  | True if the movie is on Netflix, False if it is not on Netflix |
+| hulu      | boolean  | True if the movie is on Hulu, False if it is not on Hulu     |
+| prime     | boolean  | True if the movie is on Prime Video, False if it is not on Prime Video |
+| disney    | boolean  | True if the movie is on Disney+, False if it is not on Disney+ |
+| directors | Array    | an array of strings for all directors for the movie          |
+| genres    | String[] | an array of strings for all genres attached to the movie     |
+| country   | String[] | an array of countries where the movie was produced in        |
+| language  | String[] | an array of languages the movie is available in              |
+| runtime   | int      | length of the movie in minutes                               |
 
 
 

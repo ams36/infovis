@@ -15,7 +15,7 @@ function loadData(){
             year: parseInt(d.Year.trim()), // convert years to ints and remove any white space in case data formatted incorrectly
             age: d.Age, // TODO: Parse this correctly, rn its returning a string (Map age to an ordinal scale)
             imdb: parseFloat(d.IMDb.trim()), // convert IMDB rating to a float and get rid of any white space (no null values as indicated by kaggle)
-            rottenTomatoes: parseInt(rottenTomatoes.substr(0, rottenTomatoes.length - 1)),
+            rotten: parseInt(rottenTomatoes.substr(0, rottenTomatoes.length - 1)),
             netflix: d.Netflix === 1, // returns true if it is 1, false if it is 0
             hulu: d.Hulu === 1, // returns true if it is 1, false if it is 0
             prime: d["Prime Video"] === 1, // returns true if it is 1, false if it is 0
@@ -29,7 +29,7 @@ function loadData(){
     }).then(function(data) {
         // set the name of the columns to be more javascript friendly
         data.columns = [
-            "uid", "title", "year", "age", "imdb", "rottenTomatoes", "netflix", "hulu",
+            "uid", "title", "year", "age", "imdb", "rotten", "netflix", "hulu",
             "prime", "disney", "directors", "genres", "country", "language", "runtime"
         ]
 
