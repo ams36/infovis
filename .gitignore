@@ -1,6 +1,7 @@
 # can just add anything else we need to this one
 
-# tells it to not use files that were used for ide set up and type hinting
+# tells it to not use files that were used for ide set up and type hinting and testing
 .idea/
 node_modules/
 package-lock.json
+.digitial_hoarding/
