@@ -18,9 +18,12 @@ body, html{
     flex-shrink: 0;
 }
 
-.vennDiagram{
-    background: blueviolet;
+.chordDiagram{
+    background: white;
     flex-grow: 1;
+    display: flex;
+    padding: 3pc;
+    align-items: center;
 }
 
 .movieList{

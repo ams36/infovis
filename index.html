@@ -11,7 +11,9 @@
 <body>
 <div id="page1" class = "page">
     <div id="filterSpacer_1" class = "filter"></div>
-    <div id="vennDiagram" class = "vennDiagram"></div>
+    <div id="chordDiagram" class = "chordDiagram">
+        <svg id="sharedTitles" class = "sharedTitles" preserveAspectRatio="xMidYMid meet"> </svg>
+    </div>
     <div id="movieList" class = "movieList"></div>
 </div>
 <div id="page2" class = "page">
@@ -23,7 +25,11 @@
         <div id = "primeQuickstats" class="quickStats"></div>
     </div>
 </div>
-<!-- Import index javascript file (Needs to be at the end so the entire document is parsed before it gets here)-->
+
+<!-- Import index javascript files (Needs to be at the end so the entire document is parsed before it gets here)-->
+<script src="sharedTitles.js"></script>
+
+<!-- This must be at the bottom, insert visualisation scripts above-->
 <script src="index.js"></script>
 
 </body>
