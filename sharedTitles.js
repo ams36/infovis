@@ -10,8 +10,13 @@ window.renderSharedTitles = function (view) {
 
 
     // formatting data as needed for the visualisation
-    const connections = formatMatrix()
-    const names = ["netflix", "hulu", "disney", "prime"]
+    const [connections, names] = formatMatrix()
+    // const names = [
+    //     "netflix", "netflix_PrimeHulu", "netflix_DisneyHulu", "netflix_DisneyPrime",
+    //     "prime", "prime_NetflixHulu", "prime_DisneyHulu", "prime_NetflixDisney",
+    //     "disney", "disney_NetflixHulu", "disney_PrimeHulu", "disney_NetflixPrime",
+    //     "hulu", "hulu_NetflixDisney", "hulu_PrimeDisney", "hulu_NetflixPrime",
+    //     "allPlatforms"]
 
     // set the height and width used to create the visualisation but not as seen on screen
     const height = 1000
@@ -169,43 +174,86 @@ function formatMatrix() {
     }
 
     // get shared and exclusive title counts for each platform
-    const netflix_hulu = allNetflix.filter((x) => allHulu.includes(x)).length  // the number of shared titles between netflix and hulu
-    const netflix_disney = allNetflix.filter((x) => allDisney.includes(x)).length  // the number of shared titles between netflix and disney
-    const netflix_prime = allNetflix.filter((x) => allPrime.includes(x)).length  // the number of shared titles between netflix and prime
-    const netflix_exclusive = allNetflix.length - (netflix_hulu + netflix_disney + netflix_prime)
-    const hulu_disney = allHulu.filter((x) => allDisney.includes(x)).length
-    const hulu_prime = allHulu.filter((x) => allPrime.includes(x)).length
-    const hulu_exclusive = allHulu.length - (netflix_hulu + hulu_disney + hulu_prime)
-    const disney_prime = allDisney.filter((x) => allPrime.includes(x)).length
-    const disney_exclusive = allDisney.length - (disney_prime + hulu_disney + netflix_disney)
-    const prime_exclusive = allPrime.length - (netflix_prime + hulu_prime + disney_prime)
+    const allPlatforms = allNetflix.filter((x) => allDisney.includes(x) && allPrime.includes(x)  && allHulu.includes(x)).length
+    const netflixHuluDisney = allNetflix.filter((x) => allHulu.includes(x) && allDisney.includes(x) && !allPrime.includes(x)).length
+    const netflixPrimeHulu = allNetflix.filter((x) => allPrime.includes(x) && allHulu.includes(x) && !allDisney.includes(x)).length
+    const netflixPrimeDisney = allNetflix.filter((x) => allPrime.includes(x) && allDisney.includes(x) && !allHulu.includes(x)).length
+    const disneyHuluPrime = allDisney.filter((x) => allHulu.includes(x) && allPrime.includes(x) && !allNetflix.includes(x)).length
+    const netflixHulu = allNetflix.filter((x) => allHulu.includes(x) && !allPrime.includes(x) && !allDisney.includes(x)).length  // the number of shared titles between netflix and hulu
+    const netflixDisney = allNetflix.filter((x) => allDisney.includes(x) && !allPrime.includes(x) && !allHulu.includes(x)).length  // the number of shared titles between netflix and disney
+    const netflixPrime = allNetflix.filter((x) => allPrime.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length  // the number of shared titles between netflix and prime
+    const huluDisney = allHulu.filter((x) => allDisney.includes(x) && !allPrime.includes(x) && !allNetflix.includes(x)).length
+    const huluPrime = allHulu.filter((x) => allPrime.includes(x) && !allNetflix.includes(x) && !allDisney.includes(x)).length
+    const disneyPrime = allDisney.filter((x) => allPrime.includes(x) && !allNetflix.includes(x) && !allHulu.includes(x)).length
+    const netflixExclusive = allNetflix.filter((x) => !allPrime.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length
+    const huluExclusive = allHulu.filter((x) => !allPrime.includes(x) && !allNetflix.includes(x) && !allDisney.includes(x)).length
+    const disneyExclusive = allDisney.filter((x) => !allPrime.includes(x) && !allHulu.includes(x) && !allNetflix.includes(x)).length
+    const primeExclusive = allPrime.filter((x) => !allNetflix.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length
 
     connections = [
-        {source: "netflix", target: "netflix", value: netflix_exclusive},
-        {source: "disney", target: "disney", value: disney_exclusive},
-        {source: "prime", target: "prime", value: prime_exclusive},
-        {source: "hulu", target: "hulu", value: hulu_exclusive},
+        // add all for netflix
+        {source: "netflix", target: "netflix", value: netflixExclusive},
+        {source: "netflix", target: "allPlatforms", value: allPlatforms},
+        {source: "netflix", target: "hulu", value: netflixHulu},
+        {source: "netflix", target: "disney", value: netflixDisney},
+        {source: "netflix", target: "prime", value: netflixPrime},
+        {source: "netflix_PrimeHulu", target: "prime_NetflixHulu", value: netflixPrimeHulu},
+        {source: "netflix_PrimeHulu", target: "hulu_NetflixPrime", value: netflixPrimeHulu},
+        {source: "netflix_DisneyHulu", target: "disney_NetflixHulu", value: netflixHuluDisney},
+        {source: "netflix_DisneyHulu", target: "hulu_NetflixDisney", value: netflixHuluDisney},
+        {source: "netflix_DisneyPrime", target: "disney_NetflixPrime", value: netflixPrimeDisney},
+        {source: "netflix_DisneyPrime", target: "prime_NetflixDisney", value: netflixPrimeDisney},
 
-        {source: "netflix", target: "hulu", value: netflix_hulu},
-        {source: "hulu", target: "netflix", value: netflix_hulu},
+        // add all for prime
+        {source: "prime", target: "prime", value: primeExclusive},
+        {source: "prime", target: "allPlatforms", value: allPlatforms},
+        {source: "prime", target: "hulu", value: huluPrime},
+        {source: "prime", target: "disney", value: disneyPrime},
+        {source: "prime", target: "netflix", value: netflixPrime},
+        {source: "prime_NetflixHulu", target: "netflix_PrimeHulu", value: netflixPrimeHulu},
+        {source: "prime_NetflixHulu", target: "hulu_NetflixPrime", value: netflixPrimeHulu},
+        {source: "prime_DisneyHulu", target: "disney_PrimeHulu", value: disneyHuluPrime},
+        {source: "prime_DisneyHulu", target: "hulu_PrimeDisney", value: disneyHuluPrime},
+        {source: "prime_NetflixDisney", target: "disney_NetflixPrime", value: netflixPrimeDisney},
+        {source: "prime_NetflixDisney", target: "netflix_DisneyPrime", value: netflixPrimeDisney},
 
-        {source: "netflix", target: "disney", value: netflix_disney},
-        {source: "disney", target: "netflix", value: netflix_disney},
+        // add all for disney
+        {source: "disney", target: "disney", value: disneyExclusive},
+        {source: "disney", target: "allPlatforms", value: allPlatforms},
+        {source: "disney", target: "hulu", value: huluDisney},
+        {source: "disney", target: "prime", value: disneyPrime},
+        {source: "disney", target: "netflix", value: netflixDisney},
+        {source: "disney_NetflixHulu", target: "netflix_DisneyHulu", value: netflixHuluDisney},
+        {source: "disney_NetflixHulu", target: "hulu_NetflixDisney", value: netflixHuluDisney},
+        {source: "disney_PrimeHulu", target: "prime_DisneyHulu", value: disneyHuluPrime},
+        {source: "disney_PrimeHulu", target: "hulu_PrimeDisney", value: disneyHuluPrime},
+        {source: "disney_NetflixPrime", target: "prime_NetflixDisney", value: netflixPrimeDisney},
+        {source: "disney_NetflixPrime", target: "netflix_DisneyPrime", value: netflixPrimeDisney},
 
-        {source: "netflix", target: "prime", value: netflix_prime},
-        {source: "prime", target: "netflix", value: netflix_prime},
+        // add all for hulu
+        {source: "hulu", target: "hulu", value: huluExclusive},
+        {source: "hulu", target: "allPlatforms", value: allPlatforms},
+        {source: "hulu", target: "disney", value: huluDisney},
+        {source: "hulu", target: "prime", value: huluPrime},
+        {source: "hulu", target: "netflix", value: netflixHulu},
+        {source: "hulu_NetflixDisney", target: "netflix_DisneyHulu", value: netflixHuluDisney},
+        {source: "hulu_NetflixDisney", target: "disney_NetflixHulu", value: netflixHuluDisney},
+        {source: "hulu_PrimeDisney", target: "prime_DisneyHulu", value: disneyHuluPrime},
+        {source: "hulu_PrimeDisney", target: "disney_PrimeHulu", value: disneyHuluPrime},
+        {source: "hulu_NetflixPrime", target: "prime_NetflixHulu", value: netflixPrimeHulu},
+        {source: "hulu_NetflixPrime", target: "netflix_PrimeHulu", value: netflixPrimeHulu},
 
-        {source: "hulu", target: "disney", value: hulu_disney},
-        {source: "disney", target: "hulu", value: hulu_disney},
+        {source: "allPlatforms", target: "netflix", value: allPlatforms},
+        {source: "allPlatforms", target: "prime", value: allPlatforms},
+        {source: "allPlatforms", target: "hulu", value: allPlatforms},
+        {source: "allPlatforms", target: "disney", value: allPlatforms}
 
-        {source: "hulu", target: "prime", value: hulu_prime},
-        {source: "prime", target: "hulu", value: hulu_prime},
+    ].filter(({value}) => value > 10) // filter out anything that is 10 so it doesnt display (0 was too small and interactivity was lost)
 
-        {source: "disney", target: "prime", value: disney_prime},
-        {source: "prime", target: "disney", value: disney_prime}
-    ]
+    console.log(connections)
 
-    const names = ["netflix", "hulu", "disney", "prime"]
+    const names = connections.map(({source}) => source).filter((e, i, arr) => arr.indexOf(e) === i) // get a list of unique source names
+    console.log(names)
 
     // turn the data into a matrix
     // code modified from: https://observablehq.com/@d3/directed-chord-diagram?collection=@d3/d3-chord
@@ -213,7 +261,7 @@ function formatMatrix() {
         const index = new Map(names.map((name, i) => [name, i]));
         const matrix = Array.from(index, () => new Array(names.length).fill(0));
         for (const {source, target, value} of connections) matrix[index.get(source)][index.get(target)] += value;
-        return matrix;
+        return [matrix, names];
     })();
 
 }
