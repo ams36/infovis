@@ -18,6 +18,16 @@ body, html{
     flex-shrink: 0;
 }
 
+#filter{
+    padding: 20px; /*padding to be changed - just used for testing */
+    padding-top: 60px;
+    background: darkslategray;
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+}
+
 .chordDiagram{
     background: white;
     flex-grow: 1;
@@ -46,4 +56,17 @@ body, html{
     background: aquamarine;
     width: 45%;
     height: 45%;
+}
+
+
+/** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/
+/**** Custom styles for noUiSlider ****/
+.noUi-connect {
+    background: darkcyan;
+}
+.noUi-horizontal .noUi-handle, .noUi-vertical .noUi-handle {
+    background: darkcyan;
+}
+.noUi-target.noUi-horizontal .noUi-tooltip {
+    background-color: darkcyan;
 }

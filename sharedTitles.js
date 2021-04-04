@@ -29,6 +29,9 @@ window.renderSharedTitles = function (view) {
     const svg = d3.select("#sharedTitles")
         .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
+    //remove everything from the visualisation for when its redrawn
+    svg.selectAll("*").remove()
+
     // colour of each platform
     const colorMap = {
         netflix: '#E50914',

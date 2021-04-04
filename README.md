@@ -35,6 +35,8 @@
 
 ##### index.js
 
+Main javascript file to connect all other files and parse the data initially 
+
 >| Variable / Function | Type / Return                                       | Description                                                  |
 >| ------------------- | --------------------------------------------------- | ------------------------------------------------------------ |
 >| mediaData           | Array of Objects (The Rows) with a Column Attribute | holds the results from the csv file (without the first column) |
@@ -52,10 +54,24 @@ Javscript file to render the chord visualisation of shared titles between platfo
 >| names               | String[ ]               | the names of each platform in the same order as the matrix   |
 >| formatMatrix()      | return ```Number[][]``` | takes the view that sharedTitles was passed, counts the number of exclusive and shared titles between the platforms, and returns the matrix version of the data |
 
+##### filter.js
+
+A javascript file to create filter UI elements in javascript and calls the runVis() function in index.js with the updated data based on the filters applied.
+
+>| Variable / Function | Type / Return                       | Description                                                  |
+>| ------------------- | ----------------------------------- | ------------------------------------------------------------ |
+>| filters             | Object of functions for each filter | Each key represents one filter, it maps to a function that takes one row and returns whether or not that row should be included in the visualised data set |
+>| initialiseFilters() |                                     | Creates filters and any other HTML elements needed for the filter section of the page as soon as its opened |
+>| filteredByRating    | calls applyFilters() on completion  | Updates the filters.rating key to a new function that checks if a records rating is in the given range |
+>|                     |                                     |                                                              |
+>|                     |                                     |                                                              |
+
 ### HTML and CSS
 
 | Description                                                  | ID                | Class        | Tag  |
 | ------------------------------------------------------------ | ----------------- | ------------ | ---- |
+| **Fixed Filter Bar**                                         | filter            | filter       | div  |
+| Slider for filtering by rating (Eventually becomes a NoUISlider in filter.js) | ratingSlider      |              | div  |
 | **First "Page" View**                                        | page1             | page         | div  |
 | Page 1 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_1    | filter       | div  |
 | Area for the Chord Diagram View                              | chordDiagram      | chordDiagram | div  |
@@ -67,3 +83,12 @@ Javscript file to render the chord visualisation of shared titles between platfo
 | A quick view of statistics for Hulu                          | huluQuickstats    | quickStats   | div  |
 | A quick view of statistics for Disney+                       | disneyQuickstats  | quickStats   | div  |
 | A quick view of statistics for Amazon Prime                  | primeQuickstats   | quickStats   | div  |
+
+---
+
+# Libraries Used
+
+* **Materialize Framework** - Creating UI elements and making them prettier 
+* **NoUISlider** - Creating a rating slider for a filter 
+* **D3.js (V6)**  - creating visualisations 
+

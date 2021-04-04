@@ -34,15 +34,20 @@ function loadData() {
             "prime", "disney", "directors", "genres", "country", "language", "runtime"
         ]
 
-        mediaData = view = data;
+        mediaData = data;
     });
+}
+
+function getMediaData(){
+    return mediaData
 }
 
 /**
  * Main function to run the visualisation from set up
  * Should not be called until load data has finished
  */
-function runVis(){
+function runVis(current_view){
+    view = current_view
     console.log(mediaData)
     renderSharedTitles(view);
 }
@@ -51,4 +56,4 @@ function runVis(){
  * Once the data has loaded, call runVis.
  * This will ensure that run Vis is not called until the data has finished loading
  */
-loadData().then(runVis)
+loadData().then(() => runVis(mediaData))

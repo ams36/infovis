@@ -5,10 +5,24 @@
     <title> Info-Vis Project </title>
     <!-- Import D3 (Used this instead of the one from d3 so it will give better type hinting)-->
     <script src="https://d3js.org/d3.v6.js"></script>
+
+    <!-- Import library to make a slider (modified noUISlider library from materialize) -->
+    <script src="https://rawcdn.githack.com/Dogfalo/materialize/824e78248b3de81e383445e76ffb04cc3264fe7d/extras/noUiSlider/nouislider.min.js?fbclid=IwAR3s7kYinrz_8jBNw-9w3sdz1F70aPS8AGUvmvMAmR69jvApS_9Ie8KbZcw"></script>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/Dogfalo/materialize/824e78248b3de81e383445e76ffb04cc3264fe7d/extras/noUiSlider/nouislider.css?fbclid=IwAR3Cv1oNFTJM1YliZeVdUwrdNlkiBpUGgLB78QxFg3vor4DMfgqaFaS-his" />
+
+    <!-- Materialise Framework -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
     <!-- Import style sheet -->
     <link href="index.css" rel="stylesheet"/>
+
 </head>
 <body>
+<div id="filter" class = "filter">
+    <div id="ratingSlider"></div>
+</div>
 <div id="page1" class = "page">
     <div id="filterSpacer_1" class = "filter"></div>
     <div id="chordDiagram" class = "chordDiagram">
@@ -31,7 +45,7 @@
 
 <!-- This must be at the bottom, insert visualisation scripts above-->
 <script src="index.js"></script>
-
+<script src="filter.js"></script>
 </body>
 
 </html>
