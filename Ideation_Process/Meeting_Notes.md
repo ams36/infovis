@@ -18,7 +18,7 @@
 
 ---
 
-### Meeting  2: March 31, 2021
+### Meeting  2: March 31, 2021 (Over Message)
 Goal: Combine data sets we were interested in (See [Here for Database Analysis](Choosing_A_Dataset.md))
 - Finalised on Data Set: [Movies on Netflix, Prime, Hulu and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
 
@@ -28,4 +28,34 @@ Goal: Combine data sets we were interested in (See [Here for Database Analysis](
     - *Initial ideas:* what streaming services host the most tv shows / movies, who has the most highly rated movies / tv shows, etc.
   - Draw some sketches and meet again to compare them 
 
---- 
+---
+
+### Meeting  3: April 2nd, 2021 (Over Message)
+Goal: Share Questions and finalise on one with sub questions 
+- What platform should I subscribe to? 
+  - Sub questions include: Which platform has the most in [chosen] language? Which platform has the most movies for [chosen] age group?
+  - These will be expanded on as we draw our sketches
+
+<ins>Next To Do:</ins>
+- Begin Initial Sketches and share them when we meet again
+- Mika to set up initial visualisation to begin writing the javascript and writing interactivity / filter functions. 
+
+---
+
+### Meeting  4: April 5, 2021
+Goal: Share preliminary sketches and Ideas
+- Explain the structure of the repository so we can ensure less confusion when writing code with current testing visualisation (Chord Diagram).
+    - Agreed the code will be a lot easier to read if its split with one javascript file per visualisation
+- Discussed what we had thought of and divided who is going to do which in depth sketches.
+
+
+![Quick-Sketch-Layout](Images/Quick-Sketch-Layout.jpg)
+
+
+<ins>Next To Do for Thursday:</ins>
+- Mika:
+    - Filter Functions for Interactivity 
+    - 5 Design Sheet Method for: Genres, Language, and Rating 
+- Mao:
+    - 5 Design Sheet Method for: Runtime and Age
+    - Read through the code and repository to get a feeling for how its currently set up
