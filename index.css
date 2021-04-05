@@ -12,7 +12,7 @@ body, html{
 }
 
 .filter{
-    background: rebeccapurple;
+    /*background: rebeccapurple;*/
     width: 20%;
     flex-grow: 0;
     flex-shrink: 0;
@@ -21,7 +21,7 @@ body, html{
 #filter{
     padding: 20px; /*padding to be changed - just used for testing */
     padding-top: 60px;
-    background: darkslategray;
+    /*background: darkslategray;*/
     position: fixed;
     top:0;
     left: 0;
