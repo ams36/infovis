@@ -2,6 +2,11 @@ let filters = {
     rating: undefined
 }
 
+function updateFilters(){
+    console.log("Made it here")
+    filteredByGenre()
+}
+
 function initialiseFilters() {
     createRatingSlider()
     createGenreSelector()
@@ -39,14 +44,18 @@ function createGenreSelector(){
         // modified from: https://stackoverflow.com/questions/17730621/how-to-dynamically-add-options-to-an-existing-select-in-vanilla-javascript
         genreSelector.options[genreSelector.options.length] = new Option(genre, genre)
     }
-    // create the multiselect
-    document.multiselect('#genreSelector');
+
 }
 
 // updates the objects key value for rating to be the function min to max
 function filteredByRating(min, max){
     filters.rating = (d) => d.imdb >= min && d.imdb <= max
     applyFilters()
+}
+
+// updates the genre filter
+function filteredByGenre(){
+
 }
 
 // apply the filter and run the vis again
