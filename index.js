@@ -10,6 +10,7 @@ document.multiselect('#testSelect1');
 function loadData() {
     return d3.csv("MoviesOnStreamingPlatforms_updated.csv", function (d) {
         const rottenTomatoes = (d["Rotten Tomatoes"] || "0%").trim() // get rid of white space for the rotten tomatoes values and replace empty strings with 0%
+        const genres = (d.Genres || "Unknown")
         // NOTES: results are movies only so dont return movie column
         //return a new object instead of the row so the data can be stored as objects with javascript friendly tags
         return {
@@ -24,7 +25,7 @@ function loadData() {
             prime: d["Prime Video"] === "1", // returns true if it is 1, false if it is 0
             disney: d["Disney+"] === "1", // returns true if it is 1, false if it is 0
             directors: d.Directors, //TODO: Parse this correctly if we end up wanting to do anything with directors apart from listing them
-            genres: d.Genres.split(","),
+            genres: genres.split(","),
             country: d.Country.split(","), //TODO: create a better function to process arrays from the data set in case we want to use these
             language: d.Language.split(","), // TODO: Split this as an array
             runtime: parseInt(d.Runtime)
