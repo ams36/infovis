@@ -57,7 +57,7 @@ function getGenres(){
  */
 function runVis(current_view){
     view = current_view
-    console.log(mediaData)
+    console.log(view.length)
     renderSharedTitles(view);
 }
 

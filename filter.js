@@ -1,5 +1,6 @@
 let filters = {
-    rating: undefined
+    rating: undefined,
+    genres: undefined
 }
 
 function updateFilters(){
@@ -75,12 +76,19 @@ function filteredByRating(min, max){
 // not currently applied yet but now we can get the list of values
 function filteredByGenre(e){
     var instance = M.FormSelect.getInstance(document.getElementById("genreSelector"));
-    console.log(instance.getSelectedValues())
+    const selectedValues = instance.getSelectedValues()
+    if (selectedValues.length !== 0) {
+        filters.genres = (d) => d.genres.some((x) => selectedValues.includes(x))
+    } else {
+        filters.genres = undefined
+    }
+    applyFilters()
 }
 
 // apply the filter and run the vis again
 function applyFilters(){
     let data = getMediaData()
     if (filters.rating) data = data.filter(filters.rating)
+    if (filters.genres) data = data.filter(filters.genres)
     runVis(data)
 }
