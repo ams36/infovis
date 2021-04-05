@@ -58,6 +58,10 @@ body, html{
     height: 45%;
 }
 
+.multiselect-wrapper {
+
+}
+
 
 /** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/
 /**** Custom styles for noUiSlider ****/
