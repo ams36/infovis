@@ -46,7 +46,8 @@ Goal: Share Questions and finalise on one with sub questions
 Goal: Share preliminary sketches and Ideas
 - Explain the structure of the repository so we can ensure less confusion when writing code with current testing visualisation (Chord Diagram).
     - Agreed the code will be a lot easier to read if its split with one javascript file per visualisation
-- Discussed what we had thought of and divided who is going to do which in depth sketches.
+- Discussed what we had thought of and divided who is going to do which in depth sketches
+    - Really liked sunburst graph for languages, SBS box plot for rating, but looking for more ideas from: [Observable](https://observablehq.com) and [D3 Graph Gallery](https://www.d3-graph-gallery.com).
 
 
 ![Quick-Sketch-Layout](Images/Quick-Sketch-Layout.jpg)
