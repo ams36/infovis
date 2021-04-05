@@ -3,6 +3,11 @@ let filters = {
 }
 
 function initialiseFilters() {
+    createRatingSlider()
+    createGenreSelector()
+}
+
+function createRatingSlider(){
     // create a range slider for the filter
     // modified from: https://materializecss.com/range.html
     var slider = document.getElementById('ratingSlider');
@@ -27,6 +32,13 @@ function initialiseFilters() {
     //slider.noUiSlider.on("update", ([min, max]) => filteredByRating(min, max))
 }
 
+function createGenreSelector(){
+    let data = getGenres()
+    console.log("FILTERS LOADING")
+    console.log(data)
+
+}
+
 // updates the objects key value for rating to be the function min to max
 function filteredByRating(min, max){
     filters.rating = (d) => d.imdb >= min && d.imdb <= max
@@ -39,5 +51,3 @@ function applyFilters(){
     if (filters.rating) data = data.filter(filters.rating)
     runVis(data)
 }
-
-initialiseFilters()

@@ -1,6 +1,8 @@
 let mediaData = undefined;
 let view = undefined;
 
+document.multiselect('#testSelect1');
+
 /**
  * Function to load the data from the CSV, returns a promise of the data
  * @returns {PromiseLike<void> | Promise<void>}
@@ -42,6 +44,13 @@ function getMediaData(){
     return mediaData
 }
 
+function getGenres(){
+    return mediaData
+        .map((row) => row.genres)
+        .flat()
+        .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
+}
+
 /**
  * Main function to run the visualisation from set up
  * Should not be called until load data has finished
@@ -56,4 +65,4 @@ function runVis(current_view){
  * Once the data has loaded, call runVis.
  * This will ensure that run Vis is not called until the data has finished loading
  */
-loadData().then(() => runVis(mediaData))
+loadData().then(() => initialiseFilters()).then(() => runVis(mediaData))
