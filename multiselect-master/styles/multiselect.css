@@ -47,7 +47,7 @@
 
 .multiselect-wrapper .multiselect-list {
 	padding: 5px;
-	min-width: 200px;
+	width: 80%; /* adjusted from fixed to 80% so it fits in the filter boundaries*/
 }
 
 .multiselect-wrapper ul {

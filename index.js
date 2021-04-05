@@ -1,7 +1,6 @@
 let mediaData = undefined;
 let view = undefined;
 
-document.multiselect('#testSelect1');
 
 /**
  * Function to load the data from the CSV, returns a promise of the data

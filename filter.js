@@ -33,10 +33,14 @@ function createRatingSlider(){
 }
 
 function createGenreSelector(){
-    let data = getGenres()
-    console.log("FILTERS LOADING")
-    console.log(data)
-
+    let genres = getGenres()
+    const genreSelector = document.getElementById("genreSelector");
+    for (const genre of genres) {
+        // modified from: https://stackoverflow.com/questions/17730621/how-to-dynamically-add-options-to-an-existing-select-in-vanilla-javascript
+        genreSelector.options[genreSelector.options.length] = new Option(genre, genre)
+    }
+    // create the multiselect
+    document.multiselect('#genreSelector');
 }
 
 // updates the objects key value for rating to be the function min to max
