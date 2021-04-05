@@ -44,6 +44,24 @@ function createGenreSelector(){
         // modified from: https://stackoverflow.com/questions/17730621/how-to-dynamically-add-options-to-an-existing-select-in-vanilla-javascript
         genreSelector.options[genreSelector.options.length] = new Option(genre, genre)
     }
+    $(genreSelector).on('change', filteredByGenre)
+    // create a multiselector
+    // modified from: https://materializecss.com/select.html
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, {});
+
+    // modified from: https://codepen.io/souvik1809/pen/rvNMyO?fbclid=IwAR3lxAlSq8wmShlAta5N2EKgEc02e3r9txS_YzoE2XJrp0X2w5VC6zKatZQ
+    $('select.select_all').siblings('ul').prepend('<li id=sm_select_all><span>Select All</span></li>');
+    $('li#sm_select_all').on('click', function () {
+        var jq_elem = $(this),
+            jq_elem_span = jq_elem.find('span'),
+            select_all = jq_elem_span.text() == 'Select All',
+            set_text = select_all ? 'Select None' : 'Select All';
+        jq_elem_span.text(set_text);
+        jq_elem.siblings('li').filter(function() {
+            return $(this).find('input').prop('checked') != select_all;
+        }).click();
+    });
 
 }
 
@@ -54,8 +72,10 @@ function filteredByRating(min, max){
 }
 
 // updates the genre filter
-function filteredByGenre(){
-
+// not currently applied yet but now we can get the list of values
+function filteredByGenre(e){
+    var instance = M.FormSelect.getInstance(document.getElementById("genreSelector"));
+    console.log(instance.getSelectedValues())
 }
 
 // apply the filter and run the vis again

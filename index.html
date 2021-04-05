@@ -10,6 +10,9 @@
     <script src="https://rawcdn.githack.com/Dogfalo/materialize/824e78248b3de81e383445e76ffb04cc3264fe7d/extras/noUiSlider/nouislider.min.js?fbclid=IwAR3s7kYinrz_8jBNw-9w3sdz1F70aPS8AGUvmvMAmR69jvApS_9Ie8KbZcw"></script>
     <link rel="stylesheet" href="https://rawcdn.githack.com/Dogfalo/materialize/824e78248b3de81e383445e76ffb04cc3264fe7d/extras/noUiSlider/nouislider.css?fbclid=IwAR3Cv1oNFTJM1YliZeVdUwrdNlkiBpUGgLB78QxFg3vor4DMfgqaFaS-his" />
 
+    <!-- Include JQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+
     <!-- Materialise Framework -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -23,7 +26,7 @@
 <body>
 <div id="filter" class = "filter">
     <div id="ratingSlider"></div>
-    <select id='genreSelector' multiple onchange="filteredByGenre()">
+    <select id='genreSelector' multiple class="select_all">
     </select>
 </div>
 <div id="page1" class = "page">
