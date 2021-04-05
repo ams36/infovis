@@ -2,6 +2,7 @@ let filters = {
     rating: undefined,
     genres: undefined
 }
+let supressGenreFilter = false;
 
 function updateFilters(){
     console.log("Made it here")
@@ -54,6 +55,7 @@ function createGenreSelector(){
     // modified from: https://codepen.io/souvik1809/pen/rvNMyO?fbclid=IwAR3lxAlSq8wmShlAta5N2EKgEc02e3r9txS_YzoE2XJrp0X2w5VC6zKatZQ
     $('select.select_all').siblings('ul').prepend('<li id=sm_select_all><span>Select All</span></li>');
     $('li#sm_select_all').on('click', function () {
+        supressGenreFilter = true
         var jq_elem = $(this),
             jq_elem_span = jq_elem.find('span'),
             select_all = jq_elem_span.text() == 'Select All',
@@ -62,6 +64,8 @@ function createGenreSelector(){
         jq_elem.siblings('li').filter(function() {
             return $(this).find('input').prop('checked') != select_all;
         }).click();
+        supressGenreFilter = false;
+        filteredByGenre()
     });
 
 }
@@ -75,6 +79,8 @@ function filteredByRating(min, max){
 // updates the genre filter
 // not currently applied yet but now we can get the list of values
 function filteredByGenre(e){
+    // if supress is on, return straight away so we dont apply the filter till select all has completed
+    if (supressGenreFilter) return;
     var instance = M.FormSelect.getInstance(document.getElementById("genreSelector"));
     const selectedValues = instance.getSelectedValues()
     if (selectedValues.length !== 0) {
