@@ -10,6 +10,16 @@ function loadData() {
     return d3.csv("MoviesOnStreamingPlatforms_updated.csv", function (d) {
         const rottenTomatoes = (d["Rotten Tomatoes"] || "0%").trim() // get rid of white space for the rotten tomatoes values and replace empty strings with 0%
         const genres = (d.Genres || "Unknown")
+        const languages = (d.Language || "Unknown")
+
+        // fix incorrect data points
+        if (d.Title === "Colorado") d.Runtime = "57" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "Law of the Lawless") d.Runtime = "87" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "Scarlett") d.Runtime = "92" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "The Inner Circle") d.Runtime = "96" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "Carlos el terrorista") d.Runtime = "97" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "Gone") d.Runtime = "95" // the data is incorrect for this movie, so we looked up the actual movie length
+
         // NOTES: results are movies only so dont return movie column
         //return a new object instead of the row so the data can be stored as objects with javascript friendly tags
         return {
@@ -26,7 +36,7 @@ function loadData() {
             directors: d.Directors, //TODO: Parse this correctly if we end up wanting to do anything with directors apart from listing them
             genres: genres.split(","),
             country: d.Country.split(","), //TODO: create a better function to process arrays from the data set in case we want to use these
-            language: d.Language.split(","), // TODO: Split this as an array
+            language: languages.split(","), // TODO: Split this as an array
             runtime: parseInt(d.Runtime)
         }
     }).then(function (data) {
@@ -49,6 +59,25 @@ function getGenres(){
         .map((row) => row.genres)
         .flat()
         .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
+}
+
+function getLanguages(){
+    return mediaData
+        .map((row) => row.language)
+        .flat()
+        .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
+}
+
+function getYearRange(){
+    let high = Math.max(...mediaData.map((row) => row.year))
+    let low = Math.min(...mediaData.map((row) => row.year))
+    return {low: low, high: high}
+}
+
+function getRuntimeRange(){
+    let high = Math.max(...mediaData.map((row) => row.runtime).filter((x) => !isNaN(x)))
+    let low = Math.min(...mediaData.map((row) => row.runtime).filter((x) => !isNaN(x)))
+    return {low: low, high: high}
 }
 
 /**

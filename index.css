@@ -22,6 +22,9 @@ body, html{
     padding: 20px; /*padding to be changed - just used for testing */
     padding-top: 60px;
     /*background: darkslategray;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     position: fixed;
     top:0;
     left: 0;
