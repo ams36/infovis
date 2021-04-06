@@ -251,7 +251,9 @@ function formatMatrix() {
         {source: "allPlatforms", target: "hulu", value: allPlatforms},
         {source: "allPlatforms", target: "disney", value: allPlatforms}
 
-    ].filter(({value}) => value > 10) // filter out anything that is 10 so it doesnt display (0 was too small and interactivity was lost)
+    ].filter(({value}) => value > (view.length * .01)) // filter out any results that is less than 1% of the data size as they're too small to have interactivity
+
+    console.log(view.length * .01)
 
     console.log(connections)
 
