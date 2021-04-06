@@ -5,14 +5,13 @@ let filters = {
     language: undefined,
     year: undefined
 }
+
 let supressGenreFilter = false;
 let supressLanguageFilter = false;
 
-function updateFilters(){
-    console.log("Made it here")
-    filteredByGenre()
-}
-
+/**
+ * calls all create filter functions after the data has finished loading in index.js
+ */
 function initialiseFilters() {
     createRatingSlider()
     createGenreSelector()
@@ -21,6 +20,9 @@ function initialiseFilters() {
     createLanguageSelector()
 }
 
+/**
+ * creates the rating slider for filtering by rating (min = 0, max = 10)
+ */
 function createRatingSlider(){
     // create a range slider for the filter
     // modified from: https://materializecss.com/range.html
@@ -46,6 +48,10 @@ function createRatingSlider(){
     //slider.noUiSlider.on("update", ([min, max]) => filteredByRating(min, max))
 }
 
+/**
+ * creates a year slider for filtering by year
+ * min and max are determined by years recorded in the dataset
+ */
 function createYearSlider(){
     const range = getYearRange()
     // create a range slider for the filter
@@ -70,6 +76,10 @@ function createYearSlider(){
     slider.noUiSlider.on("change", ([min, max]) => filteredByYear(min, max))
 }
 
+/**
+ * creates a run time slider for filtering by run time
+ * min and max are determined by run time in the data set
+ */
 function createRuntimeSlider(){
     const range = getRuntimeRange()
     console.log(range)
@@ -96,6 +106,11 @@ function createRuntimeSlider(){
     // TODO: create a "results do not return enough movies for visualisation" image
 }
 
+/**
+ * creates a genre selector for filtering by genre
+ * options are dynamically filled by whats in the data set
+ * Null or "" were replaced to "Unknown"
+ */
 function createGenreSelector(){
     let genres = getGenres()
     genres = genres.sort()
@@ -128,6 +143,11 @@ function createGenreSelector(){
 
 }
 
+/**
+ * creates a language selector for filtering by language
+ * options are dynamically lfilled by whats in teh data set
+ * Null or "" were replaced with "Unknown"
+ */
 function createLanguageSelector(){
     let languages = getLanguages()
     languages = languages.sort()
@@ -166,7 +186,6 @@ function filteredByRating(min, max){
     filters.rating = (d) => d.imdb >= min && d.imdb <= max
     applyFilters()
 }
-
 
 // updates the objects key value for year to be the function min to max
 function filteredByYear(min, max){
