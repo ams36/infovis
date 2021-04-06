@@ -91,4 +91,5 @@ A javascript file to create filter UI elements in javascript and calls the runVi
 * **Materialize Framework** - Creating UI elements and making them prettier 
 * **NoUISlider** - Creating a rating slider for a filter 
 * **D3.js (V6)**  - creating visualisations 
+* **JQuery** - To create select all button for drop down check boxes 
 
