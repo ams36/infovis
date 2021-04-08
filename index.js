@@ -39,7 +39,7 @@ function loadData() {
             language: languages.split(","), // TODO: Split this as an array
             runtime: parseInt(d.Runtime)
         }
-    }).then(function (data) {
+    }) .then(function (data) {
         // set the name of the columns to be more javascript friendly
         data.columns = [
             "uid", "title", "year", "age", "imdb", "rotten", "netflix", "hulu",
@@ -88,6 +88,7 @@ function runVis(current_view){
     view = current_view
     console.log(view.length)
     renderSharedTitles(view);
+    renderRuntimeBoxplot(view);
 }
 
 /**
