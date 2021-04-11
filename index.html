@@ -36,22 +36,49 @@
     <h4>Language</h4>
     <select id='languageSelector' multiple class="select_all"></select>
 </div>
-<div id="page1" class = "page">
+<div id="overviewPage" class = "page">
     <div id="filterSpacer_1" class = "filter"></div>
     <div id="chordDiagram" class = "chordDiagram">
         <svg id="sharedTitles" class = "sharedTitles" preserveAspectRatio="xMidYMid meet"> </svg>
     </div>
     <div id="movieList" class = "movieList"></div>
 </div>
-<div id="page2" class = "page">
+<div id="boxplotsPage" class = "page">
     <div id="filterSpacer_2" class = "filter"></div>
-    <div id="quickComparison" class = "quickComparison">
-        <div id = "netflixQuickstats" class ="quickStats"></div>
-        <div id = "huluQuickstats" class="quickStats"></div>
-        <div id = "disneyQuickstats" class="quickStats"></div>
-        <div id = "primeQuickstats" class="quickStats"></div>
+    <div id="allBoxplots" class="boxplotsParent">
+        <div id = "ratingBoxplot" class = "boxplots"></div>
+        <div id = "runtimeBoxplot" class = "boxplots"></div>
     </div>
 </div>
+<div id="genrePage" class = "page">
+    <div id="filterSpacer_3" class = "filter"></div>
+    <div id="genreDiagram" class = "genres"></div>
+</div>
+<div id="agePage" class = "page">
+    <div id="filterSpacer_4" class = "filter"></div>
+    <div id="ageBarPlots" class = "barPlots"></div>
+</div>
+<div id="worldPage" class = "page">
+    <div id="filterSpacer_5" class = "filter"></div>
+    <div id="languageComparison" class = "languageComparison">
+            <div id = "netflixLanguages" class ="languages"></div>
+            <div id = "huluLanguages" class="languages"></div>
+            <div id = "disneyLanguages" class="languages"></div>
+            <div id = "primeLanguages" class="languages"></div>
+    </div>
+</div>
+
+
+<!--Commented out but may use this at some point so I didnt want to delete it -->
+<!--<div id="page2" class = "page">-->
+<!--    <div id="filterSpacer_2" class = "filter"></div>-->
+<!--    <div id="quickComparison" class = "quickComparison">-->
+<!--        <div id = "netflixQuickstats" class ="quickStats"></div>-->
+<!--        <div id = "huluQuickstats" class="quickStats"></div>-->
+<!--        <div id = "disneyQuickstats" class="quickStats"></div>-->
+<!--        <div id = "primeQuickstats" class="quickStats"></div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- Import index javascript files (Needs to be at the end so the entire document is parsed before it gets here)-->
 <script src="sharedTitles.js"></script>

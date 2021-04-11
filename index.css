@@ -47,7 +47,41 @@ body, html{
     flex-grow: 0;
 }
 
-.quickComparison{
+.boxplotsParent{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.boxplots{
+    flex-basis: 50%;
+    flex-grow: 1;
+    margin: 5px;
+    background: brown;
+}
+
+@media screen and (max-width: 700px){
+    .boxplotsParent{
+        flex-direction: column;
+    }
+
+    .boxplots{
+        flex-basis: 100%;
+    }
+}
+
+.genres{
+    flex-grow: 1;
+    background: purple;
+}
+
+.barPlots{
+    flex-grow: 1;
+    background: black;
+}
+
+.languageComparison{
     margin-top: 1.8pc;
     display: flex;
     flex-grow: 1;
@@ -55,12 +89,11 @@ body, html{
     justify-content: space-around;
 }
 
-.quickStats{
+.languages{
     background: aquamarine;
     width: 45%;
     height: 45%;
 }
-
 .multiselect-wrapper {
 
 }

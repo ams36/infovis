@@ -68,21 +68,33 @@ A javascript file to create filter UI elements in javascript and calls the runVi
 
 ### HTML and CSS
 
-| Description                                                  | ID                | Class        | Tag  |
-| ------------------------------------------------------------ | ----------------- | ------------ | ---- |
-| **Fixed Filter Bar**                                         | filter            | filter       | div  |
-| Slider for filtering by rating (Eventually becomes a NoUISlider in filter.js) | ratingSlider      |              | div  |
-| **First "Page" View**                                        | page1             | page         | div  |
-| Page 1 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_1    | filter       | div  |
-| Area for the Chord Diagram View                              | chordDiagram      | chordDiagram | div  |
-| SVG to be updated for Chord Diagram Shared Titles (child element of chordDiagram) | sharedTitles      | sharedTitles | svg  |
-| a list of all movies for the results with check boxes to indicate which platforms its avialable on | movieList         | movieList    | div  |
-| **Second "Page" View**                                       | page2             | page         | div  |
-| Page 2 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_2    | filter       | div  |
-| A quick view of statistics for Netflix                       | netflixQuickstats | quickStats   | div  |
-| A quick view of statistics for Hulu                          | huluQuickstats    | quickStats   | div  |
-| A quick view of statistics for Disney+                       | disneyQuickstats  | quickStats   | div  |
-| A quick view of statistics for Amazon Prime                  | primeQuickstats   | quickStats   | div  |
+| Description                                                  | ID                 | Class              | Tag  |
+| ------------------------------------------------------------ | ------------------ | ------------------ | ---- |
+| **Fixed Filter Bar**                                         | filter             | filter             | div  |
+| Slider for filtering by rating (Eventually becomes a NoUISlider in filter.js) | ratingSlider       |                    | div  |
+| **First "Page" View**: Overview Chord Diagram                | overviewPage       | page               | div  |
+| Page 1 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_1     | filter             | div  |
+| Area for the Chord Diagram View                              | chordDiagram       | chordDiagram       | div  |
+| SVG to be updated for Chord Diagram Shared Titles (child element of chordDiagram) | sharedTitles       | sharedTitles       | svg  |
+| a list of all movies for the results with check boxes to indicate which platforms its avialable on | movieList          | movieList          | div  |
+| **Second "Page" View**: Rating and Runtime Boxplots          | boxplotsPage       | page               | div  |
+| Page 2 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_2     | filter             | div  |
+| Holds both boxplots in this view so we can do flex-wrap with smaller screens | allBoxplots        | boxplotsParent     | div  |
+| Area for the Rating Boxplots to go within allBoxplots        | ratingBoxplot      | boxplots           | div  |
+| Area for the Runtime Boxplots to go within allBoxplots       | runtimeBoxplot     | boxplots           | div  |
+| **Third "Page" View**: Genre Analysis Page                   | genrePage          | page               | div  |
+| Page 3 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_3     | filter             | div  |
+| area for the genre diagrams to go                            | genreDiagram       | genres             | div  |
+| **Fourth "Page" View**: Age Bar Plots (Stacked to Grouped)   | agePage            | page               | div  |
+| Page 4 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_4     | filter             | div  |
+| area for age barplot to go                                   | ageBarPlots        | barPlots           | div  |
+| **Fifth "Page" View**: World Page (Currently only languages but maybe map too) | worldPage          | page               | div  |
+| Page 4 spacer for the filter section (since the filter is fixed its not included in the page view and the rest of the view needs to be pushed to the side) | filterSpacer_5     | filter             | div  |
+| Area for the language visualisation to go                    | languageComparison | languageComparison | div  |
+| area under languageComparison for Netflix Vis                | netflixLanguages   | languages          | div  |
+| area under languageComparison for Hulu Vis                   | huluLanguages      | languages          | div  |
+| area under languageComparison for Disney Vis                 | disneyLanguages    | languages          | div  |
+| area under languageComparison for Prime Vis                  | primeLanguages     | languages          | div  |
 
 ---
 
