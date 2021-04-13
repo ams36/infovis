@@ -89,6 +89,7 @@ function runVis(current_view){
     renderSharedTitles(view);
     renderRuntimeBoxplot(view);
     renderLanguages(view)
+    renderGenreCharts(view)
 }
 
 /**
