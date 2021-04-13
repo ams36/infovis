@@ -3,39 +3,54 @@ window.renderRuntimeBoxplot = function (view) {
     const ratings = formatData(view)
     console.log(ratings)
 
-    // set the height and width used to create the visualisation but not as seen on screen
-    const height = 1000
-    const width = 1000
 
-    // get the svg and set the size of the view box
-    // TODO: Note this currently isnt stored as a svg so you may need to make one, its just a div rn
-    const svg = d3.select("#ratingBoxplot")
-        .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
-    // load the data which has been manipulated in R
-    //var dataPath = "df2.csv";
+    chart = {
+        // // set the height and width used to create the visualisation but not as seen on screen
+        // // get the svg and set the size of the view box
+        // // TODO: Note this currently isnt stored as a svg so you may need to make one, its just a div rn
 
-    // d3
-    // d3.csv(dataPath)
-    //     // load the json data
-    //     .then(function(myData){
-    //         console.log(myData)
-    //         d3.select("#ratingBoxplot")
-    //
-    //             // draw a boxplot
-    //             .data(myData)
-    //
-    //             // try
-    //             .text(function(d){
-    //                 return d.platform;
-    //
-    //
-    //             });
-    //     })
+    }
+
+    // boxes: set the min, max, q1-q3
+    boxes = {
+        let arrMap = Array.from(d3.group(ratings, d => d.platform), ([platform, imdb]) => ({
+            platform,
+            imdb
+        }));
+        arrMap.map(o => {
+            const values = o.imdb.map(d => d.imdb);
+            const min = d3.min(values);
+            const max = d3.max(values);
+            const q1 = d3.quantile(values, .25);
+            const q2 = d3.quantile(values, .5);
+            const q3 = d3.quantile(values, .75);
+            const iqr = q3 - q1;
+            const r0 = Math.max(min, q1 - iqr * 1);
+            const r1 = Math.min(max, q3 + iqr * 1.5);
+            o.quartiles = [q1, q2, q3];
+            o.range = [r0, r1];
+            o.outliers = values.filter(v => v < r0 || v > r1);
+            return o;
+        });
+
+        return arrMap.sort((a, b) => keys.indexOf(a.key) - keys.indexOf(b.key));
+    }
+
+
+
+
+    // keys = [...new Set(ratings.map(x => x.platform))]
+    // console.log(keys);
+
 
 
 }
 
+
+
+
+// data process
 function formatData(view){
     const data = []
     for (const movie of view){
