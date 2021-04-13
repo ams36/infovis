@@ -88,7 +88,7 @@ function runVis(current_view){
     view = current_view
     console.log(view.length)
     renderSharedTitles(view);
-    //renderRuntimeBoxplot(view);
+    renderRuntimeBoxplot(view);
     renderLanguages(view)
 }
 

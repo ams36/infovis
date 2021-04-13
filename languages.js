@@ -80,10 +80,10 @@ function formatLanguageData(view){
          }
     }
 
-    // console.log(languagesNetflix)
-    // console.log(languagesPrime)
-    // console.log(languagesDisney)
-    // console.log(languagesHulu)
+    console.log(languagesNetflix)
+    console.log(languagesPrime)
+    console.log(languagesDisney)
+    console.log(languagesHulu)
 
     return languagesNetflix
 
