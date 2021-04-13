@@ -1,7 +1,6 @@
 let mediaData = undefined;
 let view = undefined;
 
-
 /**
  * Function to load the data from the CSV, returns a promise of the data
  * @returns {PromiseLike<void> | Promise<void>}

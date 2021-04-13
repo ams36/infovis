@@ -82,11 +82,12 @@ body, html{
 }
 
 .languageComparison{
-    margin-top: 1.8pc;
+    padding: 3pc;
     display: flex;
     flex-grow: 1;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    /*flex-wrap: wrap;*/
+    justify-content: stretch;
+    align-items: stretch;
 }
 
 .languages{

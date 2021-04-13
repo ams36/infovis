@@ -1,90 +1,139 @@
-// Modified From: https://bl.ocks.org/john-guerra/ca575486b081ab3b166e12cfba8169a1
+// Modified From: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
 
 window.renderLanguages = function (view) {
-    console.log("here")
-    var netflixLanguages = formatLanguageData(view)
+    const languageCount = formatLanguageData(view).slice(0, 20)
+// set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 10, left: 60},
+        width = 800 - margin.left - margin.right,
+        height = 700 - margin.top - margin.bottom;
 
-    // var svg = d3.create("svg"),
-    //     width = 1000,
-    //     height = 1000,
-    //     radius = Math.min(width, height) / 2,
-    //     g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-    //
-    // var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-    //
-    // var pie = d3.pie()
-    //     .sort(null)
-    //     .value(function (d) {
-    //         return d.population;
-    //     });
-    //
-    // var path = d3.arc()
-    //     .outerRadius(radius - 10)
-    //     .innerRadius(radius - 70);
-    //
-    // var label = d3.arc()
-    //     .outerRadius(radius - 40)
-    //     .innerRadius(radius - 40);
-    //
-    // d3.csv("data.csv", function (d) {
-    //     d.population = +d.population;
-    //     return d;
-    // }, function (error, data) {
-    //     if (error) throw error;
-    //
-    //     var arc = g.selectAll(".arc")
-    //         .data(pie(data))
-    //         .enter().append("g")
-    //         .attr("class", "arc");
-    //
-    //     arc.append("path")
-    //         .attr("d", path)
-    //         .attr("fill", function (d) {
-    //             return color(d.data.age);
-    //         });
-    //
-    //     arc.append("text")
-    //         .attr("transform", function (d) {
-    //             return "translate(" + label.centroid(d) + ")";
-    //         })
-    //         .attr("dy", "0.35em")
-    //         .text(function (d) {
-    //             return d.data.age;
-    //         });
-    // });
+// append the svg object to the body of the page
+    var svg = d3.select("#languageComparison")
+        .html("")
+        .append("svg")
+        // scale properly when resized
+        .attr("preserveAspectRatio", "none")
+        .attr("viewBox", [0, 0, width + 100, height + 60])
+        // .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+        // get the maximum value in array
+        const max = languageCount
+            .map((d) => Math.max(d.netflix, d.prime, d.hulu, d.disney))
+            .reduce((a,b) => Math.max(a,b), 0)
+
+        // Add X axis
+        var x = d3.scaleLinear()
+            .domain([0, max])
+            .range([ 0, width]);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+
+        // Y axis
+        var y = d3.scaleBand()
+            .range([ 0, height ])
+            .domain(languageCount.map(function(d) { return d.language; }))
+            .padding(1);
+        svg.append("g")
+            .call(d3.axisLeft(y))
+
+        // Lines
+        svg.selectAll("myline")
+            .data(languageCount)
+            .enter()
+            .append("line")
+            .attr("x1", function(d) { return x(Math.min(d.netflix, d.prime, d.hulu, d.disney)); })
+            .attr("x2", function(d) { return x(Math.max(d.netflix, d.prime, d.hulu, d.disney)); })
+            .attr("y1", function(d) { return y(d.language); })
+            .attr("y2", function(d) { return y(d.language); })
+            .attr("stroke", "grey")
+            .attr("stroke-width", "1px")
+
+        // Circles of variable 1
+        svg.selectAll("mycircle")
+            .data(languageCount)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d.netflix); })
+            .attr("cy", function(d) { return y(d.language); })
+            .attr("r", "6")
+            .style("fill", netflixColor)
+
+        // Circles of variable 1
+        svg.selectAll("mycircle")
+            .data(languageCount)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d.hulu); })
+            .attr("cy", function(d) { return y(d.language); })
+            .attr("r", "6")
+            .style("fill", huluColor)
+
+        // Circles of variable 1
+        svg.selectAll("mycircle")
+            .data(languageCount)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d.prime); })
+            .attr("cy", function(d) { return y(d.language); })
+            .attr("r", "6")
+            .style("fill", primeColor)
+
+        // Circles of variable 1
+        svg.selectAll("mycircle")
+            .data(languageCount)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d.disney); })
+            .attr("cy", function(d) { return y(d.language); })
+            .attr("r", "6")
+            .style("fill", disneyColor)
+
+
 }
 
-function createLanguageObject(languages){
-    const platform = {}
-    for (const l of languages){
-        platform[l] = 0
-    }
-    return platform
-}
 
 function formatLanguageData(view){
     const allLangauges = getLanguages()
-    const languagesNetflix = createLanguageObject(allLangauges)
-    const languagesHulu = createLanguageObject(allLangauges)
-    const languagesDisney = createLanguageObject(allLangauges)
-    const languagesPrime = createLanguageObject(allLangauges)
+    let results = {}
+    for (const l of allLangauges){
+        results[l] = {
+            language: l,
+            netflix: 0,
+            hulu: 0,
+            disney: 0,
+            prime: 0,
+            total: 0
+        }
+    }
+
+    // get a list of the selected languages to ensure they are not showwn
+    var instance = M.FormSelect.getInstance(document.getElementById("languageSelector"));
+    const selectedValues = instance.getSelectedValues()
 
     //console.log(view)
     for (const movie of view){
          if (!movie.language) continue
          for (const l of movie.language){
-             if (movie.netflix) languagesNetflix[l]++
-             if (movie.hulu) languagesHulu[l]++
-             if (movie.disney) languagesDisney[l]++
-             if (movie.prime) languagesPrime[l]++
+             if (!selectedValues.includes(l) && selectedValues.length !== 0) continue
+             if (movie.netflix) addLanguageOccurence(results[l], "netflix")
+             if (movie.hulu) addLanguageOccurence(results[l], "hulu")
+             if (movie.disney) addLanguageOccurence(results[l], "disney")
+             if (movie.prime) addLanguageOccurence(results[l], "prime")
          }
     }
 
-    console.log(languagesNetflix)
-    console.log(languagesPrime)
-    console.log(languagesDisney)
-    console.log(languagesHulu)
+    // sort from most popular to least popular
+    return Object.values(results).sort((a,b) => b.total - a.total)
 
-    return languagesNetflix
 
+}
+
+function addLanguageOccurence(language, platform){
+    language[platform]++
+    language.total++
 }
