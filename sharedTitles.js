@@ -34,7 +34,7 @@ window.renderSharedTitles = function (view) {
 
     // colour of each platform
     const colorMap = {
-        netflix: '#E50914',
+        netflix: '#e50914',
         hulu: '#1CE783',
         disney: '#006E99',
         prime: '#00A8E1',

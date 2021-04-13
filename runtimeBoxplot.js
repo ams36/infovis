@@ -1,3 +1,0 @@
-window.renderRuntimeBoxplot = function (view) {
-
-}
