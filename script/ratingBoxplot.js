@@ -8,9 +8,9 @@ window.renderRuntimeBoxplot = function (view) {
     const ratings = formatData(view)
 
     // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 30, left: 40},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    var margin = {top: 90, right: 60, bottom: 90, left: 60},
+        width = 460 ,
+        height = 300 ;
 
     // append the svg object to the body of the page
     var svg = d3.select("#ratingBoxplot")
@@ -20,7 +20,7 @@ window.renderRuntimeBoxplot = function (view) {
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-
+    // set the parameter for box
     const sumstat = d3.rollup(ratings, (d) => {
         q1 = d3.quantile(d.map(function(g) { return g.imdb;}).sort(d3.ascending),.25)
         median = d3.quantile(d.map(function(g) { return g.imdb;}).sort(d3.ascending),.5)
@@ -28,10 +28,14 @@ window.renderRuntimeBoxplot = function (view) {
         interQuantileRange = q3 - q1
         min = q1 - 1.5 * interQuantileRange
         max = q3 + 1.5 * interQuantileRange
+
+
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
     }, (k) => {
         return k.platform
     })
+
+
 
     // Show the X scale
     var x = d3.scaleBand()
@@ -63,6 +67,8 @@ window.renderRuntimeBoxplot = function (view) {
         .style("width", 40)
 
     // rectangle for the main box
+    // blues = d3.schemeBlues[9].reverse()
+
     var boxWidth = 100
     svg
         .selectAll("boxes")
@@ -76,6 +82,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("stroke", "black")
         .style("fill", "#69b3a2")
 
+
     // Show the median
     svg
         .selectAll("medianLines")
@@ -88,6 +95,22 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y2", function(d){return(y(d[1].median))})
         .attr("stroke", "black")
         .style("width", 80)
+
+    //adding titles
+    svg.select("g")
+        .append("text")
+            .text(" Ratings By Platform")
+            .style("fill", "black")
+            .attr("x", 250)
+            .attr("y", -320);
+
+
+    //adding x/y axis titles
+
+
+
+
+
 
 
 }

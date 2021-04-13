@@ -52,10 +52,11 @@ body, html{
     flex-grow: 1;
     flex-direction: row;
     align-items: stretch;
+    height: 100%;
 }
 
 .boxplots{
-    flex-basis: 50%;
+    flex-basis: 40%;
     flex-grow: 1;
     margin: 5px;
     background: brown;
@@ -97,6 +98,13 @@ body, html{
 }
 .multiselect-wrapper {
 
+}
+
+.axis
+{
+    font-size: 10pt;
+    font-family: sans-serif;
+    color: grey;
 }
 
 
