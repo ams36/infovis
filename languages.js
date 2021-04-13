@@ -13,7 +13,7 @@ window.renderLanguages = function (view) {
         .append("svg")
         // scale properly when resized
         .attr("preserveAspectRatio", "none")
-        .attr("viewBox", [0, 0, width, height + 60])
+        .attr("viewBox", [0, 0, width + 100, height + 60])
         // .attr("width", width + margin.left + margin.right)
         // .attr("height", height + margin.top + margin.bottom)
         .append("g")
