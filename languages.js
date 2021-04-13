@@ -11,8 +11,11 @@ window.renderLanguages = function (view) {
     var svg = d3.select("#languageComparison")
         .html("")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        // scale properly when resized
+        .attr("preserveAspectRatio", "none")
+        .attr("viewBox", [0, 0, width, height])
+        // .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
