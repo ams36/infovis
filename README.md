@@ -42,29 +42,36 @@ Main javascript file to connect all other files and parse the data initially
 >| mediaData           | Array of Objects (The Rows) with a Column Attribute | holds the results from the csv file (without the first column) |
 >| view                | Array of Objects (The Rows) with a Column Attribute | A shortened version of mediaData which has the results of the filters |
 >| loadData()          |                                                     | `PromiseLike<void> or Promise<void>`                         |
->| runVis()            | calls all visualisation functions to make vis       |                                                              |
-
-##### sharedTitles.js
-
-Javscript file to render the chord visualisation of shared titles between platforms. It takes in the view stored in Index.js. 
-
->| Variable / Function | Type / Return           | Description                                                  |
->| ------------------- | ----------------------- | ------------------------------------------------------------ |
->| connections         | Number[ ] [ ]           | matrix version of the data needed for a chord diagram in d3  |
->| names               | String[ ]               | the names of each platform in the same order as the matrix   |
->| formatMatrix()      | return ```Number[][]``` | takes the view that sharedTitles was passed, counts the number of exclusive and shared titles between the platforms, and returns the matrix version of the data |
+>| runVis()            |                                                     | calls all visualisation functions to make vis and is recalled every time a filter is changed |
+>| getGenres()         | Array of Strings (The genres)                       | Used for the filter functions to create the genres filter    |
+>| getLanguages()      | Array of Strings (The languages)                    | Used for the filter functions to create the languages filter |
+>| getYearRange()      | Object: {low: Number, high: Number}                 | Used to set the min and max for the years filter             |
+>| getRuntimeRange()   | Object: {low: Number, high: Number}                 | Used to set the min and max for the runtime filter           |
 
 ##### filter.js
 
 A javascript file to create filter UI elements in javascript and calls the runVis() function in index.js with the updated data based on the filters applied.
 
->| Variable / Function | Type / Return                       | Description                                                  |
->| ------------------- | ----------------------------------- | ------------------------------------------------------------ |
->| filters             | Object of functions for each filter | Each key represents one filter, it maps to a function that takes one row and returns whether or not that row should be included in the visualised data set |
->| initialiseFilters() |                                     | Creates filters and any other HTML elements needed for the filter section of the page as soon as its opened |
->| filteredByRating    | calls applyFilters() on completion  | Updates the filters.rating key to a new function that checks if a records rating is in the given range |
->|                     |                                     |                                                              |
->|                     |                                     |                                                              |
+>| Variable / Function         | Type / Return                       | Description                                                  |
+>| --------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+>| netflixColor                | '#E50914'                           | The color used for all netflix visualisaitons. This is placed here because filter.js is called first. |
+>| huluColor                   | '#1CE783'                           | The color used for all hulu visualisaitons. This is placed here because filter.js is called first. |
+>| disneyColor                 | '#006E99'                           | The color used for all disney visualisaitons. This is placed here because filter.js is called first. |
+>| primeColor                  | '#00A8E1'                           | The color used for all prime visualisaitons. This is placed here because filter.js is called first. |
+>| filters                     | Object of functions for each filter | Each key represents one filter, it maps to a function that takes one row and returns whether or not that row should be included in the visualised data set |
+>| supressGenreFilter          | boolean                             | When clicking the "select all" filter for genres, it mimics clicking thorugh all the filters. To not cause the page go into overdrive, this boolean is set to true until it has finished mimicing the clicks. |
+>| supressLanguageFilter       | boolean                             | When clicking the "select all" filter for languages, it mimics clicking thorugh all the filters. To not cause the page go into overdrive, this boolean is set to true until it has finished mimicing the clicks. |
+>| initialiseFilters()         |                                     | Creates filters and any other HTML elements needed for the filter section of the page as soon as its opened |
+>| createRatingSlider()        |                                     | Creates the rating slider in the filter div                  |
+>| creatingRuntimeSlider()     |                                     | Creates the runtime slider in the filter div                 |
+>| createGenreSelector()       |                                     | Creates the drop down check box list for genres in the filter div |
+>| createLanguageSelector()    |                                     | Creates the drop down check box list for languages in the filter div |
+>| filteredByRating()          |                                     | is called whenever a the rating slider bar is changed to update how the data should be filtered |
+>| filteredByYear(min, max)    |                                     | is called whenever the year slider bar is changed to update how the data should be filtered |
+>| filteredByRuntime(min, max) |                                     | is called whenever the runtime slider bar is changed to update how the data should be filtered |
+>| filteredByGenre(event)      |                                     | is called whenever a value is changed in the genre check list to update how the data should be filtered |
+>| filteredByLanguage(event)   |                                     | is called whenever a value is changed in the language check list to update how the data should be filtered |
+>| applyFilters                |                                     | calls runVis() again to pass it the filtered data. This is called at the end of every ```filteredBy<x>``` function |
 
 ### HTML and CSS
 
@@ -95,6 +102,18 @@ A javascript file to create filter UI elements in javascript and calls the runVi
 | area under languageComparison for Hulu Vis                   | huluLanguages      | languages          | div  |
 | area under languageComparison for Disney Vis                 | disneyLanguages    | languages          | div  |
 | area under languageComparison for Prime Vis                  | primeLanguages     | languages          | div  |
+
+## Visualisation Scripts
+
+##### sharedTitles.js
+
+Javscript file to render the chord visualisation of shared titles between platforms. It takes in the view stored in Index.js. 
+
+>| Variable / Function | Type / Return           | Description                                                  |
+>| ------------------- | ----------------------- | ------------------------------------------------------------ |
+>| connections         | Number[ ] [ ]           | matrix version of the data needed for a chord diagram in d3  |
+>| names               | String[ ]               | the names of each platform in the same order as the matrix   |
+>| formatMatrix()      | return ```Number[][]``` | takes the view that sharedTitles was passed, counts the number of exclusive and shared titles between the platforms, and returns the matrix version of the data |
 
 ---
 

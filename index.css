@@ -96,6 +96,15 @@ body, html{
     width: 45%;
     height: 45%;
 }
+
+.genres{
+    padding: 3pc;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: stretch;
+}
+
 .multiselect-wrapper {
 
 }
