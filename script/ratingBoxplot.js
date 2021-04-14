@@ -6,6 +6,7 @@
 window.renderRuntimeBoxplot = function (view) {
 
     const ratings = formatData(view)
+   // console.log(ratings);
 
     // set the dimensions and margins of the graph
     var margin = {top: 90, right: 60, bottom: 90, left: 60},
