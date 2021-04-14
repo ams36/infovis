@@ -86,9 +86,8 @@ function formatGenres(view){
             prime: 0
         }
     }
-
     for (const movie of view){
-        for (const g of movie.genres){
+       for (const g of movie.genres){
             if (movie.netflix) results[g].netflix++
             if (movie.hulu) results[g].hulu++
             if (movie.disney) results[g].disney++
