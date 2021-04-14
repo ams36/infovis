@@ -50,27 +50,38 @@ body, html{
 .boxplotsParent{
     display: flex;
     flex-grow: 1;
-    flex-direction: row;
+    flex-direction: column;
     align-items: stretch;
     height: 100%;
 }
 
 .boxplots{
-    flex-basis: 40%;
+    height: 50%;
+    /*flex-basis: 40%;*/
     flex-grow: 1;
     margin: 5px;
     background: brown;
+    justify-content: center;
+    text-align: center;
 }
 
-@media screen and (max-width: 700px){
-    .boxplotsParent{
-        flex-direction: column;
-    }
-
-    .boxplots{
-        flex-basis: 100%;
-    }
+.boxplots>svg{
+    height: 100%;
 }
+
+svg{
+    height: 100%;
+}
+
+/*@media screen and (max-width: 700px){*/
+/*    .boxplotsParent{*/
+/*        flex-direction: column;*/
+/*    }*/
+
+/*    .boxplots{*/
+/*        flex-basis: 100%;*/
+/*    }*/
+/*}*/
 
 .genres{
     flex-grow: 1;
