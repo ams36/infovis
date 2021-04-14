@@ -3,10 +3,9 @@
 // particularly: changed the nest function to the updated group function to make it work properly
 // keys no longer accessed, it is d[0] instead of d.key and d[1] instead of d.value
 
-window.renderRuntimeBoxplot = function (view) {
+window.renderRatingBoxplot = function (view) {
 
     const ratings = formatData(view)
-   // console.log(ratings);
 
     // set the dimensions and margins of the graph
     var margin = {top: 90, right: 60, bottom: 90, left: 60},
@@ -21,6 +20,7 @@ window.renderRuntimeBoxplot = function (view) {
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
+
     // set the parameter for box
     const sumstat = d3.rollup(ratings, (d) => {
         q1 = d3.quantile(d.map(function(g) { return g.imdb;}).sort(d3.ascending),.25)
@@ -105,13 +105,7 @@ window.renderRuntimeBoxplot = function (view) {
             .attr("x", 250)
             .attr("y", -320);
 
-
     //adding x/y axis titles
-
-
-
-
-
 
 
 }
