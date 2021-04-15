@@ -24,6 +24,10 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
+    //calculate domain based on IQR
+    let low = Number.MAX_SAFE_INTEGER
+    let high = Number.MIN_SAFE_INTEGER
+
     // set the parameter for box
     const sumstat = d3.rollup(runtime_data, (d) => {
         q1 = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.25)
@@ -31,7 +35,9 @@ window.renderRuntimeBoxplot = function (view) {
         q3 = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.75)
         interQuantileRange = q3 - q1
         min = q1 - 1.5 * interQuantileRange
+        if (min < low) low = min
         max = q3 + 1.5 * interQuantileRange
+        if (max > high) high = max
 
 
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
@@ -52,7 +58,7 @@ window.renderRuntimeBoxplot = function (view) {
 
     // Show the Y scale
     var y = d3.scaleLinear()
-        .domain([40,170])
+        .domain([low - 10 ,high + 10]) // added to give them a bit of space
         .range([height, 0])
     svg.append("g").call(d3.axisLeft(y))
 
