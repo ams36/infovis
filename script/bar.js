@@ -7,7 +7,7 @@ console.log("barchat")
      const margin = { top: 25, right: 35, bottom: 100, left: 50 }; // todo:the graph is on the wrong position
 
 
-     const [data, groups] = formatAges(view)
+     const [data, groups, max] = formatAges(view)
      // todo: the graph will be work, if the format of the data like below
             //todo: 1.group_age means the age of the group
             //todo: 2.the value of group means the frequency of a certain group in a certain platform
@@ -24,7 +24,7 @@ console.log("barchat")
      //3、colour setting
      // const colors = ['orange', 'red',"purple", "yellow", "green"];  //colour group TODO :set enough colour
      // const groups = ['netflix', 'hulu',"disney", "prime"]; //group_age means（"13+"， "18+" , "all"...）
-     const colors = ['orange', 'red',"purple", "yellow", "green"];  //colour group TODO :set enough colour
+     const colors = ['orange', 'red',"purple", "yellow", "green", "blue"];  //colour group TODO :set enough colour
      // const groups = ['group_age1', 'group_age2',"group_age3"]; //group_age means（"13+"， "18+" , "all"...）
 
      const layout = d3.stack().keys(groups)(data);
@@ -47,7 +47,8 @@ console.log("barchat")
              .range([0, width]);
 
      //y axis
-     const yMax = 7000;
+     console.log(max)
+     const yMax = max
      const yScale = d3.scaleLinear()
              .domain([0, yMax])
              .range([height, 0]);
@@ -85,36 +86,37 @@ console.log("barchat")
  }
 
 
-// data process
-function test(view) {
-
-    const platform = ["netflix", "hulu", "prime", "disney"]
-
-    let results = {}
-    for (const g of platform) {
-        results[g] = {
-            platform: g,
-            A_age_group: 0, // age_group should be "13+", "18+", "all"...
-            B_age_group: 0,
-            C_age_group: 0,
-            D_age_group: 0
-        }
-    }
-
-  //  console.log(results)
-
-    for (const movie of view) {
-        for (const g of movie.age) {
-            //console.log(g)
-           if (g === "13+") results[g].A_age_group++
-
-        }
-    }
-}
+// // data process
+// function test(view) {
+//
+//     const platform = ["netflix", "hulu", "prime", "disney"]
+//
+//     let results = {}
+//     for (const g of platform) {
+//         results[g] = {
+//             platform: g,
+//             A_age_group: 0, // age_group should be "13+", "18+", "all"...
+//             B_age_group: 0,
+//             C_age_group: 0,
+//             D_age_group: 0
+//         }
+//     }
+//
+//   //  console.log(results)
+//
+//     for (const movie of view) {
+//         for (const g of movie.age) {
+//             //console.log(g)
+//            if (g === "13+") results[g].A_age_group++
+//
+//         }
+//     }
+// }
 
 function createPlatformObject(platform, ages){
     let platformObject = {}
     platformObject.platform = platform
+    platformObject["unknown"] = 0
     for (const a of ages){
         platformObject[a] = 0
     }
@@ -136,16 +138,30 @@ function formatAges(view){
         createPlatformObject("prime", ages)
     ]
 
+    let netflixTotal = 0
+    let huluTotal = 0
+    let disneyTotal = 0
+    let primeTotal = 0
+
     for (const movie of view){
-        const movieAge = movie.age
-        if (movieAge === "") continue
-        if (movie.netflix) results[0][movieAge]++
-        if (movie.hulu) results[1][movieAge]++
-        if (movie.disney) results[2][movieAge]++
-        if (movie.prime) results[3][movieAge]++
+        let movieAge = movie.age
+        if (movieAge === "") movieAge= "unknown"
+        if (movie.netflix) netflixTotal=addAgeEntry(results[0], movieAge, netflixTotal)//results[0][movieAge]++
+        if (movie.hulu) huluTotal = addAgeEntry(results[1], movieAge, huluTotal)
+        if (movie.disney) disneyTotal = addAgeEntry(results[2], movieAge, disneyTotal)
+        if (movie.prime) primeTotal = addAgeEntry(results[3], movieAge, primeTotal)
     }
 
-    return [results, ages]
+    const max = Math.max(netflixTotal, huluTotal, disneyTotal, primeTotal)
+
+    console.log(results)
+    let groups = ["unknown"].concat(ages)
+    console.log(groups)
+    return [results, groups, max]
 }
 
+function addAgeEntry(result, movieAge, platform){
+    result[movieAge]++
+    return (platform+1)
+}
 
