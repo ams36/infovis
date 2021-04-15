@@ -92,6 +92,7 @@ function runVis(current_view){
     renderLanguages(view)
     renderGenreCharts(view)
    renderAgeBarplot(view)
+    renderMovieList(view)
 }
 
 /**
