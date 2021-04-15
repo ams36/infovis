@@ -100,6 +100,14 @@ svg{
     align-items: center;
 }
 
+.ageView{
+    flex-direction: column;
+    justify-content: stretch;
+    flex-grow: 1;
+    align-items: stretch;
+    height: 100%;
+}
+
 .changeView{
     background: red;
     width: 20%;
