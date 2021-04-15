@@ -44,6 +44,7 @@ window.renderBarChart = function (view) {
     window.chart = (() => {
         console.log("here")
         const svg = d3.select("#ageBarPlots")
+            .html("")
             .append("svg")
             .attr("viewBox", [0, 0, width, height]);
 
