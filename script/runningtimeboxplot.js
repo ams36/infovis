@@ -14,6 +14,7 @@ window.renderRuntimeBoxplot = function (view) {
 
     // append the svg object to the body of the page
     var svg = d3.select("#runtimeBoxplot")
+        .html("")
         .append("svg")
         .attr("preserveAspectRatio", "none")
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])

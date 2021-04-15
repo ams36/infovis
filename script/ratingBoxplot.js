@@ -14,6 +14,7 @@ window.renderRatingBoxplot = function (view) {
 
     // append the svg object to the body of the page
     var svg = d3.select("#ratingBoxplot")
+        .html("")
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])
