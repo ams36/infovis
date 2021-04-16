@@ -91,8 +91,9 @@ function runVis(current_view){
     renderRuntimeBoxplot(view);
     renderLanguages(view)
     renderGenreCharts(view)
-   renderAgeBarplot(view)
+   //renderAgeBarplot(view)
     renderMovieList(view)
+    renderBarChart(view)
 }
 
 /**
