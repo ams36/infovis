@@ -1,4 +1,4 @@
-var netflixColor = '#E50914'
+var netflixColor = '#B20710'
 var huluColor = '#1CE783'
 var disneyColor = '#006E99'
 var primeColor = '#00A8E1'
@@ -131,12 +131,13 @@ function createGenreSelector(){
     $(genreSelector).on('change', filteredByGenre)
     // create a multiselector
     // modified from: https://materializecss.com/select.html
-    var elems = document.querySelectorAll('select');
+    var elems = document.querySelectorAll('#genreSelector');
     var instances = M.FormSelect.init(elems, {});
 
     // modified from: https://codepen.io/souvik1809/pen/rvNMyO?fbclid=IwAR3lxAlSq8wmShlAta5N2EKgEc02e3r9txS_YzoE2XJrp0X2w5VC6zKatZQ
-    $('select.select_all').siblings('ul').prepend('<li id=sm_select_all><span>Select All</span></li>');
-    $('li#sm_select_all').on('click', function () {
+    const selectAll = $('<li><span>Select All</span></li>');
+    $('#genreSelector').siblings('ul').prepend(selectAll);
+    selectAll.on('click', function () {
         supressGenreFilter = true
         var jq_elem = $(this),
             jq_elem_span = jq_elem.find('span'),
@@ -168,7 +169,7 @@ function createLanguageSelector(){
     $(languageSelector).on('change', filteredByLanguage)
     // create a multiselector
     // modified from: https://materializecss.com/select.html
-    var elems = document.querySelectorAll('select');
+    var elems = document.querySelectorAll('#languageSelector');
     var instances = M.FormSelect.init(elems, {});
 
     // modified from: https://codepen.io/souvik1809/pen/rvNMyO?fbclid=IwAR3lxAlSq8wmShlAta5N2EKgEc02e3r9txS_YzoE2XJrp0X2w5VC6zKatZQ

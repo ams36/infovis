@@ -7,7 +7,7 @@ window.renderBarChart = function (view) {
     margin = ({top: 0, right: 0, bottom: 10, left: 0})
     width = 600
     height = 500
-    const n = xz.length
+    const n = 6//xz.length
     // yz = d3.range(n).map(() => bumps(m))
     y01z = d3.stack()
         .keys(d3.range(6))
@@ -66,7 +66,7 @@ window.renderBarChart = function (view) {
                 .duration(500)
                 .delay((d, i) => i * 20)
                 .attr("x", (d, i) => x(i) + x.bandwidth() / n * d[2])
-                .attr("width", x.bandwidth() / n)
+                .attr("width", x.bandwidth() / (n))
                 .transition()
                 .attr("y", d => y(d[1] - d[0]))
                 .attr("height", d => y(0) - y(d[1] - d[0]));

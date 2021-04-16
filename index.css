@@ -1,10 +1,23 @@
+:root{
+    --netflixColor:#B20710;
+    --huluColor: #1CE783;
+    --disneyColor: #006E99;
+    --primeColor: #00A8E1;
+    --englishViolet: #453750;
+    --nyanza: #F4FDD9;
+    --manatee: #8B94A3;
+    --carrotOrange: #EA9010;
+    --darkLiver: #474647;
+    --deepBurgundy: #230007;
+}
+
 /* CSS file for index.html / index.js attributes */
 body, html{
     margin: 0;
 }
 
 .page{
-    background: aliceblue;
+    background: white;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -12,7 +25,8 @@ body, html{
 }
 
 .filter{
-    /*background: rebeccapurple;*/
+    background: var(--darkLiver);
+    color: white;
     width: 20%;
     flex-grow: 0;
     flex-shrink: 0;
@@ -32,7 +46,7 @@ body, html{
 }
 
 .chordDiagram{
-    background: white;
+    background: var(--nyanza);
     flex-grow: 1;
     display: flex;
     padding: 3pc;
@@ -40,7 +54,8 @@ body, html{
 }
 
 .movieList{
-    background: red;
+    background: var(--englishViolet);
+    color: white;
     width: 20%;
     flex-basis: 20%;
     flex-shrink: 0;
@@ -67,7 +82,8 @@ body, html{
     /*flex-basis: 40%;*/
     flex-grow: 1;
     margin: 5px;
-    background: brown;
+    background: var(--manatee);
+    color: white;
     justify-content: center;
     text-align: center;
 }
@@ -93,12 +109,12 @@ svg{
 
 .genres{
     flex-grow: 1;
-    background: purple;
+    background: var(--deepBurgundy);
 }
 
 .barPlots{
     flex-grow: 1;
-    background: antiquewhite;
+    background: var(--nyanza);
     display: flex;
     padding: 3pc;
     align-items: center;
@@ -127,7 +143,7 @@ svg{
 }
 
 .languages{
-    background: aquamarine;
+    background: var(--manatee);
     width: 45%;
     height: 45%;
 }
@@ -140,10 +156,6 @@ svg{
     align-items: stretch;
 }
 
-.multiselect-wrapper {
-
-}
-
 .axis
 {
     font-size: 10pt;
@@ -151,15 +163,18 @@ svg{
     color: grey;
 }
 
+.multiple-select-dropdown{
+
+}
 
 /** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/
 /**** Custom styles for noUiSlider ****/
 .noUi-connect {
-    background: darkcyan;
+    background: var(--carrotOrange) !important;
 }
 .noUi-horizontal .noUi-handle, .noUi-vertical .noUi-handle {
-    background: darkcyan;
+    background: var(--carrotOrange);
 }
 .noUi-target.noUi-horizontal .noUi-tooltip {
-    background-color: darkcyan;
+    background-color: var(--carrotOrange);
 }

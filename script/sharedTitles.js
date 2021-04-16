@@ -151,9 +151,19 @@ window.renderSharedTitles = function (view) {
     group.select("text")
         .attr("font-weight", "bold")
         .text(function (d) {
+            let name = names[d.index]
+            if (name.includes("netflix") && name.length > 7) return ""
+            else if (name.includes("netflix")) name = "Netflix"
+            else if (name.includes("disney") && name.length > 6) return ""
+            else if (name.includes("disney")) name = "Disney"
+            else if (name.includes("prime") && name.length > 5) return ""
+            else if (name.includes("prime")) name = "Prime"
+            else if (name.includes("hulu") && name.length > 4) return ""
+            else if (name.includes("hulu")) name = "Hulu"
+
             return this.getAttribute("text-anchor") === "end"
-                ? `↑ ${names[d.index]}`
-                : `${names[d.index]} ↓`;
+                ? `↑ ${name}`
+                : `${name} ↓`;
         });
 
     // adds the chords to the svg
