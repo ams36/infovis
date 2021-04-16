@@ -20,6 +20,13 @@ window.renderRatingBoxplot = function (view) {
         width = 460 ,
         height = 300 ;
 
+    const platformMinMax = {
+        netflix: [0,10],
+        hulu: [0,10],
+        prime: [0,10],
+        disney: [0,10],
+    }
+
     // append the svg object to the body of the page
     var svg = d3.select("#ratingBoxplot")
         .html("")
@@ -40,6 +47,7 @@ window.renderRatingBoxplot = function (view) {
         interQuantileRange = q3 - q1
         min = q1 - 1.5 * interQuantileRange
         max = q3 + 1.5 * interQuantileRange
+        platformMinMax[d[0].platform] = [min,max]
 
 
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
@@ -67,8 +75,9 @@ window.renderRatingBoxplot = function (view) {
 
 
     //  NEW: color scale
-    var myColor = d3.scaleSequential()
-        .interpolator(d3.interpolateInferno)
+    const pointColor = d3.scaleLinear().domain([0,11])
+        .range(["yellow", "red"])
+        // .interpolator(d3.interpolateInferno)
        // .domain([4,8])
 
 
@@ -167,17 +176,22 @@ window.renderRatingBoxplot = function (view) {
 
 
 
+    // only show outliers
+    const outliers = ratings.filter((d) => (d.imdb < platformMinMax[d.platform][0] || d.imdb > platformMinMax[d.platform][1]))
     //NEW: Add individual points with jitter
     var jitterWidth = 50
     svg
         .selectAll("indPoints")
-        .data(ratings)
+        .data(outliers)
         .enter()
         .append("circle")
         .attr("cx", function(d){ return(x(d.platform) - jitterWidth/2 + Math.random()*jitterWidth)})
-        .attr("cy", function(d){ return( y(d.imdb)  )})
+        .attr("cy", function(d){
+            if (y(d.imdb) === undefined) console.log(d)
+            return( y(d.imdb)  )})
         .attr("r", 3) //
-        .style("fill", function(d){ return(myColor(+d.imdb)) })
+        .style("fill", function(d){ return(pointColor(d.imdb)) })
+        .attr("opacity", 0.2)
         .attr("stroke", "black")
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
@@ -193,6 +207,7 @@ window.renderRatingBoxplot = function (view) {
 function formatData(view){
     const data = []
     for (const movie of view){
+        if (isNaN(movie.imdb)) continue
         if (movie.netflix) data.push({platform: "netflix", imdb: movie.imdb})
         if (movie.hulu) data.push({platform: "hulu", imdb: movie.imdb})
         if (movie.disney) data.push({platform: "disney", imdb: movie.imdb})
