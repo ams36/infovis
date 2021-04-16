@@ -75,6 +75,7 @@ body, html{
 
 svg{
     height: 100%;
+    max-width: 100%;
 }
 
 /*@media screen and (max-width: 700px){*/
@@ -98,6 +99,7 @@ svg{
     display: flex;
     padding: 3pc;
     align-items: center;
+    height: 100%;
 }
 
 .ageView{
@@ -105,7 +107,7 @@ svg{
     justify-content: stretch;
     flex-grow: 1;
     align-items: stretch;
-    height: 100%;
+    display: flex;
 }
 
 .changeView{
@@ -121,7 +123,7 @@ svg{
     display: flex;
     flex-grow: 1;
     /*flex-wrap: wrap;*/
-    justify-content: stretch;
+    justify-content: center;
     align-items: stretch;
 }
 
