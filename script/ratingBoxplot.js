@@ -3,6 +3,14 @@
 // particularly: changed the nest function to the updated group function to make it work properly
 // keys no longer accessed, it is d[0] instead of d.key and d[1] instead of d.value
 
+
+// what's new: add the distribution of scatter plots on the box
+// hover still need to be fixed as follow:
+// Todo: 1, the info does not show complete (marked)
+// Todo: 2, the postion of the infomation frame (should not be at below) (unmarked)
+// Todo: 3, the logitic of mouse out / move and over (marked)
+
+
 window.renderRatingBoxplot = function (view) {
 
     const ratings = formatData(view)
@@ -129,13 +137,15 @@ window.renderRatingBoxplot = function (view) {
         .style("font-size", "16px")
 
     // Three function that change the tooltip when user hover / move / leave a cell
+    //Todo: 1, the info does not show complete
+    //Todo: 3, the logitic of mouse out / move and over
     var mouseover = function(d) {
         tooltip
             .transition()
             .duration(200)
             .style("opacity", 1)
         tooltip
-            .html("<span style='color:grey'>imbd_score: </span>" + d.imdb)
+            .html("<span style='color:grey'>imbd_score: </span>" + d.imdb)  //todo:1
             .style("left", (d3.pointer(d,this)[0]+30) + "px")
             .style("top", (d3.pointer(d,this)[1]+30) + "px")
     }
