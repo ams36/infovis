@@ -34,10 +34,23 @@ window.renderSharedTitles = function (view) {
 
     // colour of each platform
     const colorMap = {
-        netflix: '#e50914',
-        hulu: '#1CE783',
-        disney: '#006E99',
-        prime: '#00A8E1',
+        netflix: netflixColor,
+        netflix_PrimeHulu: netflixColor,
+        netflix_DisneyHulu: netflixColor,
+        netflix_DisneyPrime: netflixColor,
+        hulu: huluColor,
+        hulu_NetflixDisney: huluColor,
+        hulu_PrimeDisney: huluColor,
+        hulu_NetflixPrime: huluColor,
+        disney: disneyColor,
+        disney_NetflixHulu: disneyColor,
+        disney_PrimeHulu: disneyColor,
+        disney_NetflixPrime: disneyColor,
+        prime: primeColor,
+        prime_NetflixHulu: primeColor,
+        prime_DisneyHulu: primeColor,
+        prime_NetflixDisney: primeColor
+
     };
 
     // makes ticks around the circle
@@ -251,7 +264,7 @@ function formatMatrix() {
         {source: "allPlatforms", target: "hulu", value: allPlatforms},
         {source: "allPlatforms", target: "disney", value: allPlatforms}
 
-    ].filter(({value}) => value > (view.length * .01)) // filter out any results that is less than 1% of the data size as they're too small to have interactivity
+    ].filter(({value}) => value > (view.length * .001)) // filter out any results that is less than 1% of the data size as they're too small to have interactivity
 
     // console.log(view.length * .01)
 

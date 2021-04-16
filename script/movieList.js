@@ -8,6 +8,9 @@ window.renderMovieList = function (view) {
     // get the div and create table and body
     let div = document.getElementById("movieList")
     div.innerText = ""
+
+    const header = document.createElement("h4")
+    header.innerHTML = '<h4> Movie Count: ' + view.length + ' </h4>'
     const table = document.createElement("table")
     const tableHead = document.createElement("thead")
     const tableBody = document.createElement("tbody")
@@ -43,6 +46,7 @@ window.renderMovieList = function (view) {
     changeMoviePage(tableBody, currentPage, rowsPerPage)
 
     table.appendChild(tableBody)
+    div.appendChild(header)
     div.appendChild(table)
     div.appendChild(previousPageButton)
     div.appendChild(nextPageButton)
