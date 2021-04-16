@@ -57,6 +57,21 @@ window.renderRatingBoxplot = function (view) {
         .range([height, 0])
     svg.append("g").call(d3.axisLeft(y))
 
+
+    //  NEW: color scale
+    var myColor = d3.scaleSequential()
+        .interpolator(d3.interpolateInferno)
+       // .domain([4,8])
+
+
+    //NEW: Add X axis label:
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", width)
+        .attr("y", height + margin.top + 30)
+        .text(" x_label");
+
+
     // Show the main vertical line
     svg
         .selectAll("vertLines")
@@ -71,8 +86,6 @@ window.renderRatingBoxplot = function (view) {
         .style("width", 40)
 
     // rectangle for the main box
-    // blues = d3.schemeBlues[9].reverse()
-
     var boxWidth = 100
     svg
         .selectAll("boxes")
@@ -108,7 +121,57 @@ window.renderRatingBoxplot = function (view) {
             .attr("x", 250)
             .attr("y", -320);
 
-    //adding x/y axis titles
+    // create a tooltip
+    var tooltip = d3.select("#ratingBoxplot")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("font-size", "16px")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function(d) {
+        tooltip
+            .transition()
+            .duration(200)
+            .style("opacity", 1)
+        tooltip
+            .html("<span style='color:grey'>imbd_score: </span>" + d.imdb)
+            .style("left", (d3.pointer(d,this)[0]+30) + "px")
+            .style("top", (d3.pointer(d,this)[1]+30) + "px")
+    }
+
+
+    var mousemove = function(d) {
+        tooltip
+            .style("left", (d3.pointer(d,this)[0]+30) + "px") //
+            .style("top", (d3.pointer(d,this)[1]+30) + "px")
+    }
+    var mouseleave = function(d) {
+        tooltip
+           .transition()
+           .duration(200)
+           .style("opacity", 0)
+    }
+
+
+
+
+
+    //NEW: Add individual points with jitter
+    var jitterWidth = 50
+    svg
+        .selectAll("indPoints")
+        .data(ratings)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d){ return(x(d.platform) - jitterWidth/2 + Math.random()*jitterWidth)})
+        .attr("cy", function(d){ return( y(d.imdb)  )})
+        .attr("r", 3) //
+        .style("fill", function(d){ return(myColor(+d.imdb)) })
+        .attr("stroke", "black")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
 
 
 }
