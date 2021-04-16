@@ -1,42 +1,52 @@
 // Modified From: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
 
 window.renderLanguages = function (view) {
-    const languageCount = formatLanguageData(view).slice(0, 20)
+
+    document.getElementById("languagePageButtons").innerText = ""
+
+    let currentPage = 0
+    const points = 20
+
+    const languages = formatLanguageData(view)
 // set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 10, left: 60},
         width = 800 - margin.left - margin.right,
         height = 700 - margin.top - margin.bottom;
 
+    function makeSVG() {
+        languageCount = languages.slice(points * currentPage, (currentPage +1) * points)
 // append the svg object to the body of the page
-    var svg = d3.select("#languageComparison")
-        .html("")
-        .append("svg")
-        // scale properly when resized
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("viewBox", [0, 0, width + 100, height + 60])
-        // .attr("width", width + margin.left + margin.right)
-        // .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+        var svg = d3.select("#languageComparison")
+            .html("")
+            .append("svg")
+            // scale properly when resized
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .attr("viewBox", [0, 0, width + 100, height + 60])
+            // .attr("width", width + margin.left + margin.right)
+            // .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
 
         // get the maximum value in array
         const max = languageCount
             .map((d) => Math.max(d.netflix, d.prime, d.hulu, d.disney))
-            .reduce((a,b) => Math.max(a,b), 0)
+            .reduce((a, b) => Math.max(a, b), 0)
 
         // Add X axis
         var x = d3.scaleLinear()
             .domain([0, max])
-            .range([ 0, width]);
+            .range([0, width]);
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x))
 
         // Y axis
         var y = d3.scaleBand()
-            .range([ 0, height ])
-            .domain(languageCount.map(function(d) { return d.language; }))
+            .range([0, height])
+            .domain(languageCount.map(function (d) {
+                return d.language;
+            }))
             .padding(1);
         svg.append("g")
             .call(d3.axisLeft(y))
@@ -46,10 +56,18 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("line")
-            .attr("x1", function(d) { return x(Math.min(d.netflix, d.prime, d.hulu, d.disney)); })
-            .attr("x2", function(d) { return x(Math.max(d.netflix, d.prime, d.hulu, d.disney)); })
-            .attr("y1", function(d) { return y(d.language); })
-            .attr("y2", function(d) { return y(d.language); })
+            .attr("x1", function (d) {
+                return x(Math.min(d.netflix, d.prime, d.hulu, d.disney));
+            })
+            .attr("x2", function (d) {
+                return x(Math.max(d.netflix, d.prime, d.hulu, d.disney));
+            })
+            .attr("y1", function (d) {
+                return y(d.language);
+            })
+            .attr("y2", function (d) {
+                return y(d.language);
+            })
             .attr("stroke", "grey")
             .attr("stroke-width", "1px")
 
@@ -58,8 +76,12 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.netflix); })
-            .attr("cy", function(d) { return y(d.language); })
+            .attr("cx", function (d) {
+                return x(d.netflix);
+            })
+            .attr("cy", function (d) {
+                return y(d.language);
+            })
             .attr("r", "6")
             .style("fill", netflixColor)
 
@@ -68,8 +90,12 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.hulu); })
-            .attr("cy", function(d) { return y(d.language); })
+            .attr("cx", function (d) {
+                return x(d.hulu);
+            })
+            .attr("cy", function (d) {
+                return y(d.language);
+            })
             .attr("r", "6")
             .style("fill", huluColor)
 
@@ -78,8 +104,12 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.prime); })
-            .attr("cy", function(d) { return y(d.language); })
+            .attr("cx", function (d) {
+                return x(d.prime);
+            })
+            .attr("cy", function (d) {
+                return y(d.language);
+            })
             .attr("r", "6")
             .style("fill", primeColor)
 
@@ -88,19 +118,49 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("circle")
-            .attr("cx", function(d) { return x(d.disney); })
-            .attr("cy", function(d) { return y(d.language); })
+            .attr("cx", function (d) {
+                return x(d.disney);
+            })
+            .attr("cy", function (d) {
+                return y(d.language);
+            })
             .attr("r", "6")
             .style("fill", disneyColor)
+    }
+
+    let nextPageButton = document.createElement("button")
+    nextPageButton.id = "languageNextPage"
+    nextPageButton.innerText = "Next Page"
+    nextPageButton.onclick = () => {
+        if ((currentPage * points) + points  > getSelectedList().length) return
+        currentPage ++
+        makeSVG()
+    }
+
+    let previousPageButton = document.createElement("button")
+    previousPageButton.id = "languagePreviousPage"
+    previousPageButton.innerText = "Previous Page"
+    previousPageButton.onclick = () => {
+        if ((currentPage - 1) < 0) return
+        currentPage --
+        makeSVG()
+    }
+
+    const buttonParent = document.getElementById("languagePageButtons")
+    buttonParent.appendChild(previousPageButton)
+    buttonParent.appendChild(nextPageButton)
+
+    makeSVG()
+
 
 
 }
 
 
 function formatLanguageData(view){
-    const allLangauges = getLanguages()
+    const selectedValues = getSelectedList()
     let results = {}
-    for (const l of allLangauges){
+    for (const l of selectedValues){
         results[l] = {
             language: l,
             netflix: 0,
@@ -112,8 +172,6 @@ function formatLanguageData(view){
     }
 
     // get a list of the selected languages to ensure they are not showwn
-    var instance = M.FormSelect.getInstance(document.getElementById("languageSelector"));
-    const selectedValues = instance.getSelectedValues()
 
     //console.log(view)
     for (const movie of view){
@@ -131,6 +189,16 @@ function formatLanguageData(view){
     return Object.values(results).sort((a,b) => b.total - a.total)
 
 
+}
+
+function getSelectedList(){
+    // get a list of the selected languages to ensure they are not showwn
+    const instance = M.FormSelect.getInstance(document.getElementById("languageSelector"));
+    let selected = instance.getSelectedValues()
+    if (selected.length === 0){
+        selected = getLanguages()
+    }
+    return selected
 }
 
 function addLanguageOccurence(language, platform){
