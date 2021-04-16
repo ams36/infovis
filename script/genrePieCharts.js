@@ -2,7 +2,7 @@
 
 window.renderGenreCharts = function (view) {
     let genres = formatGenres(view)
-    console.log(genres)
+    // console.log(genres)
     const color = {
         netflix: netflixColor,
         hulu: huluColor,

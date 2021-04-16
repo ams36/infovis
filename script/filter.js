@@ -11,6 +11,8 @@ let filters = {
     year: undefined
 }
 
+let filterStack = []
+
 let supressGenreFilter = false;
 let supressLanguageFilter = false;
 
@@ -18,6 +20,8 @@ let supressLanguageFilter = false;
  * calls all create filter functions after the data has finished loading in index.js
  */
 function initialiseFilters() {
+    document.getElementById("undo").onclick = () => undoClicked()
+    filterStack.push(filters)
     createRatingSlider()
     createGenreSelector()
     createYearSlider()
@@ -87,7 +91,7 @@ function createYearSlider(){
  */
 function createRuntimeSlider(){
     const range = getRuntimeRange()
-    console.log(range)
+    // console.log(range)
     // create a range slider for the filter
     // modified from: https://materializecss.com/range.html
     const slider = document.getElementById('runtimeSlider');
@@ -189,13 +193,13 @@ function createLanguageSelector(){
 // updates the objects key value for rating to be the function min to max
 function filteredByRating(min, max){
     filters.rating = (d) => d.imdb >= min && d.imdb <= max
-    applyFilters()
+    applyFilters(false)
 }
 
 // updates the objects key value for year to be the function min to max
 function filteredByYear(min, max){
     filters.year = (d) => d.year >= min && d.year <= max
-    applyFilters()
+    applyFilters(false)
 }
 
 // updates the objects key value for runtime to be the function min to max
@@ -205,7 +209,7 @@ function filteredByRuntime(min, max){
     else {
         filters.runtime = (d) => d.runtime >= min && d.runtime <= max && !isNaN(d.runtime)
     }
-    applyFilters()
+    applyFilters(false)
 }
 
 // updates the genre filter
@@ -219,7 +223,7 @@ function filteredByGenre(e){
     } else {
         filters.genres = undefined
     }
-    applyFilters()
+    applyFilters(false)
 }
 
 // updates by language
@@ -233,16 +237,34 @@ function filteredByLanguage(e){
     } else {
         filters.language = undefined
     }
-    applyFilters()
+    applyFilters(false)
+}
+
+function undoClicked(){
+    if (filterStack.length > 1){
+        console.log(filterStack.pop())
+        filters = filterStack[filterStack.length -1]
+        applyFilters(true)
+    } else {
+        alert("Sorry, Nothing left to undo.")
+    }
 }
 
 // apply the filter and run the vis again
-function applyFilters(){
+function applyFilters(fromUndo){
     let data = getMediaData()
+    console.log(filterStack)
+    console.log(filters)
     if (filters.rating) data = data.filter(filters.rating)
     if (filters.genres) data = data.filter(filters.genres)
     if (filters.language) data = data.filter(filters.language)
     if (filters.runtime) data = data.filter(filters.runtime)
     if (filters.year) data = data.filter(filters.year)
-    runVis(data)
+    if (data.length > 0) {
+        if (!fromUndo) filterStack.push({...filters})
+        // console.log(filterStack)
+        runVis(data)
+    } else {
+        alert("Not enough data to run visusalisation. Please try adjusting your filters.")
+    }
 }

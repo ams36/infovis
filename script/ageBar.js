@@ -1,5 +1,3 @@
-console.log("barchat")
-
 // Returns an array of m psuedorandom, smoothly-varying non-negative numbers.
 // Inspired by Lee Byron’s test data generator.
 // http://leebyron.com/streamgraph/
@@ -10,12 +8,11 @@ window.renderBarChart = function (view) {
     width = 600
     height = 500
     const n = xz.length
-    console.log(d3.transpose(yz))
     // yz = d3.range(n).map(() => bumps(m))
     y01z = d3.stack()
         .keys(d3.range(6))
         (yz)//d3.transpose(yz)) // stacked yz
-        .map((data, i) => { console.log(data); return data.map(([y0, y1]) => [y0, y1, i])})
+        .map((data, i) => {return data.map(([y0, y1]) => [y0, y1, i])})
 
     y1Max = d3.max(y01z, y => d3.max(y, d => d[1]))
     yMax = d3.max(yz, y => d3.max(y))
@@ -39,10 +36,8 @@ window.renderBarChart = function (view) {
         .rangeRound([margin.left, width - margin.right])
         .padding(0.08)
 
-    console.log(y01z)
 
     window.chart = (() => {
-        console.log("here")
         const svg = d3.select("#ageBarPlots")
             .html("")
             .append("svg")
@@ -56,7 +51,7 @@ window.renderBarChart = function (view) {
             .data(d => d)
             .join("rect")
             .attr("x", (d, i) => x(i))
-            .attr("y", h => {console.log(h); return height - margin.bottom})
+            .attr("y", h => { return height - margin.bottom})
             .attr("width", x.bandwidth())
             .attr("height", 0);
 
@@ -98,7 +93,6 @@ window.renderBarChart = function (view) {
     })()
 
     layout = "stacked"
-    console.log(document.getElementById("stackedBarchart"))
     document.getElementById("stackedBarchart").onclick = () => chart.update("stacked")
     document.getElementById("groupedBarchart").onclick = () => chart.update("grouped")
     window.updateStack = chart.update(layout)
@@ -126,7 +120,6 @@ function formatAgeData(view){
 
     let groups = ["unknown"].concat(ages)
 
-    // console.log(ages)
     let results = [
         createPlatformObject(groups),
         createPlatformObject(groups),
@@ -139,7 +132,6 @@ function formatAgeData(view){
     let disneyTotal = 0
     let primeTotal = 0
 
-    console.log(view)
     for (const movie of view){
         let movieAge = movie.age
         if (movieAge === "") movieAge= "unknown"
@@ -152,8 +144,6 @@ function formatAgeData(view){
 
     const max = Math.max(netflixTotal, huluTotal, disneyTotal, primeTotal)
 
-    console.log(results)
-    console.log(groups)
     return [results, groups, max]
 }
 

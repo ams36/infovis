@@ -152,7 +152,7 @@ window.renderSharedTitles = function (view) {
         .style("mix-blend-mode", "multiply")
         .attr("fill", d => {
             const u = `url(#lg-${names[d.source.index]}-${names[d.target.index]})`
-            console.log(u)
+            // console.log(u)
             return u;
         })
         .attr("d", ribbon)
@@ -253,12 +253,12 @@ function formatMatrix() {
 
     ].filter(({value}) => value > (view.length * .01)) // filter out any results that is less than 1% of the data size as they're too small to have interactivity
 
-    console.log(view.length * .01)
+    // console.log(view.length * .01)
 
-    console.log(connections)
+    // console.log(connections)
 
     const names = connections.map(({source}) => source).filter((e, i, arr) => arr.indexOf(e) === i) // get a list of unique source names
-    console.log(names)
+    // console.log(names)
 
     // turn the data into a matrix
     // code modified from: https://observablehq.com/@d3/directed-chord-diagram?collection=@d3/d3-chord
