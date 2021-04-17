@@ -226,6 +226,15 @@ svg{
     fill: #EA9010;
 }
 
+[type="checkbox"]:checked+span:not(.lever):before {
+    border-right: 2px solid var(--carrotOrange);
+    border-bottom: 2px solid var(--carrotOrange);
+}
+
+.dropdown-content li>a, .dropdown-content li>span {
+    color: var(--carrotOrange);
+}
+
 .languageWrapper{
     padding: 0;
     flex-grow: 1;
