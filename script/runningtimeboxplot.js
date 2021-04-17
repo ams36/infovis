@@ -99,6 +99,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("height", function(d){return(y(d[1].q1)-y(d[1].q3))})
         .attr("width", boxWidth )
         .attr("stroke", "white")
+        .attr("stroke-opacity", .5)
         .style("fill", function(d){return color[d[0]]})
 
 
@@ -120,8 +121,10 @@ window.renderRuntimeBoxplot = function (view) {
     svg.select("g")
         .append("text")
         .text(" Running time By Platform")
+        .style("font-family", "'Zilla Slab Highlight', sans-serif")
         .style("fill", "white")
-        .style("b")
+        .style("font-weight", "bold")
+        .attr("font-size", "2em")
         .attr("x", 250)
         .attr("y", -320);
 
