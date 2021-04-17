@@ -32,3 +32,5 @@ var colorMap = {
     prime_NetflixDisney: primeColor
 
 };
+
+var formatValue = d3.format("1")

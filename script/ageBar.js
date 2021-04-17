@@ -65,7 +65,23 @@ window.renderBarChart = function (view) {
             .attr("x", (d, i) => x(i))
             .attr("y", h => { return height - margin.bottom})
             .attr("width", x.bandwidth())
-            .attr("height", 0);
+            .attr("height", 0)
+            .on("mousemove", function(t, d) {  // the datum you want
+                tooltip
+                    .style("left", t.pageX + 20 + "px")
+                    .style("top", t.pageY+ "px")
+                    .style("display", "inline-block")
+                    .html(generateAgeTooltip(d));
+            })
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
+            });
+
+        function generateAgeTooltip(d){
+            let ageGroup = groups[d[2]].capitalise()
+            if (ageGroup === "All") ageGroup = "All Ages"
+            return `Number of ${ageGroup} Movies: ${d[1]}`
+        }
 
         svg.append("g")
             .attr("transform", "translate(0," + (height-margin.bottom) + ")")
