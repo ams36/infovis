@@ -4,7 +4,7 @@
 window.renderBarChart = function (view) {
     const [yz, groups, max] = formatAgeData(view)
     const xz = ["netflix", "hulu", "disney", "prime"]
-    margin = ({top: 0, right: 0, bottom: 10, left: 0})
+    margin = ({top: 0, right: 0, bottom: 30, left: 30})
     width = 600
     height = 500
     const n = 6//xz.length
@@ -30,8 +30,9 @@ window.renderBarChart = function (view) {
         .domain([0, y1Max])
         .range([height - margin.bottom, margin.top])
 
+
     //xz = d3.range(m)
-    x = d3.scaleBand()
+    const x = d3.scaleBand()
         .domain(d3.range(xz.length))
         .rangeRound([margin.left, width - margin.right])
         .padding(0.08)
@@ -57,7 +58,16 @@ window.renderBarChart = function (view) {
             .attr("height", 0);
 
         svg.append("g")
-            .call(xAxis);
+            .attr("transform", "translate(0," + (height-margin.bottom) + ")")
+            .call(d3.axisBottom(x).tickFormat((d) => xz[d]))
+        // svg.append("g")
+        //     .call(xAxis);
+
+
+        const yAxis = svg.append("g")
+            .attr("transform", `translate(${margin.left}, 0)`)
+
+
 
         function transitionGrouped() {
             y.domain([0, yMax]);
@@ -70,6 +80,7 @@ window.renderBarChart = function (view) {
                 .transition()
                 .attr("y", d => y(d[1] - d[0]))
                 .attr("height", d => y(0) - y(d[1] - d[0]));
+            yAxis.call(d3.axisLeft(y))
         }
 
         function transitionStacked() {
@@ -83,12 +94,16 @@ window.renderBarChart = function (view) {
                 .transition()
                 .attr("x", (d, i) => { return x(i)})
                 .attr("width", x.bandwidth());
+            yAxis.call(d3.axisLeft(y))
         }
 
         function update(layout) {
             if (layout === "stacked") transitionStacked();
             else transitionGrouped();
         }
+
+            // //.attr("transform", "translate(0," + (height-margin.bottom) + ")")
+            // yAxis.call(d3.axisLeft(y))
 
         return Object.assign(svg.node(), {update});
     })()
