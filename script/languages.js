@@ -27,9 +27,11 @@ window.renderLanguages = function (view) {
                 "translate(" + margin.left + "," + margin.top + ")");
 
         // get the maximum value in array
-        const max = languageCount
+        let max = languageCount
             .map((d) => Math.max(d.netflix, d.prime, d.hulu, d.disney))
             .reduce((a, b) => Math.max(a, b), 0)
+
+        if (max === 0) max = 1 //make max one so the 0 points are at the far left instead of the centre
 
         // Add X axis
         var x = d3.scaleLinear()
@@ -37,7 +39,11 @@ window.renderLanguages = function (view) {
             .range([0, width]);
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
+            .call(d3.axisBottom(x)
+                .tickFormat((d) => {
+                if (Number.isInteger(d)) return d
+                else return ""
+            }));
 
         // Y axis
         var y = d3.scaleBand()
@@ -45,6 +51,7 @@ window.renderLanguages = function (view) {
             .domain(languageCount.map(function (d) {
                 return d.language;
             }))
+
             .padding(1);
         svg.append("g")
             .call(d3.axisLeft(y))
