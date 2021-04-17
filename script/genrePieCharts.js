@@ -40,10 +40,29 @@ window.renderGenreCharts = function (view) {
 
     arcEnter.append("path")
         .attr("d", function(d) {
-            arc.outerRadius(d.r);
-            return arc(d);
+            arc.outerRadius(d.r)
+            return arc(d)
+        })
+        .on("mousemove", createGenreTooltip)
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
         })
         .style("fill", function(d, i) { return colorMap[d.data[0]]; });
+
+    function createGenreTooltip(t, d) {  // the datum you want
+        console.log(t)
+        console.log(d)
+        tooltip
+            .style("left", t.pageX + 20 + "px")
+            .style("top", t.pageY+ "px")
+            .style("display", "inline-block")
+            .html(generateGenreTooltipText(t, d));
+    }
+
+    function generateGenreTooltipText(t, d){
+        return `Count of ${d.genre} Movies on ${d.data[0].capitalise()}: <br>
+        <b>Runtime: </b>${d.data[1]} <br>`
+    }
 
     // TODO: Remove this but keep it until tooltips are created in case i need inspiration
     // arcEnter.append("text")
