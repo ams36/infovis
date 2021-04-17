@@ -45,22 +45,24 @@ window.renderGenreCharts = function (view) {
         })
         .style("fill", function(d, i) { return colorMap[d.data[0]]; });
 
-    arcEnter.append("text")
-        .attr('x', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[0]; })
-        .attr('y', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[1]; })
-        .attr('dy', "0.35em")
-        .style("text-anchor", "middle")
-        .text(function(d) { return d.value === 0?"":d.value });
+    // TODO: Remove this but keep it until tooltips are created in case i need inspiration
+    // arcEnter.append("text")
+    //     .attr('x', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[0]; })
+    //     .attr('y', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[1]; })
+    //     .attr('dy', "0.35em")
+    //     .style("text-anchor", "middle")
+    //     .text(function(d) { return d.value === 0?"":d.value });
 
     var labels = nodeEnter.selectAll("text.label")
-        .data(function(d) { return [d.data.genre]; });
+        .data(function(d) { return [d]; });
     labels.enter().append("text")
         // i think I update the font size here
         .attr('class', 'label')
         .attr('dy', '0.35em')
         .style("text-anchor", "middle")
         .style('fill', 'white')
-        .text(String);
+        .style('font-size',  (d) => (d.r*0.015) + 'em')
+        .text((d) => d.data.genre);
 
     // zoom modified from: https://observablehq.com/@d3/zoom-with-tooltip
     // and: https://bl.ocks.org/saifulazfar/f2da589a3abbe639fee0996198ace301

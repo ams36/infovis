@@ -221,7 +221,7 @@ function getRuntimeOutliers(runtime_data, platformMinMax){
             buildingOutliers[length.platform][key] = {
                 platform: length.platform,
                 runtime: length.runtime,
-                count: 0
+                count: 1
             }
         }
     }
