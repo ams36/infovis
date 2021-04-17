@@ -155,9 +155,13 @@ window.renderRuntimeBoxplot = function (view) {
     //adding x/y axis titles
 
     // only show outliers
-    const runtimeOutliers = runtime_data.filter((d) => (d.runtime < platformMinMax[d.platform][0] || d.runtime > platformMinMax[d.platform][1]))
-    //NEW: Add individual points with jitter
+    //Add individual points with jitter
     var jitterWidth = 50
+    const runtimeOutliers = getRuntimeOutliers(runtime_data, platformMinMax)
+    let countHigh = Math.max(...runtimeOutliers.map((row) => row.count))
+    let countLow = Math.min(...runtimeOutliers.map((row) => row.count))
+
+    console.log(runtimeOutliers)
     svg
         .selectAll("indPoints")
         .data(runtimeOutliers)
@@ -167,9 +171,9 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("cy", function(d){
             if (y(d.runtime) === undefined) console.log(d)
             return( y(d.runtime)  )})
-        .attr("r", 3) //
+        .attr("r", (d) => radius(d.count))
         .style("fill", function(d){ return colorMap[d.platform] })
-        .attr("opacity", 0.2)
+        .attr("opacity", 0.3)
         .attr("stroke", "white")
         .on("mousemove", createRuntimeOutlierTooltip)
         .on("mouseleave", () => {
@@ -192,9 +196,38 @@ window.renderRuntimeBoxplot = function (view) {
         // .on("mousemove", mousemove)
         // .on("mouseleave", mouseleave)
 
+    function radius(x){
+        const minCircleSize = 1
+        const maxCircleSize = 10
+        //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
+        return (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
 
+    }
 
+}
 
+function getRuntimeOutliers(runtime_data, platformMinMax){
+    console.log("here")
+    let allOutliers = runtime_data.filter((d) => (d.runtime < platformMinMax[d.platform][0] || d.runtime > platformMinMax[d.platform][1]))
+    let buildingOutliers = {
+        disney: {},
+        prime: {},
+        hulu: {},
+        netflix: {}
+    }
+    for (const length of allOutliers){
+        const key = length.platform + "_" + length.runtime
+        if (buildingOutliers[length.platform][key]) buildingOutliers[length.platform][key].count++
+        else {
+            buildingOutliers[length.platform][key] = {
+                platform: length.platform,
+                runtime: length.runtime,
+                count: 0
+            }
+        }
+    }
+    buildingOutliers = {...buildingOutliers["disney"], ...buildingOutliers["hulu"], ...buildingOutliers["prime"], ...buildingOutliers["netflix"]}
+    return Object.values(buildingOutliers)
 }
 
 
