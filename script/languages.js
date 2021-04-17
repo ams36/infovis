@@ -88,7 +88,6 @@ window.renderLanguages = function (view) {
                 tooltip.style("display", "none")
             })
             .attr("cx", function (d) {
-                //console.log(d)
                 return x(d.netflix);
             })
             .attr("cy", function (d) {
@@ -104,7 +103,6 @@ window.renderLanguages = function (view) {
             .enter()
             .append("circle")
             .on("mousemove", function (t, d) {
-                console.log(d)
                 createLanguageTooltip(t,d, "hulu")
             })
             .on("mouseleave", () => {
@@ -218,7 +216,6 @@ function formatLanguageData(view){
 
     // get a list of the selected languages to ensure they are not showwn
 
-    //console.log(view)
     for (const movie of view){
          if (!movie.language) continue
          for (const l of movie.language){
