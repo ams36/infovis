@@ -126,7 +126,8 @@ svg{
 
 .barPlots{
     flex-grow: 1;
-    background: var(--nyanza);
+    background: var(--deepBurgundy);
+    color: white;
     display: flex;
     padding: 3pc;
     align-items: center;

@@ -14,6 +14,9 @@ window.renderBarChart = function (view) {
         (yz)//d3.transpose(yz)) // stacked yz
         .map((data, i) => {return data.map(([y0, y1]) => [y0, y1, i])})
 
+    console.log(yz)
+    console.log(y01z)
+
     y1Max = d3.max(y01z, y => d3.max(y, d => d[1]))
     yMax = d3.max(yz, y => d3.max(y))
 
@@ -22,8 +25,15 @@ window.renderBarChart = function (view) {
         .call(d3.axisBottom(x).tickSizeOuter(0).tickFormat(() => ""))
 
 
-    const z = d3.scaleSequential(d3.interpolateBlues)
-        .domain([-0.5 * n, 1.5 * n])
+    // sequential color theme chosen by chorma.js to ensure color-blind friendly
+    const colorOrder = ['#453750', '#704B49', '#99613F', '#C17830', '#EA9010', '#F4FDD9']
+    function getColor(d, i){
+        console.log("-------")
+        console.log(d)
+        console.log(i)
+        console.log(groups[i])
+        return "#000000"
+    }
 
 
     y = d3.scaleLinear()
@@ -48,7 +58,7 @@ window.renderBarChart = function (view) {
         const rect = svg.selectAll("g")
             .data(y01z)
             .join("g")
-            .attr("fill", (d, i) => z(i))
+            .attr("fill", (d, i) => {console.log(i); console.log(colorOrder[i]);return colorOrder[i]})
             .selectAll("rect")
             .data(d => d)
             .join("rect")
@@ -128,13 +138,8 @@ function getIndexofAge(ages, entry){
 }
 
 function formatAgeData(view){
-    // get a list of the ages in the view
-    let ages =  mediaData
-        .map((row) => row.age)
-        .flat()
-        .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
 
-    let groups = ["unknown"].concat(ages)
+    let groups =  ["all", "7+", "13+", "16+", "18+", "unknown"]
 
     let results = [
         createPlatformObject(groups),
