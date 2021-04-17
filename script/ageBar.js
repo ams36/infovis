@@ -26,7 +26,7 @@ window.renderBarChart = function (view) {
 
 
     // sequential color theme chosen by chorma.js to ensure color-blind friendly
-    const colorOrder = ['#453750', '#704B49', '#99613F', '#C17830', '#EA9010', '#F4FDD9']
+    const colorOrder = ['#453750', '#704B49', '#99613F', '#C17830', '#EA9010', '#8B94A3']
     function getColor(d, i){
         console.log("-------")
         console.log(d)

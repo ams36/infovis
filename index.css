@@ -49,7 +49,6 @@ body, html{
 #filter{
     padding: 20px; /*padding to be changed - just used for testing */
     padding-top: 60px;
-    /*background: darkslategray;*/
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -131,12 +130,13 @@ svg{
 
 .barPlots{
     flex-grow: 1;
-    background: var(--manatee);
-    color: white;
+    background: var(--nyanza);
+    color: black;
     display: flex;
     padding: 3pc;
     align-items: center;
     height: 100%;
+    margin-top: -30px;
 }
 
 .ageView{
@@ -152,7 +152,7 @@ svg{
 }
 
 .languageComparison{
-    padding: 3pc;
+    padding: 1pc 3pc 3pc;
     display: flex;
     flex-grow: 1;
     /*flex-wrap: wrap;*/
@@ -167,9 +167,23 @@ svg{
     height: 45%;
 }
 
-.languageButtons{
+.languageButtons,.ageButtons{
     display: flex;
     justify-content: center;
+    margin-top: -25px;
+}
+
+.languageButtons button,.ageButtons button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--darkLiver) !important;
+    /*fill: black;*/
+    /*stroke: black;*/
+}
+
+.languageButtons button:first-child, .ageButtons button:first-child{
+    margin-right: 40vw;
 }
 
 .genres{
@@ -249,6 +263,16 @@ svg{
     background: #230007;
 }
 
+.title-bar .left-bar.bar-languages{
+    background-color: white;
+}
+.title-bar .left-bar.bar-ages{
+    background-color: var(--nyanza);
+}
+.title-bar .left-bar.bar-genres{
+    background-color: var(--deepBurgundy);
+}
+
 .title-bar .content {
     margin: auto;
     height: 100%;
@@ -270,6 +294,12 @@ svg{
     font-size: 1.3em;
 }
 
+/* Fixing some material ui stuff*/
+.btn-floating{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/
 /**** Custom styles for noUiSlider ****/
