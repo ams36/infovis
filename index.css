@@ -126,7 +126,7 @@ svg{
 
 .barPlots{
     flex-grow: 1;
-    background: var(--deepBurgundy);
+    background: var(--manatee);
     color: white;
     display: flex;
     padding: 3pc;
