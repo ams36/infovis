@@ -5,7 +5,7 @@
 
 window.renderRuntimeBoxplot = function (view) {
 
-    const [runtime_data, low, high] = runtime(view)
+    let [runtime_data, low, high] = runtime(view)
 
     const platformMinMax = {
         netflix: [0,10],
@@ -48,13 +48,15 @@ window.renderRuntimeBoxplot = function (view) {
         min = q1 - 1.5 * interQuantileRange
         max = q3 + 1.5 * interQuantileRange
         platformMinMax[d[0].platform] = [min,max]
-
+        low = Math.min(low, min)
+        high = Math.max(high, max)
 
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
     }, (k) => {
         return k.platform
     })
 
+    console.log(low, high)
 
     // Show the X scale
     var x = d3.scaleBand()
