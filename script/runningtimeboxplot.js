@@ -190,18 +190,17 @@ window.renderRuntimeBoxplot = function (view) {
 
     function generateRuntimeOutlierTooltipText(t, d){
         return `Outlier for Platform: ${d.platform.capitalise()}: <br>
-        <b>Runtime: </b>${d.runtime} <br>`
+        <b>Runtime: </b>${d.runtime} <br>
+        <b>Number of Movies: </b>${d.count} <br>`
     }
-        // .on("mouseover", mouseover)
-        // .on("mousemove", mousemove)
-        // .on("mouseleave", mouseleave)
 
     function radius(x){
         const minCircleSize = 1
         const maxCircleSize = 10
         //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
-        return (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
-
+        let size = (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
+        if (size === 0) return 3
+        else return size
     }
 
 }
