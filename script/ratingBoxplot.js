@@ -27,6 +27,13 @@ window.renderRatingBoxplot = function (view) {
         disney: [0,10],
     }
 
+    const color = {
+        netflix: netflixColor,
+        hulu: huluColor,
+        disney: disneyColor,
+        prime: primeColor
+    }
+
     // append the svg object to the body of the page
     var svg = d3.select("#ratingBoxplot")
         .html("")
@@ -114,7 +121,7 @@ window.renderRatingBoxplot = function (view) {
         .attr("height", function(d){return(y(d[1].q1)-y(d[1].q3))})
         .attr("width", boxWidth )
         .attr("stroke", "black")
-        .style("fill", "#69b3a2")
+        .style("fill", function(d){return color[d[0]]})
 
 
     // Show the median
@@ -190,7 +197,7 @@ window.renderRatingBoxplot = function (view) {
             if (y(d.imdb) === undefined) console.log(d)
             return( y(d.imdb)  )})
         .attr("r", 3) //
-        .style("fill", function(d){ return(pointColor(d.imdb)) })
+        .style("fill", function(d){ return color[d.platform]})
         .attr("opacity", 0.2)
         .attr("stroke", "black")
         .on("mouseover", mouseover)
