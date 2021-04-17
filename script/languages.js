@@ -81,7 +81,14 @@ window.renderLanguages = function (view) {
             .data(languageCount)
             .enter()
             .append("circle")
+            .on("mousemove", function (t, d) {
+                createLanguageTooltip(t,d, "netflix")
+            })
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
+            })
             .attr("cx", function (d) {
+                //console.log(d)
                 return x(d.netflix);
             })
             .attr("cy", function (d) {
@@ -90,11 +97,19 @@ window.renderLanguages = function (view) {
             .attr("r", "6")
             .style("fill", colorMap["netflix"])
 
+
         // Circles of variable 1
         svg.selectAll("mycircle")
             .data(languageCount)
             .enter()
             .append("circle")
+            .on("mousemove", function (t, d) {
+                console.log(d)
+                createLanguageTooltip(t,d, "hulu")
+            })
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
+            })
             .attr("cx", function (d) {
                 return x(d.hulu);
             })
@@ -104,11 +119,17 @@ window.renderLanguages = function (view) {
             .attr("r", "6")
             .style("fill", colorMap["hulu"])
 
-        // Circles of variable 1
+        // Circles of variable 3
         svg.selectAll("mycircle")
             .data(languageCount)
             .enter()
             .append("circle")
+            .on("mousemove", function (t, d) {
+                createLanguageTooltip(t,d, "prime")
+            })
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
+            })
             .attr("cx", function (d) {
                 return x(d.prime);
             })
@@ -118,11 +139,17 @@ window.renderLanguages = function (view) {
             .attr("r", "6")
             .style("fill", colorMap["prime"])
 
-        // Circles of variable 1
+
+        // Circles of variable 4
         svg.selectAll("mycircle")
             .data(languageCount)
             .enter()
-            .append("circle")
+            .append("circle").on("mousemove", function (t, d) {
+            createLanguageTooltip(t, d, "disney")
+        })
+            .on("mouseleave", () => {
+                tooltip.style("display", "none")
+            })
             .attr("cx", function (d) {
                 return x(d.disney);
             })
@@ -130,7 +157,20 @@ window.renderLanguages = function (view) {
                 return y(d.language);
             })
             .attr("r", "6")
-            .style("fill", colorMap["disney"])
+            .style("fill", colorMap["disney"]);
+
+        function createLanguageTooltip(t,d, platform) {  // the datum you want
+            tooltip
+                .style("left", t.pageX + 20 + "px")
+                .style("top", t.pageY+ "px")
+                .style("display", "inline-block")
+                .html(generateLanguageTooltipText(d, platform));
+        }
+
+        function generateLanguageTooltipText(d, platform){
+            return `Count of ${d.language} Movies on ${platform.capitalise()}: ${d[platform]} <br>`
+        }
+
     }
 
     let nextPageButton = document.createElement("button")
