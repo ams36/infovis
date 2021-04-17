@@ -195,6 +195,7 @@ window.renderRuntimeBoxplot = function (view) {
     }
 
     function radius(x){
+        if (x === undefined) return 0
         const minCircleSize = 1
         const maxCircleSize = 10
         //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
