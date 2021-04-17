@@ -6,8 +6,11 @@
  * https://css-tricks.com/scale-svg/ (scaling css for visualisation)
  */
 
+const tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
 window.renderSharedTitles = function (view) {
 
+    const formatValue = d3.format("1")
 
     // formatting data as needed for the visualisation
     const [connections, names] = formatMatrix()
@@ -61,7 +64,6 @@ window.renderSharedTitles = function (view) {
         });
     }
     const tickStep = d3.tickStep(0, d3.sum(connections.flat()), 100)
-    const formatValue = d3.format("1")
 
     // make chords and ribbons
     const chord = d3.chord()
@@ -151,20 +153,14 @@ window.renderSharedTitles = function (view) {
     group.select("text")
         .attr("font-weight", "bold")
         .text(function (d) {
-            let name = names[d.index]
-            if (name.includes("netflix") && name.length > 7) return ""
-            else if (name.includes("netflix")) name = "Netflix"
-            else if (name.includes("disney") && name.length > 6) return ""
-            else if (name.includes("disney")) name = "Disney"
-            else if (name.includes("prime") && name.length > 5) return ""
-            else if (name.includes("prime")) name = "Prime"
-            else if (name.includes("hulu") && name.length > 4) return ""
-            else if (name.includes("hulu")) name = "Hulu"
-
+            let name = names[d.index].capitalise()
+            if (name.includes("_")) return ""
             return this.getAttribute("text-anchor") === "end"
                 ? `↑ ${name}`
                 : `${name} ↓`;
         });
+
+
 
     // adds the chords to the svg
     svg.append("g")
@@ -179,8 +175,39 @@ window.renderSharedTitles = function (view) {
             return u;
         })
         .attr("d", ribbon)
-        .append("title")
-        .text(d => `${formatValue(d.source.value)} ${names[d.target.index]} → ${names[d.source.index]}${d.source.index === d.target.index ? "" : `\n${formatValue(d.target.value)} ${names[d.source.index]} → ${names[d.target.index]}`}`);
+        .on("mousemove", function(t, d) {  // the datum you want
+            console.log("here")
+            tooltip
+                .style("left", t.pageX + 20 + "px")
+                .style("top", t.pageY+ "px")
+                .style("display", "inline-block")
+                .html(generateTooltipText(d));
+        })
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        })
+        // .append("title")
+        // .text(generateTooltipText);
+
+    function generateTooltipText(d){
+        if (d.target.index=== d.source.index) return `${formatValue(d.source.value)} Movies on ${names[d.target.index].capitalise()}`
+        else if (names[d.target.index].includes("_")){
+            const split = names[d.target.index].split("_") // split the names on the underscore to remove the first platform from the second two
+            const platform1 = split[0]
+            let platform2 = ""
+            let platform3 = ""
+            for (let i = 1; i < split[1].length; i++) { // start from 1 because the first value should be an uppercase, we want to find the second
+                if (split[1].charAt(i).toUpperCase() === split[1].charAt(i)){
+                    platform2 = split[1].substring(0,i)
+                    platform3 = split[1].substring(i)
+                    break
+                }
+            }
+            return `${formatValue(d.source.value)} Movies Shared Between: ${platform1.capitalise()}, ${platform2.capitalise()}, and ${platform3.capitalise()}`
+        } else {
+            return `${formatValue(d.source.value)} Movies Shared Between ${names[d.target.index].capitalise()} and ${names[d.source.index].capitalise()}`
+        }
+    }
 
 }
 
