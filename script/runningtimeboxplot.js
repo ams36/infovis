@@ -5,7 +5,15 @@
 
 window.renderRuntimeBoxplot = function (view) {
 
-    const runtime_data = runtime(view)
+    const [runtime_data, low, high] = runtime(view)
+
+    const platformMinMax = {
+        netflix: [0,10],
+        hulu: [0,10],
+        prime: [0,10],
+        disney: [0,10],
+    }
+
 
     // set the dimensions and margins of the graph
     var margin = {top: 90, right: 60, bottom: 90, left: 60},
@@ -24,10 +32,6 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    //calculate domain based on IQR
-    let low = Number.MAX_SAFE_INTEGER
-    let high = Number.MIN_SAFE_INTEGER
-
     // set the parameter for box
     const sumstat = d3.rollup(runtime_data, (d) => {
         q1 = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.25)
@@ -35,9 +39,8 @@ window.renderRuntimeBoxplot = function (view) {
         q3 = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.75)
         interQuantileRange = q3 - q1
         min = q1 - 1.5 * interQuantileRange
-        if (min < low) low = min
         max = q3 + 1.5 * interQuantileRange
-        if (max > high) high = max
+        platformMinMax[d[0].platform] = [min,max]
 
 
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
@@ -112,7 +115,35 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("x", 250)
         .attr("y", -320);
 
+    const pointColor = d3.scaleLinear().domain([low,high])
+        .range(["yellow", "red"])
+    // .interpolator(d3.interpolateInferno)
+    // .domain([4,8])
+
+
+
     //adding x/y axis titles
+
+    // only show outliers
+    const runtimeOutliers = runtime_data.filter((d) => (d.runtime < platformMinMax[d.platform][0] || d.runtime > platformMinMax[d.platform][1]))
+    //NEW: Add individual points with jitter
+    var jitterWidth = 50
+    svg
+        .selectAll("indPoints")
+        .data(runtimeOutliers)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d){ return(x(d.platform) - jitterWidth/2 + Math.random()*jitterWidth)})
+        .attr("cy", function(d){
+            if (y(d.runtime) === undefined) console.log(d)
+            return( y(d.runtime)  )})
+        .attr("r", 3) //
+        .style("fill", function(d){ return(pointColor(d.runtime)) })
+        .attr("opacity", 0.2)
+        .attr("stroke", "black")
+        // .on("mouseover", mouseover)
+        // .on("mousemove", mousemove)
+        // .on("mouseleave", mouseleave)
 
 
 
@@ -121,10 +152,20 @@ window.renderRuntimeBoxplot = function (view) {
 
 
 
+
+
 // data process
 function runtime(view){
     const data = []
+
+    //used to calculate domain range for y
+    let low = Number.MAX_SAFE_INTEGER
+    let high = Number.MIN_SAFE_INTEGER
+
     for (const movie of view){
+        if (isNaN(movie.runtime)) continue
+        if (movie.runtime > high) high = movie.runtime
+        if (movie.runtime < low) low = movie.runtime
         if (movie.netflix) data.push({platform: "netflix", runtime: movie.runtime})
         if (movie.hulu) data.push({platform: "hulu", runtime: movie.runtime})
         if (movie.disney) data.push({platform: "disney", runtime: movie.runtime})
@@ -134,5 +175,5 @@ function runtime(view){
     //sort it so it goes in order (idk if its needed but the example CSVs I looked at had it sorted
     data.sort((a, b) => a.platform.localeCompare(b.platform))
 
-    return data
+    return [data, low, high]
 }

@@ -64,6 +64,7 @@ window.renderGenreCharts = function (view) {
         .attr('class', 'label')
         .attr('dy', '0.35em')
         .style("text-anchor", "middle")
+        .style('fill', 'white')
         .text(String);
 
 }
