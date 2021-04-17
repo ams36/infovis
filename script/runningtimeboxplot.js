@@ -82,7 +82,8 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("x2", function(d){return(x(d[0]))})
         .attr("y1", function(d){return(y(d[1].min))})
         .attr("y2", function(d){return(y(d[1].max))})
-        .attr("stroke", "black")
+        .attr("stroke", "white")
+        .attr("opacity", 0.5)
         .style("width", 40)
 
 
@@ -97,7 +98,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y", function(d){return(y(d[1].q3))})
         .attr("height", function(d){return(y(d[1].q1)-y(d[1].q3))})
         .attr("width", boxWidth )
-        .attr("stroke", "black")
+        .attr("stroke", "white")
         .style("fill", function(d){return color[d[0]]})
 
 
@@ -111,14 +112,16 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("x2", function(d){return(x(d[0])+boxWidth/2) })
         .attr("y1", function(d){return(y(d[1].median))})
         .attr("y2", function(d){return(y(d[1].median))})
-        .attr("stroke", "black")
+        .attr("stroke", "white")
+        .attr("opacity", 0.5)
         .style("width", 80)
 
     //adding titles
     svg.select("g")
         .append("text")
         .text(" Running time By Platform")
-        .style("fill", "black")
+        .style("fill", "white")
+        .style("b")
         .attr("x", 250)
         .attr("y", -320);
 
@@ -147,7 +150,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("r", 3) //
         .style("fill", function(d){ return color[d.platform] })
         .attr("opacity", 0.2)
-        .attr("stroke", "black")
+        .attr("stroke", "white")
         // .on("mouseover", mouseover)
         // .on("mousemove", mousemove)
         // .on("mouseleave", mouseleave)
