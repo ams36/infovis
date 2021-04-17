@@ -121,9 +121,11 @@ svg{
 /*    }*/
 /*}*/
 
-.genres{
+
+.genres svg{
+    width: unset;
+    height: unset;
     flex-grow: 1;
-    background: var(--deepBurgundy);
 }
 
 .barPlots{
@@ -164,11 +166,12 @@ svg{
 }
 
 .genres{
-    padding: 3pc;
+    /*padding: 3pc;*/
     display: flex;
     flex-grow: 1;
-    justify-content: center;
+    justify-content: stretch;
     align-items: stretch;
+    background: var(--deepBurgundy);
 }
 
 .axis

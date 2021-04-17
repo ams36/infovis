@@ -1,5 +1,4 @@
 // modified from: https://bl.ocks.org/jsl6906/6560687444d2e1421e4d24360c27728a
-
 window.renderGenreCharts = function (view) {
     let genres = formatGenres(view)
 
@@ -24,7 +23,9 @@ window.renderGenreCharts = function (view) {
         // .attr("height", diameter)
         .attr("class", "bubble");
 
-    var nodes = svg.selectAll("g.node")
+    const everything = svg.append("g")
+
+    var nodes = everything.selectAll("g.node")
         .data(nodeData);
 
     var nodeEnter = nodes.enter().append("g")
@@ -54,11 +55,30 @@ window.renderGenreCharts = function (view) {
     var labels = nodeEnter.selectAll("text.label")
         .data(function(d) { return [d.data.genre]; });
     labels.enter().append("text")
+        // i think I update the font size here
         .attr('class', 'label')
         .attr('dy', '0.35em')
         .style("text-anchor", "middle")
         .style('fill', 'white')
         .text(String);
+
+    // zoom modified from: https://observablehq.com/@d3/zoom-with-tooltip
+    // and: https://bl.ocks.org/saifulazfar/f2da589a3abbe639fee0996198ace301
+    const zoom = d3.zoom()
+        .extent([[0, 0], [diameter, diameter]])
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed)
+    svg.call(zoom);
+
+    //set up the initial zoom
+    svg.call(zoom.transform, d3.zoomIdentity.translate(-19.093543668575762, 25.76101059564803).scale(1.0564771967121946))
+
+   // {k: 1.0564771967121946, x: -19.093543668575762, y: 25.76101059564803}
+
+    function zoomed({transform}) {
+        console.log(transform)
+        everything.attr("transform", transform);
+    }
 
 }
 
