@@ -107,7 +107,6 @@ function createRuntimeSlider(){
     });
     // on sliding, should call filteredByRating
     slider.noUiSlider.on("change", ([min, max]) => filteredByRuntime(min, max))
-    // TODO: create a "results do not return enough movies for visualisation" image
 }
 
 /**

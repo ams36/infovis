@@ -33,4 +33,10 @@ var colorMap = {
 
 };
 
+var tooltip
+
+window.addEventListener("DOMContentLoaded", () => {
+   tooltip = d3.select("body").append("div").attr("class", "toolTip");
+})
+
 var formatValue = d3.format("1")

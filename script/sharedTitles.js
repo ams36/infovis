@@ -6,8 +6,6 @@
  * https://css-tricks.com/scale-svg/ (scaling css for visualisation)
  */
 
-const tooltip = d3.select("body").append("div").attr("class", "toolTip");
-
 window.renderSharedTitles = function (view) {
 
     const formatValue = d3.format("1")

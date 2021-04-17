@@ -3,6 +3,8 @@
 // particularly: changed the nest function to the updated group function to make it work properly
 // keys no longer accessed, it is d[0] instead of d.key and d[1] instead of d.value
 
+
+
 window.renderRuntimeBoxplot = function (view) {
 
     let [runtime_data, low, high] = runtime(view)
@@ -58,7 +60,9 @@ window.renderRuntimeBoxplot = function (view) {
         .paddingOuter(.5)
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x)
+            .tickFormat((d) => d.capitalise())
+        )
 
     // Show the Y scale
     var y = d3.scaleLinear()
@@ -95,6 +99,26 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("stroke", "white")
         .attr("stroke-opacity", .5)
         .style("fill", function(d){return colorMap[d[0]]})
+        .on("mousemove", createRuntimeTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
+
+    function createRuntimeTooltip(t, d) {  // the datum you want
+        tooltip
+            .style("left", t.pageX + 20 + "px")
+            .style("top", t.pageY+ "px")
+            .style("display", "inline-block")
+            .html(generateRuntimeTooltipText(d));
+    }
+
+    function generateRuntimeTooltipText(d){
+        return `Runtime Average For ${d[0].capitalise()}: <br>
+        <b>Median </b>${d[1].median} <br>
+        <b>Min </b>${platformMinMax[d[0]][0]} <br>
+        <b>Max </b>${platformMinMax[d[0]][1]} <br>
+        <b>IQR </b>${d[1].interQuantileRange}`
+    }
 
 
     // Show the median
@@ -110,6 +134,11 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("stroke", "white")
         .attr("opacity", 0.5)
         .style("width", 80)
+        .on("mousemove", createRuntimeTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
+
 
     //adding titles
     svg.select("g")
@@ -121,12 +150,6 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("font-size", "2em")
         .attr("x", 250)
         .attr("y", -320);
-
-    const pointColor = d3.scaleLinear().domain([low,high])
-        .range(["yellow", "red"])
-    // .interpolator(d3.interpolateInferno)
-    // .domain([4,8])
-
 
 
     //adding x/y axis titles
@@ -148,6 +171,23 @@ window.renderRuntimeBoxplot = function (view) {
         .style("fill", function(d){ return colorMap[d.platform] })
         .attr("opacity", 0.2)
         .attr("stroke", "white")
+        .on("mousemove", createRuntimeOutlierTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
+
+    function createRuntimeOutlierTooltip(t, d) {  // the datum you want
+        tooltip
+            .style("left", t.pageX + 20 + "px")
+            .style("top", t.pageY+ "px")
+            .style("display", "inline-block")
+            .html(generateRuntimeOutlierTooltipText(t, d));
+    }
+
+    function generateRuntimeOutlierTooltipText(t, d){
+        return `Outlier for Platform: ${d.platform.capitalise()}: <br>
+        <b>Runtime: </b>${d.runtime} <br>`
+    }
         // .on("mouseover", mouseover)
         // .on("mousemove", mousemove)
         // .on("mouseleave", mouseleave)
