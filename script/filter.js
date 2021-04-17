@@ -1,9 +1,3 @@
-var netflixColor = '#B20710'
-// var huluColor = '#1CE783'
-var huluColor = '#3DBB3D'
-var disneyColor = '#006E99'
-var primeColor = '#00A8E1'
-
 let filters = {
     rating: undefined,
     genres: undefined,

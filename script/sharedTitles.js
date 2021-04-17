@@ -35,27 +35,6 @@ window.renderSharedTitles = function (view) {
     //remove everything from the visualisation for when its redrawn
     svg.selectAll("*").remove()
 
-    // colour of each platform
-    const colorMap = {
-        netflix: netflixColor,
-        netflix_PrimeHulu: netflixColor,
-        netflix_DisneyHulu: netflixColor,
-        netflix_DisneyPrime: netflixColor,
-        hulu: huluColor,
-        hulu_NetflixDisney: huluColor,
-        hulu_PrimeDisney: huluColor,
-        hulu_NetflixPrime: huluColor,
-        disney: disneyColor,
-        disney_NetflixHulu: disneyColor,
-        disney_PrimeHulu: disneyColor,
-        disney_NetflixPrime: disneyColor,
-        prime: primeColor,
-        prime_NetflixHulu: primeColor,
-        prime_DisneyHulu: primeColor,
-        prime_NetflixDisney: primeColor
-
-    };
-
     // makes ticks around the circle
     function ticks({startAngle, endAngle, value}) {
         const k = (endAngle - startAngle) / value;

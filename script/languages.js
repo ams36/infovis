@@ -83,7 +83,7 @@ window.renderLanguages = function (view) {
                 return y(d.language);
             })
             .attr("r", "6")
-            .style("fill", netflixColor)
+            .style("fill", colorMap["netflix"])
 
         // Circles of variable 1
         svg.selectAll("mycircle")
@@ -97,7 +97,7 @@ window.renderLanguages = function (view) {
                 return y(d.language);
             })
             .attr("r", "6")
-            .style("fill", huluColor)
+            .style("fill", colorMap["hulu"])
 
         // Circles of variable 1
         svg.selectAll("mycircle")
@@ -111,7 +111,7 @@ window.renderLanguages = function (view) {
                 return y(d.language);
             })
             .attr("r", "6")
-            .style("fill", primeColor)
+            .style("fill", colorMap["prime"])
 
         // Circles of variable 1
         svg.selectAll("mycircle")
@@ -125,7 +125,7 @@ window.renderLanguages = function (view) {
                 return y(d.language);
             })
             .attr("r", "6")
-            .style("fill", disneyColor)
+            .style("fill", colorMap["disney"])
     }
 
     let nextPageButton = document.createElement("button")

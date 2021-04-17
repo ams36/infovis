@@ -2,13 +2,6 @@
 
 window.renderGenreCharts = function (view) {
     let genres = formatGenres(view)
-    // console.log(genres)
-    const color = {
-        netflix: netflixColor,
-        hulu: huluColor,
-        disney: disneyColor,
-        prime: primeColor
-    }
 
     const diameter = 1000
 
@@ -49,7 +42,7 @@ window.renderGenreCharts = function (view) {
             arc.outerRadius(d.r);
             return arc(d);
         })
-        .style("fill", function(d, i) { return color[d.data[0]]; });
+        .style("fill", function(d, i) { return colorMap[d.data[0]]; });
 
     arcEnter.append("text")
         .attr('x', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[0]; })
