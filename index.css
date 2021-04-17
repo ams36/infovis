@@ -123,8 +123,8 @@ svg{
 
 
 .genres svg{
-    width: unset;
-    height: unset;
+    width: 100%;
+    /*height: 100%;*/
     flex-grow: 1;
     border: 1px solid white;
 }
@@ -158,6 +158,7 @@ svg{
     /*flex-wrap: wrap;*/
     justify-content: center;
     align-items: stretch;
+    height: 83vh;
 }
 
 .languages{
@@ -166,14 +167,27 @@ svg{
     height: 45%;
 }
 
+.languageButtons{
+    display: flex;
+    justify-content: center;
+}
+
 .genres{
-    padding: 3pc;
+    /*padding: 3pc;*/
 
     display: flex;
+    flex-direction: column;
     flex-grow: 1;
-    justify-content: stretch;
-    align-items: stretch;
+    flex-shrink: 1;
+    min-height: 0;
+    /*justify-content: stretch;*/
+    /*align-items: stretch;*/
     background: var(--deepBurgundy);
+}
+
+.genres #genreDiagram{
+    padding: 3pc;
+    height: 83vh;
 }
 
 .axis
@@ -186,6 +200,76 @@ svg{
 .multiple-select-dropdown{
 
 }
+
+.languageWrapper{
+    padding: 0;
+    flex-grow: 1;
+}
+
+/** == TITLE BAR DIVIDERS == */
+
+.title-bar {
+    display: flex;
+    flex-direction: row;
+    min-height: 13vh;
+}
+
+.title-bar .wrapper .info{
+    position: absolute;
+    top: 1pc;
+    right: 1pc;
+    width: 3pc;
+    height: 3pc;
+    border-radius: 100px;
+    background: white;
+    text-align: center;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.title-bar .wrapper .info svg{
+    border: none;
+}
+
+.title-bar .wrapper {
+    flex-grow: 1;
+    position: relative;
+    background: var(--carrotOrange);
+}
+
+.title-bar .left-bar {
+    position: absolute;
+    left: 4pc;
+    bottom: 0;
+    height: 60%;
+    width: 3pc;
+    background: #230007;
+}
+
+.title-bar .content {
+    margin: auto;
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.title-bar .title {
+    font-weight: bold;
+    font-size: 3em;
+    font-family: 'Zilla Slab Highlight', serif;
+}
+
+.title-bar .subtitle {
+    font-size: 1.3em;
+}
+
 
 /** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/
 /**** Custom styles for noUiSlider ****/
