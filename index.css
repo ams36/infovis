@@ -211,8 +211,19 @@ svg{
     color: grey;
 }
 
-.multiple-select-dropdown{
+.select-wrapper .select-dropdown{
+    color: white; !important;
+    border-color: var(--carrotOrange);
+}
 
+.select-wrapper input.select-dropdown:focus{
+    color: white;
+    border-color: #EA9010;
+}
+
+.select-wrapper .caret{
+    color: white;
+    fill: #EA9010;
 }
 
 .languageWrapper{
