@@ -66,7 +66,7 @@ window.renderGenreCharts = function (view) {
     // and: https://bl.ocks.org/saifulazfar/f2da589a3abbe639fee0996198ace301
     const zoom = d3.zoom()
         .extent([[0, 0], [diameter, diameter]])
-        .scaleExtent([1, 8])
+        .scaleExtent([1, 40])
         .on("zoom", zoomed)
     svg.call(zoom);
 
