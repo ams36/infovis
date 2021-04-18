@@ -23,7 +23,7 @@ window.renderRuntimeBoxplot = function (view) {
     }
 
     // set the dimensions and margins of the graph
-    var margin = {top: 0, right: 60, bottom: 10, left: 60},
+    var margin = {top: 0, right: 30, bottom: 10, left: 60},
         width = 460 ,
         height = 460 ;
 
@@ -33,8 +33,6 @@ window.renderRuntimeBoxplot = function (view) {
         .append("svg")
         .attr("preserveAspectRatio", "xMidYMid meet")
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])
-        // .attr("width", width + margin.left + margin.right)
-        // .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -56,8 +54,6 @@ window.renderRuntimeBoxplot = function (view) {
         return k.platform
     })
 
-    console.log(low, high)
-
     // Show the X scale
     var x = d3.scaleBand()
         .range([ 0, width ])
@@ -65,16 +61,20 @@ window.renderRuntimeBoxplot = function (view) {
         .paddingInner(1)
         .paddingOuter(.5)
     svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x)
+        .attr("transform", "translate(0," + 0 + ")")
+        .call(d3.axisTop(x)
             .tickFormat((d) => d.capitalise())
         )
+        .style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1em")
 
     // Show the Y scale
     var y = d3.scaleLinear()
         .domain([low - 10 ,high + 10]) // added to give them a bit of space
         .range([height, 0])
     svg.append("g").call(d3.axisLeft(y))
+        .style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1em")
 
     // Show the main vertical line
     svg
@@ -91,7 +91,7 @@ window.renderRuntimeBoxplot = function (view) {
         .style("width", 40)
 
 
-
+    // rectangle for the main box
     var boxWidth = 100
     svg
         .selectAll("boxes")
@@ -119,7 +119,7 @@ window.renderRuntimeBoxplot = function (view) {
     }
 
     function generateRuntimeTooltipText(d){
-        return `Runtime Average For ${d[0].capitalise()}: <br>
+        return `<b>Runtime Average For ${d[0].capitalise()}: </b> <br>
         <b>Median </b>${d[1].median} <br>
         <b>Min </b>${platformMinMax[d[0]][0]} <br>
         <b>Max </b>${platformMinMax[d[0]][1]} <br>
@@ -138,24 +138,12 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y1", function(d){return(y(d[1].median))})
         .attr("y2", function(d){return(y(d[1].median))})
         .attr("stroke", "black")
-        //.attr("opacity", 0.5)
         .style("width", 80)
         .on("mousemove", createRuntimeTooltip)
         .on("mouseleave", () => {
             tooltip.style("display", "none")
         });
 
-
-    // //adding titles
-    // svg.select("g")
-    //     .append("text")
-    //     .text(" Running time By Platform")
-    //     .style("font-family", "'Zilla Slab Highlight', sans-serif")
-    //     .style("fill", "darkslategray")
-    //     .style("font-weight", "bold")
-    //     .attr("font-size", "2em")
-    //     .attr("x", 250)
-    //     .attr("y", -320);
 
 
     //adding x/y axis titles

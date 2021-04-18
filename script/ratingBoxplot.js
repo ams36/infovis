@@ -9,22 +9,14 @@
 // particularly: changed the nest function to the updated group function to make it work properly
 // keys no longer accessed, it is d[0] instead of d.key and d[1] instead of d.value
 
-
-// what's new: add the distribution of scatter plots on the box
-// hover still need to be fixed as follow:
-// Todo: 1, the info does not show complete (marked)
-// Todo: 2, the postion of the infomation frame (should not be at below) (unmarked)
-// Todo: 3, the logitic of mouse out / move and over (marked)
-
-
 window.renderRatingBoxplot = function (view) {
 
     const ratings = formatData(view)
 
     // set the dimensions and margins of the graph
-    var margin = {top: 90, right: 60, bottom: 90, left: 60},
+    var margin = {top: 0, right: 30, bottom: 10, left: 60},
         width = 460 ,
-        height = 300 ;
+        height = 460 ;
 
     const platformMinMax = {
         netflix: [0,10],
@@ -37,10 +29,8 @@ window.renderRatingBoxplot = function (view) {
     var svg = d3.select("#ratingBoxplot")
         .html("")
         .append("svg")
-        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("preserveAspectRatio", "xMidYMid meet")
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])
-        // .attr("width", width + margin.left + margin.right)
-        // .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
@@ -71,28 +61,18 @@ window.renderRatingBoxplot = function (view) {
         .paddingOuter(.5)
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x)
+            .tickFormat((d) => d.capitalise())
+        ).style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1em")
 
     // Show the Y scale
     var y = d3.scaleLinear()
         .domain([0,10])
         .range([height, 0])
     svg.append("g").call(d3.axisLeft(y))
-
-
-    //  NEW: color scale
-    const pointColor = d3.scaleLinear().domain([0,11])
-        .range(["yellow", "red"])
-        // .interpolator(d3.interpolateInferno)
-       // .domain([4,8])
-
-
-    //NEW: Add X axis label:
-    // svg.append("text")
-    //     .attr("text-anchor", "end")
-    //     .attr("x", width)
-    //     .attr("y", height + margin.top + 30)
-    //     .text(" x_label");
+        .style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1em")
 
 
     // Show the main vertical line
@@ -121,6 +101,27 @@ window.renderRatingBoxplot = function (view) {
         .attr("width", boxWidth )
         .attr("stroke", "black")
         .style("fill", function(d){return colorMap[d[0]]})
+        .on("mousemove", createRatingTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
+
+    function createRatingTooltip(t, d) {  // the datum you want
+        tooltip
+            .style("left", t.pageX + 20 + "px")
+            .style("top", t.pageY+ "px")
+            .style("display", "inline-block")
+            .html(generateRatingTooltipText(d));
+    }
+
+    function generateRatingTooltipText(d){
+        // have to multiply by 100 and then divide by 100 to get 2 decimal places
+        return `Movie Rating Average For ${d[0].capitalise()}: <br>
+        <b>Median </b>${Math.round(d[1].median * 100) / 100} <br> 
+        <b>Min </b>${Math.round(platformMinMax[d[0]][0] * 100) / 100} <br>
+        <b>Max </b>${Math.round(platformMinMax[d[0]][1] * 100) / 100} <br>
+        <b>IQR </b>${Math.round(d[1].interQuantileRange * 100) / 100 }`
+    }
 
 
     // Show the median
@@ -135,57 +136,17 @@ window.renderRatingBoxplot = function (view) {
         .attr("y2", function(d){return(y(d[1].median))})
         .attr("stroke", "black")
         .style("width", 80)
-
-    //adding titles
-    svg.select("g")
-        .append("text")
-            .text(" Ratings By Platform")
-            .style("fill", "black")
-            .attr("x", 250)
-            .attr("y", -320);
-
-    // create a tooltip
-    var tooltip = d3.select("#ratingBoxplot")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("font-size", "16px")
-
-    // Three function that change the tooltip when user hover / move / leave a cell
-    //Todo: 1, the info does not show complete
-    //Todo: 3, the logitic of mouse out / move and over
-    var mouseover = function(d) {
-        tooltip
-            .transition()
-            .duration(200)
-            .style("opacity", 1)
-        tooltip
-            .html("<span style='color:grey'>imbd_score: </span>" + d.imdb)  //todo:1
-            .style("left", (d3.pointer(d,this)[0]+30) + "px")
-            .style("top", (d3.pointer(d,this)[1]+30) + "px")
-    }
-
-
-    var mousemove = function(d) {
-        tooltip
-            .style("left", (d3.pointer(d,this)[0]+30) + "px") //
-            .style("top", (d3.pointer(d,this)[1]+30) + "px")
-    }
-    var mouseleave = function(d) {
-        tooltip
-           .transition()
-           .duration(200)
-           .style("opacity", 0)
-    }
-
-
-
-
+        .on("mousemove", createRatingTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
 
     // only show outliers
-    const outliers = ratings.filter((d) => (d.imdb < platformMinMax[d.platform][0] || d.imdb > platformMinMax[d.platform][1]))
-    //NEW: Add individual points with jitter
+    const outliers = getRatingOutliers(ratings, platformMinMax)
     var jitterWidth = 50
+    let countHigh = Math.max(...outliers.map((row) => row.count))
+    let countLow = Math.min(...outliers.map((row) => row.count))
+
     svg
         .selectAll("indPoints")
         .data(outliers)
@@ -195,13 +156,38 @@ window.renderRatingBoxplot = function (view) {
         .attr("cy", function(d){
             if (y(d.imdb) === undefined) console.log(d)
             return( y(d.imdb)  )})
-        .attr("r", 3) //
+        .attr("r", (d) => radius(d.count))
         .style("fill", function(d){ return colorMap[d.platform]})
-        .attr("opacity", 0.2)
-        .attr("stroke", "black")
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
+        .attr("opacity", 0.3)
+        .attr("stroke", "darkslategray")
+        .on("mousemove", createRatingOutlierTooltip)
+        .on("mouseleave", () => {
+            tooltip.style("display", "none")
+        });
+
+    function createRatingOutlierTooltip(t, d) {  // the datum you want
+        tooltip
+            .style("left", t.pageX + 20 + "px")
+            .style("top", t.pageY+ "px")
+            .style("display", "inline-block")
+            .html(generateRatingOutlierTooltipText(t, d));
+    }
+
+    function generateRatingOutlierTooltipText(t, d){
+        return `Outlier for Platform: ${d.platform.capitalise()}: <br>
+        <b>IMDb Rating: </b>${d.imdb} <br>
+        <b>Number of Movies: </b>${d.count} <br>`
+    }
+
+    function radius(x){
+        if (x === undefined) return 0
+        const minCircleSize = 1
+        const maxCircleSize = 10
+        //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
+        let size = (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
+        if (size === 0) return 3
+        else return size
+    }
 
 
 }
@@ -223,4 +209,31 @@ function formatData(view){
     //sort it so it goes in order (idk if its needed but the example CSVs I looked at had it sorted
     data.sort((a, b) => a.platform.localeCompare(b.platform))
     return data
+}
+
+function getRatingOutliers(rating_data, platformMinMax){
+    console.log("here")
+    let allOutliers = rating_data.filter((d) => (d.imdb < platformMinMax[d.platform][0] || d.imdb > platformMinMax[d.platform][1]))
+    let buildingOutliers = {
+        disney: {},
+        prime: {},
+        hulu: {},
+        netflix: {}
+    }
+    for (const length of allOutliers){
+        const key = length.platform + "_" + length.imdb
+        if (buildingOutliers[length.platform][key]) buildingOutliers[length.platform][key].count++
+        else {
+            buildingOutliers[length.platform][key] = {
+                platform: length.platform,
+                imdb: length.imdb,
+                count: 1
+            }
+        }
+    }
+    buildingOutliers = {...buildingOutliers["disney"], ...buildingOutliers["hulu"], ...buildingOutliers["prime"], ...buildingOutliers["netflix"]}
+    console.log(rating_data)
+    console.log(platformMinMax)
+    console.log(buildingOutliers)
+    return Object.values(buildingOutliers)
 }

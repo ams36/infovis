@@ -23,6 +23,7 @@ body, html{
 }
 
 .toolTip{
+    display: none;
     position: absolute;
     background: white;
     color: black;

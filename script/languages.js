@@ -16,9 +16,9 @@ window.renderLanguages = function (view) {
 
     const languages = formatLanguageData(view)
 // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 10, left: 60},
-        width = 800 - margin.left - margin.right,
-        height = 700 - margin.top - margin.bottom;
+    var margin = {top: 10, right: 30, bottom: 40, left: 85},
+        width = 950 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
 
     function makeSVG() {
         languageCount = languages.slice(points * currentPage, (currentPage +1) * points)
@@ -28,7 +28,7 @@ window.renderLanguages = function (view) {
             .append("svg")
             // scale properly when resized
             .attr("preserveAspectRatio", "xMidYMid meet")
-            .attr("viewBox", [0, 0, width + 100, height + 60])
+            .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
@@ -50,7 +50,9 @@ window.renderLanguages = function (view) {
                 .tickFormat((d) => {
                 if (Number.isInteger(d)) return d
                 else return ""
-            }));
+            }))
+            .style("font-family", "\"Zilla Slab\", sans-serif")
+            .style("font-size", "1em");
 
         // Y axis
         var y = d3.scaleBand()
@@ -62,6 +64,8 @@ window.renderLanguages = function (view) {
             .padding(1);
         svg.append("g")
             .call(d3.axisLeft(y))
+            .style("font-family", "\"Zilla Slab\", sans-serif")
+            .style("font-size", ".8em")
 
         // Lines
         svg.selectAll("myline")

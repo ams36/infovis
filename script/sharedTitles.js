@@ -30,7 +30,7 @@ window.renderSharedTitles = function (view) {
     const height = 1000
     const width = 1000
     // set up sizes for the circle
-    const outerRadius = Math.min(width, height) * 0.5 - 60
+    const outerRadius = Math.min(width, height) * 0.5 - 70
     const innerRadius = outerRadius - 10
 
     // get the svg and set the size of the view box and center the vis
@@ -131,7 +131,9 @@ window.renderSharedTitles = function (view) {
         .attr("dy", "0.35em")
         .attr("transform", d => d.angle > Math.PI ? "rotate(180) translate(-16)" : null)
         .attr("text-anchor", d => d.angle > Math.PI ? "end" : null)
-        .text(d => formatValue(d.value));
+        .text(d => formatValue(d.value))
+        .style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1.7em");
 
     // adds the platform names at the beginning of each group
     group.select("text")

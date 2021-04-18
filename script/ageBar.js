@@ -31,6 +31,8 @@ window.renderBarChart = function (view) {
     xAxis = svg => svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x).tickSizeOuter(0).tickFormat(() => ""))
+        .style("font-family", "\"Zilla Slab\", sans-serif")
+        .style("font-size", "1em")
 
 
     // sequential color theme chosen by chorma.js to ensure color-blind friendly
@@ -94,12 +96,15 @@ window.renderBarChart = function (view) {
         svg.append("g")
             .attr("transform", "translate(0," + (height-margin.bottom) + ")")
             .call(d3.axisBottom(x).tickFormat((d) => xz[d].capitalise()))
+            .style("font-family", "\"Zilla Slab\", sans-serif")
+            .style("font-size", "1em")
         // svg.append("g")
         //     .call(xAxis);
 
 
         const yAxis = svg.append("g")
             .attr("transform", `translate(${margin.left}, 0)`)
+
 
 
 
@@ -115,6 +120,8 @@ window.renderBarChart = function (view) {
                 .attr("y", d => y(d[1] - d[0]))
                 .attr("height", d => y(0) - y(d[1] - d[0]));
             yAxis.call(d3.axisLeft(y))
+                .style("font-family", "\"Zilla Slab\", sans-serif")
+                .style("font-size", "1em")
         }
 
         function transitionStacked() {
@@ -129,6 +136,8 @@ window.renderBarChart = function (view) {
                 .attr("x", (d, i) => { return x(i)})
                 .attr("width", x.bandwidth());
             yAxis.call(d3.axisLeft(y))
+                .style("font-family", "\"Zilla Slab\", sans-serif")
+                .style("font-size", "1em")
         }
 
         function update(layout) {
