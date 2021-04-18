@@ -73,7 +73,7 @@ window.renderLanguages = function (view) {
             .attr("y2", function (d) {
                 return y(d.language);
             })
-            .attr("stroke", "grey")
+            .attr("stroke", "white")
             .attr("stroke-width", "1px")
 
         // Circles of variable 1

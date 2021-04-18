@@ -25,7 +25,7 @@ window.renderRuntimeBoxplot = function (view) {
     var svg = d3.select("#runtimeBoxplot")
         .html("")
         .append("svg")
-        .attr("preserveAspectRatio", "none")
+        .attr("preserveAspectRatio", "xMidYMid meet")
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])
         // .attr("width", width + margin.left + margin.right)
         // .attr("height", height + margin.top + margin.bottom)

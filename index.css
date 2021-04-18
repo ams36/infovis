@@ -79,19 +79,32 @@ body, html{
 
 .movieList>table{
     flex-grow: 1;
+    flex-shrink: 1;
     overflow: auto;
+}
+
+.overviewView {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 100%;
+    height: 87vh;
+}
+
+.help {
+    flex-grow: 1;
 }
 
 .boxplotsParent{
     display: flex;
     flex-grow: 1;
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
     height: 100%;
 }
 
 .boxplots{
-    height: 50%;
     /*flex-basis: 40%;*/
     flex-grow: 1;
     margin: 5px;
@@ -110,17 +123,6 @@ svg{
     max-width: 100%;
 }
 
-/*@media screen and (max-width: 700px){*/
-/*    .boxplotsParent{*/
-/*        flex-direction: column;*/
-/*    }*/
-
-/*    .boxplots{*/
-/*        flex-basis: 100%;*/
-/*    }*/
-/*}*/
-
-
 .genres svg{
     width: 100%;
     /*height: 100%;*/
@@ -134,8 +136,10 @@ svg{
     color: black;
     display: flex;
     padding: 3pc;
-    align-items: center;
-    height: 83vh;
+    /*align-items: center;*/
+    justify-content: center;
+    align-items: stretch;
+    height: 87vh;
     margin-top: -30px;
 }
 
@@ -151,14 +155,20 @@ svg{
     z-index: 1000;
 }
 
+#worldPage{
+    background: var(--deepBurgundy);
+}
+
 .languageComparison{
+    color: white;
     padding: 1pc 3pc 3pc;
     display: flex;
     flex-grow: 1;
+    flex-shrink: 1;
     /*flex-wrap: wrap;*/
     justify-content: center;
     align-items: stretch;
-    height: 83vh;
+    height: 87vh;
 }
 
 .languages{
@@ -172,6 +182,7 @@ svg{
     justify-content: center;
     margin-top: -25px;
 }
+
 
 .languageButtons button,.ageButtons button{
     display: flex;
@@ -201,7 +212,7 @@ svg{
 
 .genres #genreDiagram{
     padding: 3pc;
-    height: 83vh;
+    height: 87vh;
 }
 
 .axis
@@ -284,7 +295,7 @@ svg{
 }
 
 .title-bar .left-bar.bar-languages{
-    background-color: white;
+    background-color: var(--deepBurgundy);
 }
 .title-bar .left-bar.bar-ages{
     background-color: var(--nyanza);
