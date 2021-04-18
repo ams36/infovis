@@ -468,3 +468,48 @@ svg{
 .noUi-target.noUi-horizontal .noUi-tooltip {
     background-color: var(--carrotOrange);
 }
+
+/* Legends */
+
+.legend {
+    padding: 0px 20px 20px;
+}
+
+.legend .entry .square {
+    width: 1.5pc;
+    height: 1.4pc;
+    background: red;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.legend .entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.legend .entry .square.disney{
+    background-color: var(--disneyColor);
+}
+.legend .entry .square.prime{
+    background-color: var(--primeColor);
+}
+.legend .entry .square.netflix{
+    background-color: var(--netflixColor);
+}
+.legend .entry .square.hulu{
+    background-color: var(--huluColor);
+}
+
+.legend {
+    opacity: 0;
+    z-index: -100;
+    transition: visibility 0s, opacity 0.2s linear, z-index 0.2s;
+}
+
+.legend.shown{
+    z-index: 1000000;
+    visibility: visible;
+    opacity: 1;
+}

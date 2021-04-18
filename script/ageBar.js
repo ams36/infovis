@@ -5,6 +5,20 @@
     configureHelp('age-info-button', title, content);
 })();
 
+// brings the age legend to view when the person scrolls to the page its on
+document.addEventListener('scroll', (e) => {
+    const position = document.getElementById('agePage').offsetTop;
+    const end = document.getElementById('worldPage').offsetTop;
+    console.log(position);
+    if(window.scrollY >= position - 200 && window.scrollY <= end - 200){
+        document.getElementById('age-legend').classList.add('shown');
+        document.getElementById('platformLegend').classList.remove('shown');
+    }else{
+        document.getElementById('age-legend').classList.remove('shown');
+        document.getElementById('platformLegend').classList.add('shown');
+    }
+})
+
 // Returns an array of m psuedorandom, smoothly-varying non-negative numbers.
 // Inspired by Lee Byron’s test data generator.
 // http://leebyron.com/streamgraph/
@@ -44,6 +58,19 @@ window.renderBarChart = function (view) {
         console.log(groups[i])
         return "#000000"
     }
+
+    const legend = d3.select('#age-legend .content')
+        .selectAll('.entry')
+        .data(y01z)
+        .enter()
+        .append('div')
+        .attr('class', 'entry');
+    legend.append('div')
+        .attr('class', 'square')
+        .style('background-color', (d, i) => colorOrder[i]);
+    legend.append('div')
+        .attr('class', 'label')
+        .text((d) => groups[d[0][2]].capitalise())
 
 
     y = d3.scaleLinear()
