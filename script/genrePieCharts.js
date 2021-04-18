@@ -8,10 +8,15 @@
  * https://observablehq.com/@d3/zoom-with-tooltip?collection=@d3/d3-zoom
  *
  */
+
 // Setup the info pop up button
 (() => {
     const title = 'Genres';
-    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    const content = 'This circle packed donut chart allows users to visualise movie genre distribution among four platforms. <br/> <br/>' +
+        'Each donut chart presents a genre, and the larger it is, the higher the number of movies. ' +
+        'The color attribute is consistent with the platform it represents. Hover over the arcs for more information or zoom in to get a better look!' +
+
+        'This gives users a clear idea of the distribution of the movie genres they are interested in across the four platforms.'
     configureHelp('genre-info-button', title, content);
 })();
 

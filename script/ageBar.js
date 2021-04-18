@@ -1,7 +1,10 @@
 // Setup the info pop up button
 (() => {
-    const title = 'Ages';
-    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    const title = 'Age Visualisation Description';
+    const content = 'This bar chart allows users to visualise the age of the target audience for movies among the four platforms. <br/> <br/>' +
+        'Five different colors represent five different age groups. The 6th colour represents the "Unknown" category, where this data was not listed.' +
+        ' Users can interact with the bar by clicking the “stack” ' +
+        'and “transform” buttons, which help users to see the age distribution across the four platforms in two different views'
     configureHelp('age-info-button', title, content);
 })();
 
