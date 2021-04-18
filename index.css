@@ -647,6 +647,11 @@ svg{
     color: var(--nyanza)
 }
 
+.header .headerBox a{
+    color: var(--darkLiver);
+    text-decoration: underline;
+}
+
 .header .mainTitle{
     font-family: 'Zilla Slab Highlight', cursive;
     font-size: 3vw;
