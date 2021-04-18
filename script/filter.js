@@ -6,17 +6,24 @@ let filters = {
     year: undefined
 }
 
-let filterStack = []
+// this was going to be used for an undo filter button (in opposition to the reset one) but
+// did not have enough time to fix it, there were errors copying the object correctly
+// let filterStack = []
 
 let supressGenreFilter = false;
 let supressLanguageFilter = false;
+
+// pointers to the filter elements so we can reset them on reset or when theres not enough
+let runtimeSliderPointer
+let yearSliderPointer
+let ratingSliderPointer
 
 /**
  * calls all create filter functions after the data has finished loading in index.js
  */
 function initialiseFilters() {
-    document.getElementById("undo").onclick = () => undoClicked()
-    filterStack.push(filters)
+    // this used to be the undo button, so it would apply in the same way as reset
+    document.getElementById("undo").onclick = () => resetClicked()
     createRatingSlider()
     createGenreSelector()
     createYearSlider()
@@ -46,6 +53,7 @@ function createRatingSlider(){
             'from': function (d){ return Number(d)}
         }
     });
+    ratingSliderPointer = slider.noUiSlider
     // on sliding, should call filteredByRating
     slider.noUiSlider.on("change", ([min, max]) => filteredByRating(min, max))
     // can do it on update, but concerns about laginess
@@ -76,6 +84,7 @@ function createYearSlider(){
             'from': function (d){ return Number(d)}
         }
     });
+    yearSliderPointer = slider.noUiSlider
     // on sliding, should call filteredByRating
     slider.noUiSlider.on("change", ([min, max]) => filteredByYear(min, max))
 }
@@ -106,6 +115,7 @@ function createRuntimeSlider(){
         }
     });
     // on sliding, should call filteredByRating
+    runtimeSliderPointer = slider.noUiSlider
     slider.noUiSlider.on("change", ([min, max]) => filteredByRuntime(min, max))
 }
 
@@ -118,6 +128,7 @@ function createGenreSelector(){
     let genres = getGenres()
     genres = genres.sort()
     const genreSelector = document.getElementById("genreSelector");
+    genreSelector.innerHTML = ""
     for (const genre of genres) {
         // modified from: https://stackoverflow.com/questions/17730621/how-to-dynamically-add-options-to-an-existing-select-in-vanilla-javascript
         genreSelector.options[genreSelector.options.length] = new Option(genre, genre)
@@ -156,6 +167,7 @@ function createLanguageSelector(){
     let languages = getLanguages()
     languages = languages.sort()
     const languageSelector = document.getElementById("languageSelector");
+    languageSelector.innerHTML = ""
     for (const language of languages) {
         // modified from: https://stackoverflow.com/questions/17730621/how-to-dynamically-add-options-to-an-existing-select-in-vanilla-javascript
         languageSelector.options[languageSelector.options.length] = new Option(language, language)
@@ -187,13 +199,19 @@ function createLanguageSelector(){
 
 // updates the objects key value for rating to be the function min to max
 function filteredByRating(min, max){
-    filters.rating = (d) => d.imdb >= min && d.imdb <= max
+    filters.rating = {
+        apply: (d) => d.imdb >= min && d.imdb <= max,
+        min, max
+    }
     applyFilters(false)
 }
 
 // updates the objects key value for year to be the function min to max
 function filteredByYear(min, max){
-    filters.year = (d) => d.year >= min && d.year <= max
+    filters.year = {
+        apply: (d) => d.year >= min && d.year <= max,
+        min, max
+    }
     applyFilters(false)
 }
 
@@ -202,7 +220,10 @@ function filteredByRuntime(min, max){
     const range = getRuntimeRange()
     if (min === range.low && max === range.high) filters.runtime = undefined
     else {
-        filters.runtime = (d) => d.runtime >= min && d.runtime <= max && !isNaN(d.runtime)
+        filters.runtime = {
+            apply:(d) => d.runtime >= min && d.runtime <= max && !isNaN(d.runtime),
+            min, max
+        }
     }
     applyFilters(false)
 }
@@ -235,31 +256,94 @@ function filteredByLanguage(e){
     applyFilters(false)
 }
 
+function resetClicked(){
+    filters.rating = undefined
+    filters.genres = undefined
+    filters.language = undefined
+    filters.runtime = undefined
+    filters.year = undefined
+    applyFilters()
+
+    // reset the sliders and option boxes
+    const runtimeRange = getRuntimeRange()
+    const yearRange = getYearRange()
+
+    runtimeSliderPointer.set([runtimeRange.low, runtimeRange.high])
+    ratingSliderPointer.set([0, 10])
+    yearSliderPointer.set([yearRange.low, yearRange.high])
+
+    // re-call the create functions, which will delete the old one and replace it as a new selector
+    createGenreSelector()
+    createLanguageSelector()
+
+}
+
+// apply the filter and run the vis again
+function applyFilters(fromReset){
+    let data = getMediaData()
+    if (filters.rating) data = data.filter(filters.rating.apply)
+    if (filters.genres) data = data.filter(filters.genres)
+    if (filters.language) data = data.filter(filters.language)
+    if (filters.runtime) data = data.filter(filters.runtime.apply)
+    if (filters.year) data = data.filter(filters.year.apply)
+    if (data.length > 0) {
+        runVis(data)
+    } else {
+        alert("Not enough data to run visusalisation. Please try adjusting your filters. Resetting Filters now.")
+        resetClicked() // mimic the reset clicked, which will recall apply filters but with no filters applied now
+    }
+}
+
+// ******************************************************
+// These were the working versions of the functions to apply
+// an undo with the most recent filter change
+// applying filters with undo
+// ******************************************************
+// function applyFilters(fromUndo){
+//     let data = getMediaData()
+//     console.log(filterStack)
+//     console.log(filters)
+//     if (filters.rating) data = data.filter(filters.rating.apply)
+//     if (filters.genres) data = data.filter(filters.genres)
+//     if (filters.language) data = data.filter(filters.language)
+//     if (filters.runtime) data = data.filter(filters.runtime.apply)
+//     if (filters.year) data = data.filter(filters.year.apply)
+//     if (data.length > 0) {
+//         if (!fromUndo) filterStack.push({...filters})
+//         // console.log(filterStack)
+//         runVis(data)
+//     } else {
+//         alert("Not enough data to run visusalisation. Please try adjusting your filters.")
+//
+//         const runtimeRange = getRuntimeRange()
+//
+//         if (filterStack.length > 0){
+//             const recentFilters =  filterStack[filterStack.length - 1]
+//             if (recentFilters.rating) runtimeSliderPointer.set([recentFilters.runtime.min, recentFilters.runtime.max])
+//             else runtimeSliderPointer.set([runtimeRange.low, runtimeRange.high])
+//         } else {
+//             runtimeSliderPointer.set([runtimeRange.low, runtimeRange.high])
+//         }
+//     }
+// }
+
+// was working function for undo the filter change, but as this was taken out, this has been commented out
+/*
 function undoClicked(){
     if (filterStack.length > 1){
         console.log(filterStack.pop())
         filters = filterStack[filterStack.length -1]
+        //update the slider to be the previous one
+        if (filters.rating) runtimeSliderPointer.set([filters.runtime.min, filters.runtime.max])
+        else {
+            const runtimeRange = getRuntimeRange()
+            runtimeSliderPointer.set([runtimeRange.low, runtimeRange.high])
+        }
         applyFilters(true)
     } else {
         alert("Sorry, Nothing left to undo.")
     }
 }
+*/
 
-// apply the filter and run the vis again
-function applyFilters(fromUndo){
-    let data = getMediaData()
-    console.log(filterStack)
-    console.log(filters)
-    if (filters.rating) data = data.filter(filters.rating)
-    if (filters.genres) data = data.filter(filters.genres)
-    if (filters.language) data = data.filter(filters.language)
-    if (filters.runtime) data = data.filter(filters.runtime)
-    if (filters.year) data = data.filter(filters.year)
-    if (data.length > 0) {
-        if (!fromUndo) filterStack.push({...filters})
-        // console.log(filterStack)
-        runVis(data)
-    } else {
-        alert("Not enough data to run visusalisation. Please try adjusting your filters.")
-    }
-}
+
