@@ -1,33 +1,55 @@
-// modified from: https://bl.ocks.org/jsl6906/6560687444d2e1421e4d24360c27728a
+/**
+ *  * This script has been primarily modified from the following sources:
+ *  ******** Donut Charts, Pie Charts and Circle Graphs ***********
+ * https://bl.ocks.org/jsl6906/6560687444d2e1421e4d24360c27728a
+ * https://www.d3-graph-gallery.com/graph/donut_basic.html
+ * https://www.tutorialsteacher.com/d3js/create-pie-chart-using-d3js
+ * ******** Functionality and Zooming *********
+ * https://observablehq.com/@d3/zoom-with-tooltip?collection=@d3/d3-zoom
+ *
+ */
+
+/**
+ * creates genre donut charts.
+ * @param view the filtered version of the data to view
+ */
 window.renderGenreCharts = function (view) {
+
+    // format the genre data in a way thats needed for this visualisation
     let genres = formatGenres(view)
 
+    // diameter used for width and height of the SVG as well as calculating circle information
     const diameter = 1000
 
+    // the following functions prepare the data in a hierarchical way based on the sum of the children nodes
+    // in order to later circle pack it based on total count of movies in that genre
     const bubble = d3.pack()
-            .size([diameter, diameter])
-            .padding(20),
-        root = d3.hierarchy({children: genres})
-            .sum(function(d) { return d.children ? 0 : (d.netflix + d.hulu+ d.prime +  d.disney); }),
-        arc = d3.arc().innerRadius((d) => { return d.r * 0.5}),
-        pie = d3.pie().value((d) => d[1]);
+        .size([diameter, diameter])
+        .padding(20);
+    const root = d3.hierarchy({children: genres})
+        .sum(function(d) { return d.children ? 0 : (d.netflix + d.hulu+ d.prime +  d.disney); });
+    const arc = d3.arc().innerRadius((d) => { return d.r * 0.5});
+    const pie = d3.pie().value((d) => d[1]);
 
+    // execute the circle pack
     var nodeData = bubble(root).children;
 
+    // grab the div to append where the visualisation should go
     var svg = d3.select("#genreDiagram")
-        .html("")
-        .append("svg")
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("viewBox", [0, 0, diameter, diameter])
-        // .attr("width", diameter)
-        // .attr("height", diameter)
-        .attr("class", "bubble");
+        .html("")   //remove any vis thats already in it (in case this was called on a update function
+        .append("svg")  //add the svg to the div
+        .attr("preserveAspectRatio", "xMidYMid meet")   // used to preserve aspect ratio when resizing
+        .attr("viewBox", [0, 0, diameter, diameter])    // used to preserve aspect ratio  when resizing
+        .attr("class", "bubble");   // set the class
 
+    // added to hold all nodes in order to create a zoom function
     const everything = svg.append("g")
 
+    // adds all nodes ot everything
     var nodes = everything.selectAll("g.node")
         .data(nodeData);
 
+    // creates a group for every node and sets its inital position
     var nodeEnter = nodes.enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -60,17 +82,8 @@ window.renderGenreCharts = function (view) {
     }
 
     function generateGenreTooltipText(t, d){
-        return `Count of ${d.genre} Movies on ${d.data[0].capitalise()}: <br>
-        <b>Runtime: </b>${d.data[1]} <br>`
+        return `<b>Count of ${d.genre} Movies on ${d.data[0].capitalise()}:</b> ${d.data[1]}`
     }
-
-    // TODO: Remove this but keep it until tooltips are created in case i need inspiration
-    // arcEnter.append("text")
-    //     .attr('x', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[0]; })
-    //     .attr('y', function(d) { arc.outerRadius(d.r); return arc.centroid(d)[1]; })
-    //     .attr('dy', "0.35em")
-    //     .style("text-anchor", "middle")
-    //     .text(function(d) { return d.value === 0?"":d.value });
 
     var labels = nodeEnter.selectAll("text.label")
         .data(function(d) { return [d]; });
@@ -94,6 +107,7 @@ window.renderGenreCharts = function (view) {
     //set up the initial zoom
     svg.call(zoom.transform, d3.zoomIdentity.translate(-19.093543668575762, 25.76101059564803).scale(1.0564771967121946))
 
+    // after testing, identified these values to use as starting transformation point
    // {k: 1.0564771967121946, x: -19.093543668575762, y: 25.76101059564803}
 
     function zoomed({transform}) {
