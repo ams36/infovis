@@ -26,6 +26,7 @@ body, html{
     position: absolute;
     background: white;
     color: black;
+    padding: 10px;
 }
 .toolTip b {
     font-weight: 600;

@@ -36,7 +36,10 @@ var colorMap = {
 var tooltip
 
 window.addEventListener("DOMContentLoaded", () => {
-   tooltip = d3.select("body").append("div").attr("class", "toolTip");
+   tooltip = d3.select("body")
+       .append("div")
+       .attr("class", "toolTip");
+
 
    document.getElementById('info-modal').onclick = () => {
        document.getElementById('info-modal').classList.remove('shown')
