@@ -48,15 +48,36 @@ body, html{
 }
 
 #filter{
-    padding: 20px; /*padding to be changed - just used for testing */
-    padding-top: 60px;
+    padding: 25px; /*padding to be changed - just used for testing */
+    /*padding-top: 60px;*/
+    padding-right: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    /*justify-content: space-evenly;*/
     position: fixed;
     top:0;
     left: 0;
     height: 100%;
+}
+
+#filter .spacer{
+    flex-grow: 1;
+}
+
+#filter button{
+    background-color: var(--carrotOrange);
+}
+
+#filter h4{
+    font-size: 100%;
+}
+
+#filter h3{
+    margin-top: 0;
+}
+
+#filter h4:first-child{
+    margin-top: 0;
 }
 
 .chordDiagram{
@@ -64,6 +85,7 @@ body, html{
     display: flex;
     padding: 3pc;
     align-items: center;
+    justify-content: center;
 }
 
 .movieList{
@@ -75,6 +97,22 @@ body, html{
     flex-grow: 0;
     display: flex;
     flex-direction: column;
+    padding: 10px;
+}
+
+.movieList button.btn{
+    background-color: var(--carrotOrange);
+    margin: 5px 0;
+}
+
+
+.movieList h4{
+    margin: 0;
+}
+
+.movieList h4 small{
+    font-size: 45%;
+    line-height: 20px;
 }
 
 .movieList>table{
@@ -90,6 +128,19 @@ body, html{
     flex-shrink: 1;
     width: 100%;
     height: 87vh;
+    background-color: var(--nyanza);
+}
+
+
+.overviewView table{
+    min-height: 0;
+}
+
+.overviewView .table-fix{
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .help {
@@ -336,6 +387,9 @@ svg{
 .title-bar .left-bar.bar-genres{
     background-color: var(--deepBurgundy);
 }
+.title-bar .left-bar.bar-shared{
+    background-color: var(--nyanza);
+}
 
 .title-bar .content {
     margin: auto;
@@ -363,6 +417,42 @@ svg{
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Popup Modal*/
+
+.modal-n{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* backdrop-filter: blur(5px); */
+    background-color: rgba(0, 0, 0,0.4);
+    opacity: 0;
+    z-index: -100;
+    transition: visibility 0s, opacity 0.5s linear, z-index 0.5s;
+}
+
+.modal-n.shown{
+    z-index: 1000000;
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-n .content{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    width: 40%;
+    min-height: 40%;
+    background: var(--offWhite);
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.modal-n .content h3{
+    margin-top: 0;
 }
 
 /** Following code  block taken from: https://codepen.io/alexventuraio/pen/pwZJMK**/

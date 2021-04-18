@@ -8,6 +8,12 @@
  * https://observablehq.com/@d3/zoom-with-tooltip?collection=@d3/d3-zoom
  *
  */
+// Setup the info pop up button
+(() => {
+    const title = 'Genres';
+    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    configureHelp('genre-info-button', title, content);
+})();
 
 /**
  * creates genre donut charts.

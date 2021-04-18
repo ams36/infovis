@@ -29,32 +29,37 @@
 
 <body>
 <div id="filter" class="filter z-depth-2">
-    <button id="undo">Undo Filter</button>
-    <h4>Rating</h4>
-    <div id="ratingSlider"></div>
-    <h4>Year</h4>
-    <div id="yearSlider"></div>
-    <h4>Runtime</h4>
-    <div id="runtimeSlider"></div>
-    <h4>Genre</h4>
-    <select id='genreSelector' multiple class="select_all"></select>
-    <h4>Language</h4>
-    <select id='languageSelector' multiple class="select_all"></select>
+    <div>
+        <h3>Filters</h3>
+        <h4>Rating</h4>
+        <div id="ratingSlider"></div>
+        <h4>Year</h4>
+        <div id="yearSlider"></div>
+        <h4>Runtime</h4>
+        <div id="runtimeSlider"></div>
+        <h4>Genre</h4>
+        <select id='genreSelector' multiple class="select_all"></select>
+        <h4>Language</h4>
+        <select id='languageSelector' multiple class="select_all"></select>
+    </div>
+    <div class="spacer"></div>
+    <button id="undo" class="btn">Undo Filter</button>
 </div>
 <div id="overviewPage" class="page">
     <div id="filterSpacer_1" class="filter"></div>
     <div class="help">
         <div class="title-bar">
             <div class="wrapper">
-                <div class="left-bar bar-genres"></div>
+                <div class="left-bar bar-shared"></div>
                 <div class="content">
                     <div class="title">&nbsp; Genres &nbsp;&nbsp;</div>
                     <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                 </div>
 
-                <div class="info">
+                <div class="info" id="shared-info-button">
                     <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                        <path fill="currentColor"
+                              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                     </svg>
                 </div>
             </div>
@@ -79,9 +84,10 @@
                     <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                 </div>
 
-                <div class="info">
+                <div class="info" id="genre-info-button">
                     <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                        <path fill="currentColor"
+                              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                     </svg>
                 </div>
             </div>
@@ -100,9 +106,10 @@
                     <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                 </div>
 
-                <div class="info">
+                <div class="info" id="age-info-button">
                     <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                        <path fill="currentColor"
+                              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                     </svg>
                 </div>
             </div>
@@ -110,10 +117,16 @@
 
         <div id="ageButtons" class="ageButtons">
             <button type="button" id="stackedBarchart" class="btn-floating btn-large waves-effect waves-light red">
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0L3 7L4.63 8.27L12 14L19.36 8.27L21 7L12 0M19.37 10.73L12 16.47L4.62 10.74L3 12L12 19L21 12L19.37 10.73M19.37 15.73L12 21.47L4.62 15.74L3 17L12 24L21 17L19.37 15.73Z" /></svg>
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M12 0L3 7L4.63 8.27L12 14L19.36 8.27L21 7L12 0M19.37 10.73L12 16.47L4.62 10.74L3 12L12 19L21 12L19.37 10.73M19.37 15.73L12 21.47L4.62 15.74L3 17L12 24L21 17L19.37 15.73Z"/>
+                </svg>
             </button>
             <button type="button" id="groupedBarchart" class="btn-floating btn-large waves-effect waves-light red">
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C11.5 2 11 2.19 10.59 2.59L7.29 5.88L12 10.58L16.71 5.88L13.41 2.59C13 2.19 12.5 2 12 2M5.88 7.29L2.59 10.59C1.8 11.37 1.8 12.63 2.59 13.41L5.88 16.71L10.58 12L5.88 7.29M18.12 7.29L13.42 12L18.12 16.71L21.41 13.41C22.2 12.63 22.2 11.37 21.41 10.59L18.12 7.29M12 13.42L7.29 18.12L10.59 21.41C11.37 22.2 12.63 22.2 13.41 21.41L16.71 18.12L12 13.42Z" /></svg>
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="M12 2C11.5 2 11 2.19 10.59 2.59L7.29 5.88L12 10.58L16.71 5.88L13.41 2.59C13 2.19 12.5 2 12 2M5.88 7.29L2.59 10.59C1.8 11.37 1.8 12.63 2.59 13.41L5.88 16.71L10.58 12L5.88 7.29M18.12 7.29L13.42 12L18.12 16.71L21.41 13.41C22.2 12.63 22.2 11.37 21.41 10.59L18.12 7.29M12 13.42L7.29 18.12L10.59 21.41C11.37 22.2 12.63 22.2 13.41 21.41L16.71 18.12L12 13.42Z"/>
+                </svg>
             </button>
         </div>
         <div id="ageBarPlots" class="barPlots"></div>
@@ -130,9 +143,10 @@
                     <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                 </div>
 
-                <div class="info">
+                <div class="info" id="language-info-button">
                     <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                        <path fill="currentColor"
+                              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                     </svg>
                 </div>
             </div>
@@ -159,9 +173,10 @@
                         <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                     </div>
 
-                    <div class="info">
+                    <div class="info" id="rating-info-button">
                         <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                            <path fill="currentColor"
+                                  d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                         </svg>
                     </div>
                 </div>
@@ -178,9 +193,10 @@
                         <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
                     </div>
 
-                    <div class="info">
+                    <div class="info" id="runtime-info-button">
                         <svg style="width:30px;height:30px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                            <path fill="currentColor"
+                                  d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
                         </svg>
                     </div>
                 </div>
@@ -190,6 +206,12 @@
 
 </div>
 
+<div class="modal-n" id="info-modal">
+    <div class="content" id="info-content">
+        <h3>Genre</h3>
+        <p>Ab aperiam corporis dolor, eveniet in maxime porro quis recusandae reiciendis similique veniam voluptas. Accusantium adipisci alias architecto commodi consectetur, cupiditate deleniti doloremque dolorum, eaque earum error ex excepturi facere facilis fuga id iure molestiae mollitia nam nihil non pariatur praesentium quaerat quod temporibus vel velit veniam vitae voluptate voluptatem!</p>
+    </div>
+</div>
 
 
 <!--Commented out but may use this at some point so I didnt want to delete it -->

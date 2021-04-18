@@ -1,7 +1,8 @@
 // modified from: https://stackoverflow.com/questions/14643617/create-table-using-javascript
 window.renderMovieList = function (view) {
 
-    const rowsPerPage = 10
+
+    const rowsPerPage = 20
     let currentPage = 0
 
 
@@ -9,14 +10,18 @@ window.renderMovieList = function (view) {
     let div = document.getElementById("movieList")
     div.innerText = ""
 
+    let tb = document.createElement('div');
+    tb.classList = 'table-fix'
+
     const header = document.createElement("h4")
-    header.innerHTML = '<h4> Movie Count: ' + view.length + ' </h4>'
+    header.innerHTML = 'Movie Count: ' + view.length + '<br><small>Showing 20 records per page</small>'
     const table = document.createElement("table")
     const tableHead = document.createElement("thead")
     const tableBody = document.createElement("tbody")
 
     let nextPageButton = document.createElement("button")
     nextPageButton.innerText = "Next Page"
+    nextPageButton.classList = 'btn';
     nextPageButton.onclick = () => {
         if ((currentPage + 1) * rowsPerPage > view.length) return
         currentPage ++
@@ -25,6 +30,7 @@ window.renderMovieList = function (view) {
 
     let previousPageButton = document.createElement("button")
     previousPageButton.innerText = "Previous Page"
+    previousPageButton.classList = 'btn';
     previousPageButton.onclick = () => {
         if ((currentPage - 1) < 0) return
         currentPage --
@@ -37,6 +43,7 @@ window.renderMovieList = function (view) {
 
     for (const h of headers){
         const headerCell = document.createElement("th")
+        // headerCell.appendChild(document.createTextNode(h))
         headerCell.appendChild(document.createTextNode(h))
         headerRow.appendChild(headerCell)
     }
@@ -47,7 +54,8 @@ window.renderMovieList = function (view) {
 
     table.appendChild(tableBody)
     div.appendChild(header)
-    div.appendChild(table)
+    tb.appendChild(table)
+    div.appendChild(tb)
     div.appendChild(previousPageButton)
     div.appendChild(nextPageButton)
 

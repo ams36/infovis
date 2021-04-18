@@ -1,3 +1,9 @@
+// Setup the info pop up button
+(() => {
+    const title = 'Runtime by Platform';
+    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    configureHelp('runtime-info-button', title, content);
+})();
 
 // modified from: https://www.d3-graph-gallery.com/graph/boxplot_several_groups.html
 // particularly: changed the nest function to the updated group function to make it work properly

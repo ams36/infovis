@@ -1,7 +1,15 @@
+// Setup the info pop up button
+(() => {
+    const title = 'Ages';
+    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    configureHelp('age-info-button', title, content);
+})();
+
 // Returns an array of m psuedorandom, smoothly-varying non-negative numbers.
 // Inspired by Lee Byron’s test data generator.
 // http://leebyron.com/streamgraph/
 window.renderBarChart = function (view) {
+
     const [yz, groups, max] = formatAgeData(view)
     const xz = ["netflix", "hulu", "disney", "prime"]
     margin = ({top: 0, right: 0, bottom: 30, left: 30})

@@ -37,7 +37,20 @@ var tooltip
 
 window.addEventListener("DOMContentLoaded", () => {
    tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+   document.getElementById('info-modal').onclick = () => {
+       document.getElementById('info-modal').classList.remove('shown')
+   }
 })
+function configureHelp(button, title, content){
+    // Attach a listener to the info button provided by ID
+    document.getElementById(button).onclick = () => {
+        // When its called, update the content to replace whatever the last help text was
+        document.getElementById('info-content').innerHTML = `<h4>${title}</h4><p>${content}</p>`;
+        // Add the shown class. This will trigger the css animation effects to make it fade in
+        document.getElementById('info-modal').classList.add('shown');
+    }
+}
 
 var formatValue = d3.format("1")
 
