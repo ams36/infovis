@@ -29,8 +29,8 @@ window.renderBarChart = function (view) {
 
     const [yz, groups, max] = formatAgeData(view)
     const xz = ["netflix", "hulu", "disney", "prime"]
-    margin = ({top: 0, right: 0, bottom: 30, left: 30})
-    width = 600
+    margin = ({top: 0, right: 0, bottom: 30, left: 50})
+    width = 500
     height = 500
     const n = 6//xz.length
     // yz = d3.range(n).map(() => bumps(m))
