@@ -28,6 +28,23 @@
 
 
 <body>
+
+<div class="header" id="header">
+    <div id = "about" class="about">
+        <div id="headerBox" class="headerBox">
+            <p id="mainTitle" class="mainTitle">&nbsp; Which Movie Streaming Platform Should I Subscribe To? &nbsp;&nbsp;</p>
+            <p class="author"> By 150015294 and 200020111 </p>
+            <p class="description">This visualization was created to help people decide which movie streaming platform to subscribe to based on their interests. The data set contains over 16,000 movies from Hulu, Netflix, Prime Video, and Disney+.<br>
+                Maybe you really love action movies, or you’re trying to learn Spanish! By using our filter functions on the left hand bar, you can narrow your selection down as needed and find the perfect platform for you.
+<br>
+                Happy Streaming! </p>
+            <div class="exit">
+                <div>Click anywhere below to get started!</div>
+                </div>
+        </div>
+    </div>
+</div>
+
 <div id="filter" class="filter z-depth-2">
     <div>
         <h3>Filters</h3>
@@ -43,11 +60,12 @@
         <select id='languageSelector' multiple class="select_all"></select>
     </div>
     <div class="spacer"></div>
-    <div class="legend" id="age-legend">
-    <h5>Age Legend</h5>
-        <div class="content"></div>
-    </div>
-    <div id = "platformLegend" class="legend shown">
+    <div class="legends">
+        <div class="legend" id="age-legend">
+        <h5>Age Legend</h5>
+            <div class="content"></div>
+        </div>
+        <div id = "platformLegend" class="legend shown">
     <h5>Platform Legend</h5>
         <div class="content">
             <div class="entry">
@@ -68,7 +86,9 @@
             </div>
         </div>
     </div>
+    </div>
     <button id="undo" class="btn">Reset Filters</button>
+    <button id="about-button" class="btn">About</button>
 </div>
 <div id="overviewPage" class="page">
     <div id="filterSpacer_1" class="filter"></div>
@@ -78,7 +98,7 @@
                 <div class="left-bar bar-shared"></div>
                 <div class="content">
                     <div class="title">&nbsp; Overview &nbsp;&nbsp;</div>
-                    <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
+                    <div class="subtitle">Movies Shared Between Platforms</div>
                 </div>
 
                 <div class="info" id="shared-info-button">
@@ -106,7 +126,7 @@
                 <div class="left-bar bar-genres"></div>
                 <div class="content">
                     <div class="title">&nbsp; Genres &nbsp;&nbsp;</div>
-                    <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
+                    <div class="subtitle">Find out which platform has the most movies of your favourite genre</div>
                 </div>
 
                 <div class="info" id="genre-info-button">
@@ -128,7 +148,7 @@
                 <div class="left-bar bar-ages"></div>
                 <div class="content">
                     <div class="title">&nbsp; Ages &nbsp;&nbsp;</div>
-                    <div class="subtitle">Lorem ipsum dolor sit amet, consectetur.</div>
+                    <div class="subtitle">Looking for family friendly movies? View target age by platform.</div>
                 </div>
 
                 <div class="info" id="age-info-button">
@@ -185,7 +205,6 @@
                 <div id = "disneyLanguages" class="languages"></div>
                 <div id = "primeLanguages" class="languages"></div>-->
 </div>
-
 <div id="boxplotsPage" class="page">
     <div id="filterSpacer_2" class="filter"></div>
     <div id="allBoxplots" class="boxplotsParent">
@@ -230,25 +249,12 @@
     </div>
 
 </div>
-
 <div class="modal-n" id="info-modal">
     <div class="content" id="info-content">
         <h3>Genre</h3>
         <p>Ab aperiam corporis dolor, eveniet in maxime porro quis recusandae reiciendis similique veniam voluptas. Accusantium adipisci alias architecto commodi consectetur, cupiditate deleniti doloremque dolorum, eaque earum error ex excepturi facere facilis fuga id iure molestiae mollitia nam nihil non pariatur praesentium quaerat quod temporibus vel velit veniam vitae voluptate voluptatem!</p>
     </div>
 </div>
-
-
-<!--Commented out but may use this at some point so I didnt want to delete it -->
-<!--<div id="page2" class = "page">-->
-<!--    <div id="filterSpacer_2" class = "filter"></div>-->
-<!--    <div id="quickComparison" class = "quickComparison">-->
-<!--        <div id = "netflixQuickstats" class ="quickStats"></div>-->
-<!--        <div id = "huluQuickstats" class="quickStats"></div>-->
-<!--        <div id = "disneyQuickstats" class="quickStats"></div>-->
-<!--        <div id = "primeQuickstats" class="quickStats"></div>-->
-<!--    </div>-->
-<!--</div>-->
 
 <!-- Import index javascript files (Needs to be at the end so the entire document is parsed before it gets here)-->
 <script src="script/sharedTitles.js"></script>
@@ -263,7 +269,20 @@
 
 <!-- This must be at the bottom, insert visualisation scripts above-->
 <script src="script/index.js"></script>
-
+<script>
+    const header = document.getElementById('header');
+    header.onclick = (e) => {
+        if(e.target === header){
+            document.body.style.overflow =  'unset';
+            header.classList.remove('in');
+            header.classList.add('out');
+        }
+    }
+    document.getElementById('about-button').onclick = () => {
+        header.classList.add('in');
+        header.classList.remove('out');
+    }
+</script>
 
 </body>
 

@@ -22,6 +22,12 @@ body, html{
     font-family: "Zilla Slab", sans-serif;
 }
 
+body{
+    /* Prevents scrolling initially while the pop up is closed, this is overriden as soon as you click off the header
+    see ____*/
+    overflow: hidden;
+}
+
 .toolTip{
     display: none;
     position: absolute;
@@ -60,6 +66,13 @@ body, html{
     top:0;
     left: 0;
     height: 100%;
+}
+
+#filter #about-button{
+    margin-top: 15px;
+    background: transparent;
+    color: var(--carrotOrange);
+    border: 1px solid var(--carrotOrange);
 }
 
 #filter .spacer{
@@ -471,22 +484,28 @@ svg{
 
 /* Legends */
 
+.legends{
+    position: relative;
+}
+
 .legend {
     padding: 0px 20px 20px;
+    position: absolute;
+    bottom: 20px;
 }
 
 .legend .entry .square {
-    width: 1.5pc;
-    height: 1.4pc;
+    width: 1pc;
+    height: 1pc;
     background: red;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .legend .entry {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .legend .entry .square.disney{
@@ -512,4 +531,125 @@ svg{
     z-index: 1000000;
     visibility: visible;
     opacity: 1;
+}
+
+/* Header Bar */
+
+@keyframes header-in {
+    0%{
+        top: -100%;
+        opacity: 0;
+    }
+
+    1%{
+        opacity: 1;
+    }
+
+    100%{
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes header-remove {
+    0%{
+        top: 0;
+        opacity: 1;
+        display: block;
+        /*background-color: rgba(0, 0, 0, 0.7);*/
+    }
+
+    50%{
+        /*opacity: 1;*/
+        display: block;
+    }
+
+    99%{
+        top: -99%;
+        opacity: 0;
+        display: block;
+    }
+
+    100%{
+        top: -100%;
+        opacity: 0;
+        display: none;
+    }
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000000;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 50%, transparent);
+    /*background: rgba(0, 0, 0, 0.7);*/
+    cursor: pointer;
+    animation: header-in 2s;
+}
+
+.header.out{
+    animation: header-remove 2s;
+    top: -100%
+}
+
+.header .about {
+    width: 100%;
+    /*height: 100vh;*/
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.header .about .description{
+    width: 50%;
+    margin: auto;
+    background-color: rgba(251, 250, 245, 0.3);
+    padding: 15px;
+}
+
+.header .about .exit{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: -35px;
+    font-size: 120%;
+    padding: 10px;
+}
+
+.header .about .exit>div{
+    display: inline-block;
+    background-color: var(--nyanza);
+    padding: 10px 15px;
+    border-radius: 100px;
+}
+
+.header .headerBox {
+    cursor: default;
+    text-align: center;
+    /*height: 40vh;*/
+    background: rgb(35, 0, 7);
+    padding-bottom: 3pc;
+    /*background: -moz-linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
+    /*background: -webkit-linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
+    /*background: linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#230007", endColorstr="#8b94a3", GradientType=1);*/
+    background: rgb(234,144,16);
+    background: -moz-linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
+    background: -webkit-linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
+    background: linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ea9010",endColorstr="#230007",GradientType=1);
+}
+
+.header .headerBox .author{
+    color: var(--nyanza)
+}
+
+.header .mainTitle{
+    font-family: 'Zilla Slab Highlight', cursive;
+    font-size: 3vw;
+    color: var(--nyanza);
+    margin-bottom: 0;
 }
