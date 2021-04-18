@@ -11,13 +11,14 @@ function loadData() {
         const genres = (d.Genres || "Unknown")
         const languages = (d.Language || "Unknown")
 
-        // fix incorrect data points
+        // fix incorrect data points - only checked for extreme outliers
         if (d.Title === "Colorado") d.Runtime = "57" // the data is incorrect for this movie, so we looked up the actual movie length
         if (d.Title === "Law of the Lawless") d.Runtime = "87" // the data is incorrect for this movie, so we looked up the actual movie length
         if (d.Title === "Scarlett") d.Runtime = "92" // the data is incorrect for this movie, so we looked up the actual movie length
         if (d.Title === "The Inner Circle") d.Runtime = "96" // the data is incorrect for this movie, so we looked up the actual movie length
         if (d.Title === "Carlos el terrorista") d.Runtime = "97" // the data is incorrect for this movie, so we looked up the actual movie length
         if (d.Title === "Gone") d.Runtime = "95" // the data is incorrect for this movie, so we looked up the actual movie length
+        if (d.Title === "The Vatican Museums") d.Runtime = "154"
 
         // NOTES: results are movies only so dont return movie column
         //return a new object instead of the row so the data can be stored as objects with javascript friendly tags
@@ -45,7 +46,8 @@ function loadData() {
             "prime", "disney", "directors", "genres", "country", "language", "runtime"
         ]
 
-        mediaData = data;
+        // remove Custers last stand because its actually a tv show with 15 episodes
+        mediaData = data.filter((d) => d.title !== "Custer's Last Stand");
     });
 }
 
