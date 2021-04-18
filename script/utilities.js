@@ -66,8 +66,6 @@ if (document.readyState !== "complete"){
     initialise()
 }
 
-console.log("IM FUCKING HERE")
-
 function configureHelp(button, title, content){
     // Attach a listener to the info button provided by ID
     document.getElementById(button).onclick = () => {

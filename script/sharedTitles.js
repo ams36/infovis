@@ -156,6 +156,10 @@ window.renderSharedTitles = function (view) {
         .join("path")
         .style("mix-blend-mode", "multiply")
         .attr("fill", d => {
+            console.log(d)
+            if (d.source.index === d.target.index){
+                return colorMap[names[d.source.index]]
+            }
             const u = `url(#lg-${names[d.source.index]}-${names[d.target.index]})`
             // console.log(u)
             return u;

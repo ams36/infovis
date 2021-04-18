@@ -162,6 +162,11 @@ body{
     flex-grow: 1;
 }
 
+#sharedTitles{
+    width: 100%;
+}
+
+
 .boxplotsParent{
     display: flex;
     flex-grow: 1;
@@ -647,7 +652,7 @@ svg{
     color: var(--nyanza)
 }
 
-.header .headerBox a{
+.header .headerBox a {
     color: var(--darkLiver);
     text-decoration: underline;
 }
