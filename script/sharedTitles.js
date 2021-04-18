@@ -16,22 +16,19 @@
  * https://css-tricks.com/scale-svg/ (scaling css for visualisation)
  */
 
+/**
+ * Runs the Chord Diagram Overview visualisation.
+ * @param view the filtered version of the data to be displayed
+ */
 window.renderSharedTitles = function (view) {
 
-    const formatValue = d3.format("1")
-
     // formatting data as needed for the visualisation
-    const [connections, names] = formatMatrix()
-    // const names = [
-    //     "netflix", "netflix_PrimeHulu", "netflix_DisneyHulu", "netflix_DisneyPrime",
-    //     "prime", "prime_NetflixHulu", "prime_DisneyHulu", "prime_NetflixDisney",
-    //     "disney", "disney_NetflixHulu", "disney_PrimeHulu", "disney_NetflixPrime",
-    //     "hulu", "hulu_NetflixDisney", "hulu_PrimeDisney", "hulu_NetflixPrime",
-    //     "allPlatforms"]
+    const [connections, names] = formatMatrix(view)
 
-    // set the height and width used to create the visualisation but not as seen on screen
+    // set the height and width used to create the visualisation
     const height = 1000
     const width = 1000
+
     // set up sizes for the circle
     const outerRadius = Math.min(width, height) * 0.5 - 70
     const innerRadius = outerRadius - 10
@@ -52,7 +49,7 @@ window.renderSharedTitles = function (view) {
     }
     const tickStep = d3.tickStep(0, d3.sum(connections.flat()), 100)
 
-    // make chords and ribbons
+    // make chords and ribbons (chord is the line, ribbon is the thickness)
     const chord = d3.chord()
         .padAngle(10 / innerRadius)
         .sortSubgroups(d3.descending)
@@ -168,8 +165,8 @@ window.renderSharedTitles = function (view) {
             return u;
         })
         .attr("d", ribbon)
-        .on("mousemove", function(t, d) {  // the datum you want
-            console.log("here")
+        // add tooltip functions to the chord
+        .on("mousemove", function(t, d) {
             tooltip
                 .style("left", t.pageX + 20 + "px")
                 .style("top", t.pageY+ "px")
@@ -179,16 +176,23 @@ window.renderSharedTitles = function (view) {
         .on("mouseleave", () => {
             tooltip.style("display", "none")
         })
-        // .append("title")
-        // .text(generateTooltipText);
 
+    /**
+     * Generates teh tooltips on mousemove
+     * @param d the data point it should be showing information about
+     * @returns {string} the string to be shown in the tooltip
+     */
     function generateTooltipText(d){
-        if (d.target.index=== d.source.index) return `${formatValue(d.source.value)} Movies on ${names[d.target.index].capitalise()}`
+        // if the source and target are the same, return the string "[Count] Movies on [Platform]"
+        if (d.target.index=== d.source.index) return `<b>${formatValue(d.source.value)} Movies on ${names[d.target.index].capitalise()}<b/>`
+        // if the string includes an underscore, it is a chord that is shared between 3 platforms so manipulate the string to show it nicely
         else if (names[d.target.index].includes("_")){
+            // structure is platform_PlatformPlatform
             const split = names[d.target.index].split("_") // split the names on the underscore to remove the first platform from the second two
             const platform1 = split[0]
             let platform2 = ""
             let platform3 = ""
+            // loop through and find the upper case letters to split on to get the second and third platforms
             for (let i = 1; i < split[1].length; i++) { // start from 1 because the first value should be an uppercase, we want to find the second
                 if (split[1].charAt(i).toUpperCase() === split[1].charAt(i)){
                     platform2 = split[1].substring(0,i)
@@ -196,15 +200,22 @@ window.renderSharedTitles = function (view) {
                     break
                 }
             }
-            return `${formatValue(d.source.value)} Movies Shared Between: ${platform1.capitalise()}, ${platform2.capitalise()}, and ${platform3.capitalise()}`
+            // return the tooltip in the format [Count] Movies Shared Between: Platform 1, Platform 2, and Platform 3
+            return `<b>${formatValue(d.source.value)} Movies Shared Between: ${platform1.capitalise()}, ${platform2.capitalise()}, and ${platform3.capitalise()}<b/>`
         } else {
-            return `${formatValue(d.source.value)} Movies Shared Between ${names[d.target.index].capitalise()} and ${names[d.source.index].capitalise()}`
+            // if it is chord between 2 platforms, return as: [Count] Movies Shared Between Platform and Platform
+            return `<b>${formatValue(d.source.value)} Movies Shared Between ${names[d.target.index].capitalise()} and ${names[d.source.index].capitalise()}</b>`
         }
     }
 
 }
 
-function formatMatrix() {
+/**
+ * This formats the data into the matrix format needed for a chord diagram
+ * @param view the filtered version of the data to be visualised
+ * @returns {[any[][], *[]]} matrix format of the data, and a list of the source names that should be displayed
+ */
+function formatMatrix(view) {
     // add streaming services as nodes
     const allNetflix = []
     const allHulu = []
@@ -225,9 +236,9 @@ function formatMatrix() {
     const netflixPrimeHulu = allNetflix.filter((x) => allPrime.includes(x) && allHulu.includes(x) && !allDisney.includes(x)).length
     const netflixPrimeDisney = allNetflix.filter((x) => allPrime.includes(x) && allDisney.includes(x) && !allHulu.includes(x)).length
     const disneyHuluPrime = allDisney.filter((x) => allHulu.includes(x) && allPrime.includes(x) && !allNetflix.includes(x)).length
-    const netflixHulu = allNetflix.filter((x) => allHulu.includes(x) && !allPrime.includes(x) && !allDisney.includes(x)).length  // the number of shared titles between netflix and hulu
-    const netflixDisney = allNetflix.filter((x) => allDisney.includes(x) && !allPrime.includes(x) && !allHulu.includes(x)).length  // the number of shared titles between netflix and disney
-    const netflixPrime = allNetflix.filter((x) => allPrime.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length  // the number of shared titles between netflix and prime
+    const netflixHulu = allNetflix.filter((x) => allHulu.includes(x) && !allPrime.includes(x) && !allDisney.includes(x)).length
+    const netflixDisney = allNetflix.filter((x) => allDisney.includes(x) && !allPrime.includes(x) && !allHulu.includes(x)).length
+    const netflixPrime = allNetflix.filter((x) => allPrime.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length
     const huluDisney = allHulu.filter((x) => allDisney.includes(x) && !allPrime.includes(x) && !allNetflix.includes(x)).length
     const huluPrime = allHulu.filter((x) => allPrime.includes(x) && !allNetflix.includes(x) && !allDisney.includes(x)).length
     const disneyPrime = allDisney.filter((x) => allPrime.includes(x) && !allNetflix.includes(x) && !allHulu.includes(x)).length
@@ -236,6 +247,7 @@ function formatMatrix() {
     const disneyExclusive = allDisney.filter((x) => !allPrime.includes(x) && !allHulu.includes(x) && !allNetflix.includes(x)).length
     const primeExclusive = allPrime.filter((x) => !allNetflix.includes(x) && !allHulu.includes(x) && !allDisney.includes(x)).length
 
+    // create the source and targets for the chord diagram
     connections = [
         // add all for netflix
         {source: "netflix", target: "netflix", value: netflixExclusive},
@@ -294,14 +306,10 @@ function formatMatrix() {
         {source: "allPlatforms", target: "hulu", value: allPlatforms},
         {source: "allPlatforms", target: "disney", value: allPlatforms}
 
-    ].filter(({value}) => value > (view.length * .001)) // filter out any results that is less than 1% of the data size as they're too small to have interactivity
+    ].filter(({value}) => value > (view.length * .001)) // filter out any results that is less than .1% of the data size as they're too small to have interactivity
 
-    // console.log(view.length * .01)
-
-    // console.log(connections)
 
     const names = connections.map(({source}) => source).filter((e, i, arr) => arr.indexOf(e) === i) // get a list of unique source names
-    // console.log(names)
 
     // turn the data into a matrix
     // code modified from: https://observablehq.com/@d3/directed-chord-diagram?collection=@d3/d3-chord
