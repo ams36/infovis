@@ -1,7 +1,10 @@
 // Setup the info pop up button
 (() => {
     const title = 'Shared Titles between Platforms';
-    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    const content = 'This chord diagram allows users to visualise any shared titles between the Platforms.<br/><br/>' +
+        'The number of movies is represented by the ticks around the circle. This can be particularly helpful for users ' +
+        'to understand how many movies shared between the platforms in case they are looking to subscribe to more than one. Hover over the sections for more information! <br/>' +
+        '<br/>Also on this page, you can find a list of all titles returned and the  total number of movies. You are also able which platforms the film is available on. '
     configureHelp('shared-info-button', title, content);
 })();
 

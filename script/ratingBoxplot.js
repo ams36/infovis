@@ -1,7 +1,10 @@
 // Setup the info pop up button
 (() => {
     const title = 'Ratings by Platform';
-    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    const content = 'These Box Plots allow users to visualise IMDB scores for movies across four platforms. <br/><br/>' +
+        'By comparing the median, maximum and minimum value of IMDB of movies on the four platforms, users can have a general' +
+        ' understanding of the quality of movies on the four platforms. Any outliers are visualised as well, and the size of the circle' +
+        ' represents the number of movies with that IMDb Score.'
     configureHelp('rating-info-button', title, content);
 })();
 

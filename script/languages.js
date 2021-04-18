@@ -1,7 +1,10 @@
 // Setup the info pop up button
 (() => {
     const title = 'Languages';
-    const content = 'This visualisation lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquid doloremque eius ipsam ipsum iure maiores minima necessitatibus nulla obcaecati perferendis, praesentium provident quaerat quia, vitae. Adipisci aliquid assumenda autem, cumque cupiditate debitis dignissimos dolores earum et eum ex in magni maiores molestias neque obcaecati perspiciatis quas repellendus temporibus ut. '
+    const content = 'This lollipop diagram helps users understand the distribution of languages among the four platforms.' +
+        '<br/>The color represents the platform, the X-axis represents the number of movies, and the Y-axis represents a language.' +
+        '<br/>By observing the distribution of the four color points horizontally, the user can easily recognise which platform has' +
+        ' the most movies in the languages they know.'
     configureHelp('language-info-button', title, content);
 })();
 
