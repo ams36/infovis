@@ -271,20 +271,6 @@
 
 <!-- This must be at the bottom, insert visualisation scripts above-->
 <script src="script/index.js"></script>
-<script>
-    const header = document.getElementById('header');
-    header.onclick = (e) => {
-        if(e.target === header){
-            document.body.style.overflow =  'unset';
-            header.classList.remove('in');
-            header.classList.add('out');
-        }
-    }
-    document.getElementById('about-button').onclick = () => {
-        header.classList.add('in');
-        header.classList.remove('out');
-    }
-</script>
 
 </body>
 

@@ -35,16 +35,39 @@ var colorMap = {
 
 var tooltip
 
-window.addEventListener("DOMContentLoaded", () => {
-   tooltip = d3.select("body")
-       .append("div")
-       .attr("class", "toolTip");
+const initialise = () => {
+    tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "toolTip");
 
+    console.log("HELLO")
+    var header = document.getElementById('header');
+    header.onclick = (e) => {
+        console.log("here2")
+        if(e.target === header){
+            document.body.style.overflow =  'unset';
+            header.classList.remove('in');
+            header.classList.add('out');
+        }
+    }
+    document.getElementById('about-button').onclick = () => {
+        header.classList.add('in');
+        header.classList.remove('out');
+    }
 
-   document.getElementById('info-modal').onclick = () => {
-       document.getElementById('info-modal').classList.remove('shown')
-   }
-})
+    document.getElementById('info-modal').onclick = () => {
+        document.getElementById('info-modal').classList.remove('shown')
+    }
+}
+
+if (document.readyState !== "complete"){
+    window.addEventListener("load", initialise)
+} else {
+    initialise()
+}
+
+console.log("IM FUCKING HERE")
+
 function configureHelp(button, title, content){
     // Attach a listener to the info button provided by ID
     document.getElementById(button).onclick = () => {
@@ -56,6 +79,7 @@ function configureHelp(button, title, content){
 }
 
 var formatValue = d3.format("1")
+
 
 var stackSVG = `<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0L3 7L4.63 8.27L12 14L19.36 8.27L21 7L12 0M19.37 10.73L12 16.47L4.62 10.74L3 12L12 19L21 12L19.37 10.73M19.37 15.73L12 21.47L4.62 15.74L3 17L12 24L21 17L19.37 15.73Z" /></svg>`
 var rhombusSVG = `<svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C11.5 2 11 2.19 10.59 2.59L7.29 5.88L12 10.58L16.71 5.88L13.41 2.59C13 2.19 12.5 2 12 2M5.88 7.29L2.59 10.59C1.8 11.37 1.8 12.63 2.59 13.41L5.88 16.71L10.58 12L5.88 7.29M18.12 7.29L13.42 12L18.12 16.71L21.41 13.41C22.2 12.63 22.2 11.37 21.41 10.59L18.12 7.29M12 13.42L7.29 18.12L10.59 21.41C11.37 22.2 12.63 22.2 13.41 21.41L16.71 18.12L12 13.42Z" /></svg>`
