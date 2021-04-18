@@ -82,11 +82,11 @@ window.renderRatingBoxplot = function (view) {
 
 
     //NEW: Add X axis label:
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("x", width)
-        .attr("y", height + margin.top + 30)
-        .text(" x_label");
+    // svg.append("text")
+    //     .attr("text-anchor", "end")
+    //     .attr("x", width)
+    //     .attr("y", height + margin.top + 30)
+    //     .text(" x_label");
 
 
     // Show the main vertical line

@@ -11,6 +11,7 @@
     --carrotOrange: #EA9010;
     --darkLiver: #474647;
     --deepBurgundy: #230007;
+    --offWhite: #FBFAF5;
 }
 
 
@@ -31,7 +32,7 @@ body, html{
 }
 
 .page{
-    background: white;
+    background: var(--offWhite);
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -59,7 +60,6 @@ body, html{
 }
 
 .chordDiagram{
-    background: var(--nyanza);
     flex-grow: 1;
     display: flex;
     padding: 3pc;
@@ -101,21 +101,54 @@ body, html{
     flex-grow: 1;
     flex-direction: row;
     align-items: stretch;
+    /*height: 87vh;*/
+}
+
+.boxplot-and-title {
+    flex-grow: 1;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.boxplot-and-title .left-bar{
+    width: 2pc !important;
+    left: 2pc !important;
+    background-color: var(--nyanza) !important;
+}
+
+.boxplot-and-title.right .left-bar{
+    top: 0;
+}
+
+.boxplot-and-title.left{
+    border-left: 6px solid var(--carrotOrange);
+    border-right: 3px solid var(--carrotOrange);
+    border-bottom: 6px solid var(--carrotOrange);
+}
+
+.boxplot-and-title.right{
+    border-right: 6px solid var(--carrotOrange);
+    border-left: 3px solid var(--carrotOrange);
+    border-top: 6px solid var(--carrotOrange);
 }
 
 .boxplots{
     /*flex-basis: 40%;*/
     flex-grow: 1;
-    margin: 5px;
-    background: var(--manatee);
-    color: white;
+    margin: 0;
+    background: var(--nyanza);
+    color: darkslategrey;
     justify-content: center;
     text-align: center;
 }
 
 .boxplots>svg{
     height: 100%;
+}
+
+.boxplot-container{
+    flex-grow: 1;
 }
 
 svg{

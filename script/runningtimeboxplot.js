@@ -17,9 +17,9 @@ window.renderRuntimeBoxplot = function (view) {
     }
 
     // set the dimensions and margins of the graph
-    var margin = {top: 90, right: 60, bottom: 90, left: 60},
+    var margin = {top: 0, right: 60, bottom: 10, left: 60},
         width = 460 ,
-        height = 300 ;
+        height = 460 ;
 
     // append the svg object to the body of the page
     var svg = d3.select("#runtimeBoxplot")
@@ -80,7 +80,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("x2", function(d){return(x(d[0]))})
         .attr("y1", function(d){return(y(d[1].min))})
         .attr("y2", function(d){return(y(d[1].max))})
-        .attr("stroke", "white")
+        .attr("stroke", "black")
         .attr("opacity", 0.5)
         .style("width", 40)
 
@@ -96,8 +96,8 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y", function(d){return(y(d[1].q3))})
         .attr("height", function(d){return(y(d[1].q1)-y(d[1].q3))})
         .attr("width", boxWidth )
-        .attr("stroke", "white")
-        .attr("stroke-opacity", .5)
+        .attr("stroke", "black") //gray too light, black looks better here
+        //.attr("stroke-opacity", .5)
         .style("fill", function(d){return colorMap[d[0]]})
         .on("mousemove", createRuntimeTooltip)
         .on("mouseleave", () => {
@@ -131,8 +131,8 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("x2", function(d){return(x(d[0])+boxWidth/2) })
         .attr("y1", function(d){return(y(d[1].median))})
         .attr("y2", function(d){return(y(d[1].median))})
-        .attr("stroke", "white")
-        .attr("opacity", 0.5)
+        .attr("stroke", "black")
+        //.attr("opacity", 0.5)
         .style("width", 80)
         .on("mousemove", createRuntimeTooltip)
         .on("mouseleave", () => {
@@ -140,16 +140,16 @@ window.renderRuntimeBoxplot = function (view) {
         });
 
 
-    //adding titles
-    svg.select("g")
-        .append("text")
-        .text(" Running time By Platform")
-        .style("font-family", "'Zilla Slab Highlight', sans-serif")
-        .style("fill", "white")
-        .style("font-weight", "bold")
-        .attr("font-size", "2em")
-        .attr("x", 250)
-        .attr("y", -320);
+    // //adding titles
+    // svg.select("g")
+    //     .append("text")
+    //     .text(" Running time By Platform")
+    //     .style("font-family", "'Zilla Slab Highlight', sans-serif")
+    //     .style("fill", "darkslategray")
+    //     .style("font-weight", "bold")
+    //     .attr("font-size", "2em")
+    //     .attr("x", 250)
+    //     .attr("y", -320);
 
 
     //adding x/y axis titles
@@ -174,7 +174,7 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("r", (d) => radius(d.count))
         .style("fill", function(d){ return colorMap[d.platform] })
         .attr("opacity", 0.3)
-        .attr("stroke", "white")
+        .attr("stroke", "darkslategray")
         .on("mousemove", createRuntimeOutlierTooltip)
         .on("mouseleave", () => {
             tooltip.style("display", "none")
