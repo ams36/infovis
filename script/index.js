@@ -1,5 +1,5 @@
-let mediaData = undefined;
-let view = undefined;
+let mediaData = undefined; // the full data set
+let view = undefined; // the current view
 
 /**
  * Function to load the data from the CSV, returns a promise of the data
@@ -51,10 +51,18 @@ function loadData() {
     });
 }
 
+/**
+ * getter for media data
+ * @returns {*} a list of the full data
+ */
 function getMediaData(){
     return mediaData
 }
 
+/**
+ * returns a list of unique genres as a string array for filters and any other visualisation that need it
+ * @returns an array list of languages
+ */
 function getGenres(){
     return mediaData
         .map((row) => row.genres)
@@ -62,6 +70,10 @@ function getGenres(){
         .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
 }
 
+/**
+ * returns a list of unique languages as a string array for filters and any other visualisation that need it
+ * @returns an array list of languages
+ */
 function getLanguages(){
     return mediaData
         .map((row) => row.language)
@@ -69,12 +81,20 @@ function getLanguages(){
         .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
 }
 
+/**
+ * gets the year range for filters and any other visualisation that need it
+ * @returns {{high: number, low: number}} oldest year, most recent year
+ */
 function getYearRange(){
     let high = Math.max(...mediaData.map((row) => row.year))
     let low = Math.min(...mediaData.map((row) => row.year))
     return {low: low, high: high}
 }
 
+/**
+ * gets the runtime range for filters and any other visualisation that need it
+ * @returns {{high: number, low: number}} lowest runtime, highest runtime
+ */
 function getRuntimeRange(){
     let high = Math.max(...mediaData.map((row) => row.runtime).filter((x) => !isNaN(x)))
     let low = Math.min(...mediaData.map((row) => row.runtime).filter((x) => !isNaN(x)))
