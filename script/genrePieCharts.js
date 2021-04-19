@@ -15,8 +15,7 @@
     const content = 'This circle packed donut chart allows users to visualise movie genre distribution among four platforms. <br/> <br/>' +
         'Each donut chart presents a genre, and the larger it is, the higher the number of movies. ' +
         'The color attribute is consistent with the platform it represents. Hover over the arcs for more information or zoom in to get a better look!' +
-
-        'This gives users a clear idea of the distribution of the movie genres they are interested in across the four platforms.'
+        ' This gives users a clear idea of the distribution of the movie genres they are interested in across the four platforms.'
     configureHelp('genre-info-button', title, content);
 })();
 
