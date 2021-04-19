@@ -47,7 +47,7 @@ window.renderGenreCharts = function (view) {
 
     // grab the div to append where the visualisation should go
     var svg = d3.select("#genreDiagram")
-        .html("")   //remove any vis thats already in it (in case this was called on a update function
+        .html("")   //remove any vis that's already in it (in case this was called on a update function
         .append("svg")  //add the svg to the div
         .attr("preserveAspectRatio", "xMidYMid meet")   // used to preserve aspect ratio when resizing
         .attr("viewBox", [0, 0, diameter, diameter])    // used to preserve aspect ratio  when resizing
@@ -56,63 +56,95 @@ window.renderGenreCharts = function (view) {
     // added to hold all nodes in order to create a zoom function
     const everything = svg.append("g")
 
-    // adds all nodes ot everything
+    // adds all nodes to everything to allow zooming
     var nodes = everything.selectAll("g.node")
         .data(nodeData);
 
-    // creates a group for every node and sets its inital position
+    // creates a group for every node and sets its initial position
     var nodeEnter = nodes.enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+    // creates a group of arcs for the genre node (the circle / donut)
     var arcGs = nodeEnter.selectAll("g.arc")
         .data(function(d) {
-            return pie(Object.entries(d.data).slice(1)).map(function(m) { m.r = d.r; m.p = d.data.platform; m.genre = d.data.genre; return m; });
+            return pie(Object.entries(d.data)
+                .slice(1))
+                .map(function(m) {
+                    m.r = d.r;
+                    m.p = d.data.platform;
+                    m.genre = d.data.genre;
+                    return m;
+                });
         });
-    var arcEnter = arcGs.enter().append("g").attr("class", "arc");
 
+    // adds the arcs to the genre group (the individual platforms)
+    var arcEnter = arcGs
+        .enter()
+        .append("g")
+        .attr("class", "arc");
+
+    // creates the path for the arc at the size needed
     arcEnter.append("path")
         .attr("d", function(d) {
             arc.outerRadius(d.r)
             return arc(d)
         })
+        // creates a tooltip for the arc
         .on("mousemove", createGenreTooltip)
-            .on("mouseleave", () => {
+        // removes the tooltip from the arc
+        .on("mouseleave", () => {
                 tooltip.style("display", "none")
         })
+        // sets the style to the colour of the platform
         .style("fill", function(d, i) { return colorMap[d.data[0]]; });
 
-    function createGenreTooltip(t, d) {  // the datum you want
-        console.log(t)
-        console.log(d)
+    /**
+     * Function to create the genre tooltip
+     * @param t the transform event that occurred to get the x and y locations of the mouse
+     * @param d the data to be visualised
+     */
+    function createGenreTooltip(t, d) {
         tooltip
+            // set the location of the tooltip to 20 px to the right so it isnt covered by the cursor
             .style("left", t.pageX + 20 + "px")
             .style("top", t.pageY+ "px")
             .style("display", "inline-block")
-            .html(generateGenreTooltipText(t, d));
+            // set the text for the tooltip
+            .html(generateGenreTooltipText(d));
     }
 
-    function generateGenreTooltipText(t, d){
+    /**
+     * generate the text for the tooltip
+     * @param d the data to be placed
+     * @returns {string} the text to be shown
+     */
+    function generateGenreTooltipText(d){
+        // returns in the format: Count of [Genre] Movies on [Platform]: [Count]
         return `<b>Count of ${d.genre} Movies on ${d.data[0].capitalise()}:</b> ${d.data[1]}`
     }
 
+    /**
+     * Set the Genre labels for the centre of the Donut
+     */
     var labels = nodeEnter.selectAll("text.label")
         .data(function(d) { return [d]; });
-    labels.enter().append("text")
-        // i think I update the font size here
-        .attr('class', 'label')
-        .attr('dy', '0.35em')
-        .style("text-anchor", "middle")
-        .style('fill', 'white')
+    labels.enter()
+        .append("text") // add text element
+        .attr('class', 'label') // set class
+        .attr('dy', '0.35em') // y offset
+        .style("text-anchor", "middle") // anchor in the centre of the circle
+        .style('fill', 'white') // text colour should be white
+        // set the size to be dynamic to ~the size in the centre (a few go over, but they do not overlap beyond the circle)
         .style('font-size',  (d) => (d.r*0.015) + 'em')
-        .text((d) => d.data.genre);
+        .text((d) => d.data.genre); // set the text to the genre
 
     // zoom modified from: https://observablehq.com/@d3/zoom-with-tooltip
     // and: https://bl.ocks.org/saifulazfar/f2da589a3abbe639fee0996198ace301
     const zoom = d3.zoom()
         .extent([[0, 0], [diameter, diameter]])
-        .scaleExtent([1, 40])
-        .on("zoom", zoomed)
+        .scaleExtent([1, 40])  // the amount you are able to zoom
+        .on("zoom", zoomed) // on zoom, call zoomed
     svg.call(zoom);
 
     //set up the initial zoom
@@ -121,21 +153,30 @@ window.renderGenreCharts = function (view) {
     // after testing, identified these values to use as starting transformation point
    // {k: 1.0564771967121946, x: -19.093543668575762, y: 25.76101059564803}
 
+    /**
+     * Transforms the visual when it is zoomed
+     * @param transform transform information
+     */
     function zoomed({transform}) {
-        console.log(transform)
         everything.attr("transform", transform);
     }
 
 }
 
-// data process
+/**
+ * Format the data as needed for the donut charts
+ * @param view the filtered version of the data as neeeded for the donut chart
+ * @returns {unknown[]} // the values of the results (without the keys)
+ */
 function formatGenres(view){
 
+    // get a list of the genres shown in the view
     const viewGenres = view
         .map((row) => row.genres)
         .flat()
         .filter((e, i, arr) => arr.indexOf(e) === i && e !== "")
 
+    // object to store the results in
     let results = {}
     for (const g of viewGenres){
         results[g] = {
@@ -146,6 +187,8 @@ function formatGenres(view){
             prime: 0
         }
     }
+
+    // count the number of times that genre appeared
     for (const movie of view){
        for (const g of movie.genres){
             if (movie.netflix) results[g].netflix++
@@ -154,5 +197,7 @@ function formatGenres(view){
             if (movie.prime) results[g].prime++
         }
     }
+
+    // return the results
     return Object.values(results)
 }
