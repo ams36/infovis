@@ -493,6 +493,7 @@ svg{
 
 .legends{
     position: relative;
+    z-index: 900;
 }
 
 .legend {
