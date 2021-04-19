@@ -10,6 +10,7 @@ let filters = {
 // did not have enough time to fix it, there were errors copying the object correctly
 // let filterStack = []
 
+// boolean to indiciate when the select all buttons are mimicking the clicking every option
 let supressGenreFilter = false;
 let supressLanguageFilter = false;
 
@@ -256,6 +257,7 @@ function filteredByLanguage(e){
     applyFilters(false)
 }
 
+// resets the filters and applies the filters, resets the filter elements in view too
 function resetClicked(){
     filters.rating = undefined
     filters.genres = undefined
@@ -268,6 +270,7 @@ function resetClicked(){
     const runtimeRange = getRuntimeRange()
     const yearRange = getYearRange()
 
+    // move the slider back to start
     runtimeSliderPointer.set([runtimeRange.low, runtimeRange.high])
     ratingSliderPointer.set([0, 10])
     yearSliderPointer.set([yearRange.low, yearRange.high])
@@ -280,6 +283,7 @@ function resetClicked(){
 
 // apply the filter and run the vis again
 function applyFilters(fromReset){
+    // filter the data
     let data = getMediaData()
     if (filters.rating) data = data.filter(filters.rating.apply)
     if (filters.genres) data = data.filter(filters.genres)
@@ -299,6 +303,8 @@ function applyFilters(fromReset){
 // an undo with the most recent filter change
 // applying filters with undo
 // ******************************************************
+
+
 // function applyFilters(fromUndo){
 //     let data = getMediaData()
 //     console.log(filterStack)
