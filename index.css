@@ -1,5 +1,7 @@
+/* import nicer looking fonts from google fonts */
 @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight:wght@400;700&family=Zilla+Slab:wght@300;600;700&display=swap');
 
+/* The colours used throughout the vis */
 :root{
     --netflixColor:#B20710;
     --huluColor: #1CE783;
@@ -15,8 +17,8 @@
 }
 
 
+/* body */
 
-/* CSS file for index.html / index.js attributes */
 body, html{
     margin: 0;
     font-family: "Zilla Slab", sans-serif;
@@ -24,19 +26,21 @@ body, html{
 
 body{
     /* Prevents scrolling initially while the pop up is closed, this is overriden as soon as you click off the header
-    see ____*/
+    see utilities*/
     overflow: hidden;
 }
 
-.toolTip{
-    display: none;
-    position: absolute;
-    background: white;
-    color: black;
-    padding: 10px;
+.axis
+{
+    font-size: 10pt;
+    font-family: "Zilla Slab", sans-serif;
+    color: grey;
 }
-.toolTip b {
-    font-weight: 600;
+
+
+svg{
+    height: 100%;
+    max-width: 100%;
 }
 
 .page{
@@ -46,6 +50,24 @@ body{
     width: 100%;
     height: 100vh;
 }
+
+/* tooltip */
+
+.toolTip{
+    display: none;
+    position: absolute;
+    background: white;
+    color: black;
+    padding: 10px;
+}
+
+/* semi bold tooltip at 600 for the imported font */
+.toolTip b {
+    font-weight: 600;
+}
+
+
+/* filter */
 
 .filter{
     background: var(--darkLiver);
@@ -57,11 +79,9 @@ body{
 
 #filter{
     padding: 25px; /*padding to be changed - just used for testing */
-    /*padding-top: 60px;*/
     padding-right: 30px;
     display: flex;
     flex-direction: column;
-    /*justify-content: space-evenly;*/
     position: fixed;
     top:0;
     left: 0;
@@ -95,6 +115,8 @@ body{
 #filter h4:first-child{
     margin-top: 0;
 }
+
+/* Overview Visualisation */
 
 .chordDiagram{
     flex-grow: 1;
@@ -155,7 +177,7 @@ body{
 .overviewView .table-fix{
     flex-grow: 1;
     flex-shrink: 1;
-    min-height: 0;
+    min-height: 0; /* technique to encourage wrapping */
     overflow-y: auto;
 }
 
@@ -167,13 +189,13 @@ body{
     width: 100%;
 }
 
+/* Boxplot Styles */
 
 .boxplotsParent{
     display: flex;
     flex-grow: 1;
     flex-direction: row;
     align-items: stretch;
-    /*height: 87vh;*/
 }
 
 .boxplot-and-title {
@@ -185,13 +207,13 @@ body{
 }
 
 .boxplot-and-title .left-bar{
-    width: 2pc !important;
+    width: 2pc !important; /* important added to ensure that width and background the notches in the titles are positioned and sized correctly*/
     left: 2pc !important;
     background-color: var(--nyanza) !important;
 }
 
 .boxplot-and-title.right .left-bar{
-    top: 0;
+    top: 0; /* moves the title notch to the top of the title block on the right hand box plot*/
 }
 
 .boxplot-and-title.left{
@@ -207,7 +229,6 @@ body{
 }
 
 .boxplots{
-    /*flex-basis: 40%;*/
     flex-grow: 1;
     margin: 0;
     background: var(--nyanza);
@@ -224,17 +245,29 @@ body{
     flex-grow: 1;
 }
 
-svg{
-    height: 100%;
-    max-width: 100%;
-}
+/* Genres */
 
 .genres svg{
     width: 100%;
-    /*height: 100%;*/
     flex-grow: 1;
     border: 1px solid white;
 }
+
+.genres{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    background: var(--deepBurgundy);
+}
+
+.genres #genreDiagram{
+    padding: 3pc;
+    height: 87vh;
+}
+
+/* Age Bar Graphs */
 
 .barPlots{
     flex-grow: 1;
@@ -242,7 +275,6 @@ svg{
     color: black;
     display: flex;
     padding: 3pc;
-    /*align-items: center;*/
     justify-content: center;
     align-items: stretch;
     height: 87vh;
@@ -258,8 +290,10 @@ svg{
 }
 
 .ageButtons{
-    z-index: 1000;
+    z-index: 1000; /* increase the index to ensure the buttons sit on top of the title bar  */
 }
+
+/* Languages View */
 
 #worldPage{
     background: var(--deepBurgundy);
@@ -271,7 +305,6 @@ svg{
     display: flex;
     flex-grow: 1;
     flex-shrink: 1;
-    /*flex-wrap: wrap;*/
     justify-content: center;
     align-items: stretch;
     height: 87vh;
@@ -286,7 +319,12 @@ svg{
 .languageButtons,.ageButtons{
     display: flex;
     justify-content: center;
-    margin-top: -25px;
+    margin-top: -25px; /* negative to pull the buttons up so they overlap on the title bars (to give a sense of depth) */
+}
+
+.languageWrapper{
+    padding: 0;
+    flex-grow: 1;
 }
 
 
@@ -294,45 +332,22 @@ svg{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--darkLiver) !important;
-    /*fill: black;*/
-    /*stroke: black;*/
+    background: var(--darkLiver) !important; /* important added to ensure the colour overrides the materialize design style*/
 }
 
+/* first child selected to only space out one of the buttons (both buttons will align to share the space) */
 .languageButtons button:first-child, .ageButtons button:first-child{
     margin-right: 40vw;
 }
 
-.genres{
-    /*padding: 3pc;*/
-
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-height: 0;
-    /*justify-content: stretch;*/
-    /*align-items: stretch;*/
-    background: var(--deepBurgundy);
-}
-
-.genres #genreDiagram{
-    padding: 3pc;
-    height: 87vh;
-}
-
-.axis
-{
-    font-size: 10pt;
-    font-family: sans-serif;
-    color: grey;
-}
+/* == Filters Styles == */
 
 .select-wrapper .select-dropdown{
-    color: white; !important;
+    color: white; !important; /* important added to override materialize design style, selector is on a dark background so needs to be shown in white */
     border-color: var(--carrotOrange);
 }
 
+/* focus used to target the bottom bar of the dropdown while the user is using it */
 .select-wrapper input.select-dropdown:focus{
     color: white;
     border-color: #EA9010;
@@ -343,19 +358,17 @@ svg{
     fill: #EA9010;
 }
 
+/* css selector taken from materialize css targets the checckboxes in the drop down list to make them fit the colour theme */
 [type="checkbox"]:checked+span:not(.lever):before {
     border-right: 2px solid var(--carrotOrange);
     border-bottom: 2px solid var(--carrotOrange);
 }
 
+/* css selector taken from materialize css targets the select all element in the drop down list to make them fit the colour theme */
 .dropdown-content li>a, .dropdown-content li>span {
     color: var(--carrotOrange);
 }
 
-.languageWrapper{
-    padding: 0;
-    flex-grow: 1;
-}
 
 /** == TITLE BAR DIVIDERS == */
 
@@ -365,8 +378,14 @@ svg{
     min-height: 13vh;
 }
 
+.title-bar .wrapper {
+    flex-grow: 1;
+    position: relative; /* used to allow us to position elements within the wrapper using relative coordinates */
+    background: var(--carrotOrange);
+}
+
 .title-bar .wrapper .info{
-    position: absolute;
+    position: absolute; /* used to align the more info button to the top right of the title bar, removing it from the layout */
     top: 1pc;
     right: 1pc;
     width: 3pc;
@@ -385,20 +404,16 @@ svg{
     border: none;
 }
 
-.title-bar .wrapper {
-    flex-grow: 1;
-    position: relative;
-    background: var(--carrotOrange);
-}
-
 .title-bar .left-bar {
-    position: absolute;
+    position: absolute; /* used to align the notch in the title to the bottom left of the title bar, default background is set but should be overridden */
     left: 4pc;
     bottom: 0;
     height: 60%;
     width: 3pc;
     background: #230007;
 }
+
+/* set the colours of the notches */
 
 .title-bar .left-bar.bar-languages{
     background-color: var(--deepBurgundy);
@@ -414,7 +429,7 @@ svg{
 }
 
 .title-bar .content {
-    margin: auto;
+    margin: auto; /* used to automatically centre the content */
     height: 100%;
     width: 80%;
     display: flex;
@@ -444,20 +459,21 @@ svg{
 /* Popup Modal*/
 
 .modal-n{
-    position: fixed;
+    position: fixed; /* used to anchor the pop up to the top right of the screen no matter the scroll position */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* backdrop-filter: blur(5px); */
     background-color: rgba(0, 0, 0,0.4);
+    /* initial state is hidden, and lowered between all other content on the page so it doesnt interfere with click order
+     transition is specified for moving into the visible state when opacity and visibility are set */
     opacity: 0;
     z-index: -100;
     transition: visibility 0s, opacity 0.5s linear, z-index 0.5s;
 }
 
 .modal-n.shown{
-    z-index: 1000000;
+    z-index: 1000000; /* raises it above all other content on the page to ensure its an overlay, properties are animated based on the rules for modal n*/
     visibility: visible;
     opacity: 1;
 }
@@ -492,8 +508,8 @@ svg{
 /* Legends */
 
 .legends{
-    position: relative;
-    z-index: 900;
+    position: relative; /* used to anchor it to the bottom of the filters */
+    z-index: 900; /* z index chosen to be beneath the drop down of the selects  */
 }
 
 .legend {
@@ -505,7 +521,7 @@ svg{
 .legend .entry .square {
     width: 1pc;
     height: 1pc;
-    background: red;
+    background: red; /* default background to show when colours are missing, should be overridden by the correct value */
     display: inline-block;
     margin-right: 5px;
 }
@@ -532,17 +548,18 @@ svg{
 .legend {
     opacity: 0;
     z-index: -100;
-    transition: visibility 0s, opacity 0.2s linear, z-index 0.2s;
+    transition: visibility 0s, opacity 0.2s linear, z-index 0.2s; /* animates the legend coming into view as a fade in effect */
 }
 
 .legend.shown{
-    z-index: 1000000;
+    z-index: 1000000; /* z index used to raise the legend above other content when its shown */
     visibility: visible;
     opacity: 1;
 }
 
 /* Header Bar */
 
+/* set of keyframes to animate the header sliding in from the top of the window */
 @keyframes header-in {
     0%{
         top: -100%;
@@ -559,16 +576,11 @@ svg{
     }
 }
 
+/* animates the header sliding out of view (reverse of header-in) because animation direction wasnt working */
 @keyframes header-remove {
     0%{
         top: 0;
         opacity: 1;
-        display: block;
-        /*background-color: rgba(0, 0, 0, 0.7);*/
-    }
-
-    50%{
-        /*opacity: 1;*/
         display: block;
     }
 
@@ -589,23 +601,21 @@ svg{
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10000000;
+    z-index: 10000000; /* ensures the header is above everything in the page */
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 50%, transparent);
-    /*background: rgba(0, 0, 0, 0.7);*/
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 50%, transparent); /* begins at 50% to account for the actual title bar */
     cursor: pointer;
-    animation: header-in 2s;
+    animation: header-in 2s; /* set to header in by default, fades it in on load and ensures it fades in nicely when its shown again */
 }
 
-.header.out{
+.header.out{ /* anmiation swap to remove so it nicely fades out */
     animation: header-remove 2s;
     top: -100%
 }
 
 .header .about {
     width: 100%;
-    /*height: 100vh;*/
     display: flex;
     flex-direction: column;
     position: relative;
@@ -637,14 +647,10 @@ svg{
 .header .headerBox {
     cursor: default;
     text-align: center;
-    /*height: 40vh;*/
     background: rgb(35, 0, 7);
     padding-bottom: 3pc;
-    /*background: -moz-linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
-    /*background: -webkit-linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
-    /*background: linear-gradient(58deg, rgba(35, 0, 7, 1) 0%, rgba(69, 55, 80, 1) 47%, rgba(139, 148, 163, 1) 100%);*/
-    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#230007", endColorstr="#8b94a3", GradientType=1);*/
     background: rgb(234,144,16);
+    /* gradients were generated from: https://cssgradient.io on max compatibility (including IE6+)/*/
     background: -moz-linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
     background: -webkit-linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
     background: linear-gradient(72deg, rgba(234,144,16,1) 0%, rgba(105,50,10,1) 68%, rgba(35,0,7,1) 100%);
