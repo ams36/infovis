@@ -13,11 +13,16 @@
 // keys no longer accessed, it is d[0] instead of d.key and d[1] instead of d.value
 
 
-
+/**
+ * Creates the runtime boxplots
+ * @param view the filtered version of the data
+ */
 window.renderRuntimeBoxplot = function (view) {
 
+    // format the data in the way needed for the vis
     let [runtime_data, low, high] = runtime(view)
 
+    // hold the platform min and max to later calculate outliers
     const platformMinMax = {
         netflix: [0,10],
         hulu: [0,10],
@@ -32,11 +37,11 @@ window.renderRuntimeBoxplot = function (view) {
 
     // append the svg object to the body of the page
     var svg = d3.select("#runtimeBoxplot")
-        .html("")
-        .append("svg")
-        .attr("preserveAspectRatio", "xMidYMid meet")
+        .html("") // remove anything already there
+        .append("svg") // append the svg
+        .attr("preserveAspectRatio", "xMidYMid meet") // keep aspect ratio the same when resizing
         .attr("viewBox", [0, 0, width + margin.left + margin.right,  height + margin.top + margin.bottom])
-        .append("g")
+        .append("g")  // add a group to hold the vis
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
@@ -48,34 +53,32 @@ window.renderRuntimeBoxplot = function (view) {
         interQuantileRange = q3 - q1
         min = q1 - 1.5 * interQuantileRange
         max = q3 + 1.5 * interQuantileRange
-        platformMinMax[d[0].platform] = [min,max]
-        low = Math.min(low, min)
-        high = Math.max(high, max)
-
+        platformMinMax[d[0].platform] = [min,max] // update the platfrom min and max for the outlier calculation
+        low = Math.min(low, min) // get the lowest low for the y axis
+        high = Math.max(high, max) // get the highest high for the y axis
         return({q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max})
     }, (k) => {
         return k.platform
     })
 
-    // Show the X scale
-    var x = d3.scaleBand()
+    // X axis
+    var x = d3.scaleBand() // set the range
         .range([ 0, width ])
-        .domain(["netflix", "hulu", "disney", "prime"])
+        .domain(["netflix", "hulu", "disney", "prime"]) // set the order for the domain
         .paddingInner(1)
         .paddingOuter(.5)
     svg.append("g")
         .attr("transform", "translate(0," + 0 + ")")
         .call(d3.axisTop(x)
-            .tickFormat((d) => d.capitalise())
-        )
-        .style("font-family", "\"Zilla Slab\", sans-serif")
+            .tickFormat((d) => d.capitalise()) // set the axis text
+        ).style("font-family", "\"Zilla Slab\", sans-serif")
         .style("font-size", "1em")
 
     // Show the Y scale
-    var y = d3.scaleLinear()
+    var y = d3.scaleLinear() // Y axis
         .domain([low - 10 ,high + 10]) // added to give them a bit of space
         .range([height, 0])
-    svg.append("g").call(d3.axisLeft(y))
+    svg.append("g").call(d3.axisLeft(y)) // set the y text
         .style("font-family", "\"Zilla Slab\", sans-serif")
         .style("font-size", "1em")
 
@@ -105,23 +108,31 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y", function(d){return(y(d[1].q3))})
         .attr("height", function(d){return(y(d[1].q1)-y(d[1].q3))})
         .attr("width", boxWidth )
-        .attr("stroke", "black") //gray too light, black looks better here
-        //.attr("stroke-opacity", .5)
-        .style("fill", function(d){return colorMap[d[0]]})
+        .attr("stroke", "black")
+        .style("fill", function(d){return colorMap[d[0]]}) // set the colour
+        // add the tooltip
         .on("mousemove", createRuntimeTooltip)
         .on("mouseleave", () => {
             tooltip.style("display", "none")
         });
 
-    function createRuntimeTooltip(t, d) {  // the datum you want
+    /**
+     * creates the runtime tooltip
+     * @param t transformation
+     * @param d the data to show
+     */
+    function createRuntimeTooltip(t, d) {
         tooltip
-            .style("left", t.pageX + 20 + "px")
+            .style("left", t.pageX + 20 + "px") // set the position
             .style("top", t.pageY+ "px")
             .style("display", "inline-block")
-            .html(generateRuntimeTooltipText(d));
+            .html(generateRuntimeTooltipText(d)); // set the text
     }
 
     function generateRuntimeTooltipText(d){
+        // returns the tooltip in the format:
+        // Movie Rating Average for [Platform]
+        // list of averages ...
         return `<b>Runtime Average For ${d[0].capitalise()}: </b> <br>
         <b>Median </b>${d[1].median} <br>
         <b>Min </b>${platformMinMax[d[0]][0]} <br>
@@ -142,69 +153,93 @@ window.renderRuntimeBoxplot = function (view) {
         .attr("y2", function(d){return(y(d[1].median))})
         .attr("stroke", "black")
         .style("width", 80)
-        .on("mousemove", createRuntimeTooltip)
+        .on("mousemove", createRuntimeTooltip) // set the tooltip
         .on("mouseleave", () => {
             tooltip.style("display", "none")
         });
 
 
-
-    //adding x/y axis titles
-
     // only show outliers
     //Add individual points with jitter
     var jitterWidth = 50
+    // format the outlier data
     const runtimeOutliers = getRuntimeOutliers(runtime_data, platformMinMax)
+    // get max and min for the radius function
     let countHigh = Math.max(...runtimeOutliers.map((row) => row.count))
     let countLow = Math.min(...runtimeOutliers.map((row) => row.count))
 
+    // add the points
     console.log(runtimeOutliers)
     svg
         .selectAll("indPoints")
         .data(runtimeOutliers)
         .enter()
         .append("circle")
+        // x position based on jitter
         .attr("cx", function(d){ return(x(d.platform) - jitterWidth/2 + Math.random()*jitterWidth)})
-        .attr("cy", function(d){
-            if (y(d.runtime) === undefined) console.log(d)
-            return( y(d.runtime)  )})
-        .attr("r", (d) => radius(d.count))
+        .attr("cy", function(d){return( y(d.runtime))})
+        .attr("r", (d) => radius(d.count)) // get the radius size
         .style("fill", function(d){ return colorMap[d.platform] })
-        .attr("opacity", 0.3)
+        .attr("opacity", 0.3) // set the style
         .attr("stroke", "darkslategray")
-        .on("mousemove", createRuntimeOutlierTooltip)
+        .on("mousemove", createRuntimeOutlierTooltip) // set the tooltip
         .on("mouseleave", () => {
             tooltip.style("display", "none")
         });
 
+    /**
+     * Create the tooltip
+     * @param t transform
+     * @param d the data to show
+     */
     function createRuntimeOutlierTooltip(t, d) {  // the datum you want
         tooltip
-            .style("left", t.pageX + 20 + "px")
+            .style("left", t.pageX + 20 + "px") // set the tooltip position
             .style("top", t.pageY+ "px")
             .style("display", "inline-block")
-            .html(generateRuntimeOutlierTooltipText(t, d));
+            .html(generateRuntimeOutlierTooltipText(t, d)); // set the tooltip text
     }
 
+    /**
+     * Generates the text for the tooltip
+     * @param d the data to be shown
+     * @returns {string} the text for the tooltip
+     */
     function generateRuntimeOutlierTooltipText(t, d){
+        // Format: Outlier for Platform: [Platform]
+        // Runtime: [Runtime]
+        // Number of Movies: [Count]
         return `Outlier for Platform: ${d.platform.capitalise()}: <br>
         <b>Runtime: </b>${d.runtime} <br>
         <b>Number of Movies: </b>${d.count} <br>`
     }
 
+    /**
+     * Calculates the size of the outlier circle based on arduino map
+     * @param x the count of movies
+     * @returns {number} the radius size
+     */
     function radius(x){
-        if (x === undefined) return 0
+        if (x === undefined) return 0 // if there is no runtime, dont show
+        // circles can range between r 1 and r 10
         const minCircleSize = 1
         const maxCircleSize = 10
         //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
         let size = (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
-        if (size === 0) return 3
+        if (size === 0) return 3 // if there is only one outlier movies, make the size 3 so its big enough to easily see but not large
         else return size
     }
 
 }
 
+/**
+ * Get the runtime outliers formatted
+ * @param runtime_data the data to be formatted
+ * @param platformMinMax that platform array of min and maxes
+ * @returns {unknown[]}  an array of the outliers
+ */
 function getRuntimeOutliers(runtime_data, platformMinMax){
-    console.log("here")
+    // get the outliers by filtering out anything with a runtime greater than or less than the IQR
     let allOutliers = runtime_data.filter((d) => (d.runtime < platformMinMax[d.platform][0] || d.runtime > platformMinMax[d.platform][1]))
     let buildingOutliers = {
         disney: {},
@@ -212,6 +247,7 @@ function getRuntimeOutliers(runtime_data, platformMinMax){
         hulu: {},
         netflix: {}
     }
+    // loop through the outliers and store the counts of any outliers with the same value
     for (const length of allOutliers){
         const key = length.platform + "_" + length.runtime
         if (buildingOutliers[length.platform][key]) buildingOutliers[length.platform][key].count++
@@ -223,15 +259,17 @@ function getRuntimeOutliers(runtime_data, platformMinMax){
             }
         }
     }
+    // format the object into a single object
     buildingOutliers = {...buildingOutliers["disney"], ...buildingOutliers["hulu"], ...buildingOutliers["prime"], ...buildingOutliers["netflix"]}
     return Object.values(buildingOutliers)
 }
 
 
-
-
-
-// data process
+/**
+ * Format the runtime data
+ * @param view the filtered view
+ * @returns {([]|number)[]} The Formatted Data
+ */
 function runtime(view){
     const data = []
 
@@ -239,6 +277,7 @@ function runtime(view){
     let low = Number.MAX_SAFE_INTEGER
     let high = Number.MIN_SAFE_INTEGER
 
+    // loop through the movies and push any movies with that platform to the array
     for (const movie of view){
         if (isNaN(movie.runtime)) continue
         if (movie.runtime > high) high = movie.runtime
@@ -249,7 +288,7 @@ function runtime(view){
         if (movie.prime) data.push({platform: "prime", runtime: movie.runtime})
     }
 
-    //sort it so it goes in order (idk if its needed but the example CSVs I looked at had it sorted
+    //sort it so it goes in order
     data.sort((a, b) => a.platform.localeCompare(b.platform))
 
     return [data, low, high]
