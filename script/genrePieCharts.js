@@ -169,9 +169,6 @@ window.renderGenreCharts = function (view) {
  */
 function formatGenres(view){
 
-    console.log("======= LANGUAGE ========")
-    console.log(view)
-
     // get a list of the genres shown in the view
     const viewGenres = view
         .map((row) => row.genres)
