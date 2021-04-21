@@ -209,4 +209,5 @@ Javascript file to render and update the running time boxplot showing a boxplot 
 * **NoUISlider** - Creating a rating slider for a filter 
 * **D3.js (V6)**  - creating visualisations 
 * **JQuery** - To create select all button for drop down check boxes 
+* **Google Fonts** - For css, Zilla Slab + variations 
 

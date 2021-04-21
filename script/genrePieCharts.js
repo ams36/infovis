@@ -197,6 +197,19 @@ function formatGenres(view){
         }
     }
 
-    // return the results
-    return Object.values(results)
+    // get a list of currently selected genres so we dont show ones that share the genre (e.g. dont show fantasy
+    // if only action is selected because some movies have both genres)
+    const instance = M.FormSelect.getInstance(document.getElementById("genreSelector"));
+    let selected = instance.getSelectedValues()
+    if (selected.length === 0){
+        selected = getGenres()
+    }
+
+    return selected.map((x) => results[x])
+
+
+
+
+    // // return the results
+    // return Object.values(results)
 }

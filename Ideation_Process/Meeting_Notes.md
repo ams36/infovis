@@ -60,3 +60,9 @@ Goal: Share preliminary sketches and Ideas
 - Mao:
     - 5 Design Sheet Method for: Runtime and Age
     - Read through the code and repository to get a feeling for how its currently set up
+
+
+----
+
+***Note:***
+We did not take any more notes of our meetings after this date as this is when we began a majority of the coding rather than planning. 

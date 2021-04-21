@@ -264,7 +264,6 @@ function resetClicked(){
     filters.language = undefined
     filters.runtime = undefined
     filters.year = undefined
-    applyFilters()
 
     // reset the sliders and option boxes
     const runtimeRange = getRuntimeRange()
@@ -278,6 +277,8 @@ function resetClicked(){
     // re-call the create functions, which will delete the old one and replace it as a new selector
     createGenreSelector()
     createLanguageSelector()
+
+    applyFilters()
 
 }
 
