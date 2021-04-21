@@ -48,7 +48,7 @@ window.renderBarChart = function (view) {
     const xz = ["netflix", "hulu", "disney", "prime"]
 
     // set the constants that should be used throughout the vis
-    margin = ({top: 0, right: 0, bottom: 30, left: 50})
+    margin = ({top: 20, right: 0, bottom: 30, left: 50})
     width = 500
     height = 500
     const n = 6
@@ -176,7 +176,11 @@ window.renderBarChart = function (view) {
                 .transition()
                 .attr("y", d => y(d[1] - d[0]))
                 .attr("height", d => y(0) - y(d[1] - d[0]));
-            yAxis.call(d3.axisLeft(y))
+            yAxis.call(d3.axisLeft(y)
+                .tickFormat((d) => {
+                    if (Number.isInteger(d)) return d // only show whole numbers
+                    else return ""
+                }))
                 .style("font-family", "\"Zilla Slab\", sans-serif")
                 .style("font-size", "1em")
         }
@@ -196,7 +200,11 @@ window.renderBarChart = function (view) {
                 .transition()
                 .attr("x", (d, i) => { return x(i)})
                 .attr("width", x.bandwidth());
-            yAxis.call(d3.axisLeft(y))
+            yAxis.call(d3.axisLeft(y)
+                .tickFormat((d) => {
+                    if (Number.isInteger(d)) return d // only show whole numbers
+                    else return ""
+                }))
                 .style("font-family", "\"Zilla Slab\", sans-serif")
                 .style("font-size", "1em")
         }

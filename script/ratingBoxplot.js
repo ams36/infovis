@@ -218,12 +218,14 @@ window.renderRatingBoxplot = function (view) {
      */
     function radius(x){
         if (x === undefined) return 0 // if there is no rating, dont show
+        if (isNaN(x)) return 0
         // circles can range between r 1 and r 10
         const minCircleSize = 1
         const maxCircleSize = 10
         //arduino map from: https://www.arduino.cc/reference/en/language/functions/math/map/
         let size = (x - countLow) * (maxCircleSize - minCircleSize) / (countHigh - countLow) + minCircleSize;
-        if (size === 0) return 3 // if there is only one outlier movies, make the size 3 so its big enough to easily see but not large
+        // if (isNaN(size)) console.log(x, countLow, countHigh, maxCircleSize, minCircleSize)
+        if (size === 0 || isNaN(size)) return 3 // if there is only one outlier movies, make the size 3 so its big enough to easily see but not large
         else return size
     }
 

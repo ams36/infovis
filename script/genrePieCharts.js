@@ -27,7 +27,7 @@ window.renderGenreCharts = function (view) {
 
     // format the genre data in a way thats needed for this visualisation
     let genres = formatGenres(view)
-
+    console.log(genres)
     // diameter used for width and height of the SVG as well as calculating circle information
     const diameter = 1000
 
@@ -169,6 +169,9 @@ window.renderGenreCharts = function (view) {
  */
 function formatGenres(view){
 
+    console.log("======= LANGUAGE ========")
+    console.log(view)
+
     // get a list of the genres shown in the view
     const viewGenres = view
         .map((row) => row.genres)
@@ -205,7 +208,7 @@ function formatGenres(view){
         selected = getGenres()
     }
 
-    return selected.map((x) => results[x])
+    return selected.map((x) => results[x]).filter((d) => d !== undefined)
 
 
 
