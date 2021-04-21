@@ -9,7 +9,15 @@ function loadData() {
     return d3.csv("MoviesOnStreamingPlatforms_updated.csv", function (d) {
         const rottenTomatoes = (d["Rotten Tomatoes"] || "0%").trim() // get rid of white space for the rotten tomatoes values and replace empty strings with 0%
         const genres = (d.Genres || "Unknown")
-        const languages = (d.Language || "Unknown")
+        const languages = (d.Language || "Unknown").split(",")
+
+        // most movies in Tagalog (which is the same language as Filipino) are listed twice and it is unrealistic for any movies to be dubbed twice in the same language
+        // so replace any instances where both are listed to only include Tagalog, the traditional name
+        if (languages.includes("Filipino") && !languages.includes("Tagalog")) {
+            languages[languages.indexOf("Filipino")] = "Tagalog"
+        } else if (languages.includes("Filipino") && languages.includes("Tagalog")){
+            languages.splice(languages.indexOf("Filipino"), 1)
+        }
 
         // fix incorrect data points - only checked for extreme outliers
         if (d.Title === "Colorado") d.Runtime = "57" // the data is incorrect for this movie, so we looked up the actual movie length
@@ -36,7 +44,7 @@ function loadData() {
             directors: d.Directors, //TODO: Parse this correctly if we end up wanting to do anything with directors apart from listing them
             genres: genres.split(","),
             country: d.Country.split(","), //TODO: create a better function to process arrays from the data set in case we want to use these
-            language: languages.split(","), // TODO: Split this as an array
+            language: languages, // TODO: Split this as an array
             runtime: parseInt(d.Runtime)
         }
     }) .then(function (data) {

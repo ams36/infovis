@@ -51,7 +51,7 @@ window.renderRuntimeBoxplot = function (view) {
         median = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.5)
         q3 = d3.quantile(d.map(function(g) { return g.runtime;}).sort(d3.ascending),.75)
         interQuantileRange = q3 - q1
-        min = q1 - 1.5 * interQuantileRange
+        min = Math.max(0, q1 - 1.5 * interQuantileRange);
         max = q3 + 1.5 * interQuantileRange
         platformMinMax[d[0].platform] = [min,max] // update the platfrom min and max for the outlier calculation
         low = Math.min(low, min) // get the lowest low for the y axis
@@ -76,7 +76,7 @@ window.renderRuntimeBoxplot = function (view) {
 
     // Show the Y scale
     var y = d3.scaleLinear() // Y axis
-        .domain([low - 10 ,high + 10]) // added to give them a bit of space
+        .domain([Math.max(0, low - 10) ,high + 10]) // added to give them a bit of space
         .range([height, 0])
     svg.append("g").call(d3.axisLeft(y)) // set the y text
         .style("font-family", "\"Zilla Slab\", sans-serif")
