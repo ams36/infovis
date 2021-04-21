@@ -283,8 +283,8 @@ function getRatingOutliers(rating_data, platformMinMax){
     }
     // format the object into a single object
     buildingOutliers = {...buildingOutliers["disney"], ...buildingOutliers["hulu"], ...buildingOutliers["prime"], ...buildingOutliers["netflix"]}
-    console.log(rating_data)
+    /*console.log(rating_data)
     console.log(platformMinMax)
-    console.log(buildingOutliers)
+    console.log(buildingOutliers)*/
     return Object.values(buildingOutliers)
 }

@@ -169,7 +169,6 @@ window.renderRuntimeBoxplot = function (view) {
     let countLow = Math.min(...runtimeOutliers.map((row) => row.count))
 
     // add the points
-    console.log(runtimeOutliers)
     svg
         .selectAll("indPoints")
         .data(runtimeOutliers)
