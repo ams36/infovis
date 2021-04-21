@@ -132,7 +132,7 @@ window.renderRatingBoxplot = function (view) {
         // Movie Rating Average for [Platform]
         // list of averages ...
         // have to multiply by 100 and then divide by 100 to get 2 decimal places
-        return `<b>Movie Rating Average For ${d[0].capitalise()}:<b/> <br>
+        return `<b>Movie Rating Average For ${d[0].capitalise()}:</b> <br>
         <b>Median </b>${Math.round(d[1].median * 100) / 100} <br> 
         <b>Min </b>${Math.round(platformMinMax[d[0]][0] * 100) / 100} <br>
         <b>Max </b>${Math.round(platformMinMax[d[0]][1] * 100) / 100} <br>
