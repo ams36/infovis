@@ -27,7 +27,6 @@ window.renderGenreCharts = function (view) {
 
     // format the genre data in a way thats needed for this visualisation
     let genres = formatGenres(view)
-    console.log(genres)
     // diameter used for width and height of the SVG as well as calculating circle information
     const diameter = 1000
 
